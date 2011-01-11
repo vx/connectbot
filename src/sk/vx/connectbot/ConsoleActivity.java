@@ -18,9 +18,7 @@
 package sk.vx.connectbot;
 
 import java.io.File;
-import java.lang.ref.WeakReference;
 import java.net.URI;
-import java.util.List;
 
 import sk.vx.connectbot.bean.SelectionArea;
 import sk.vx.connectbot.service.PromptHelper;
@@ -33,7 +31,6 @@ import sk.vx.connectbot.util.PreferenceConstants;
 import sk.vx.connectbot.util.TransferThread;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -70,13 +67,9 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -831,7 +824,7 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 		urlscan.setEnabled(activeTerminal);
 		urlscan.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 			public boolean onMenuItemClick(MenuItem item) {
-				final TerminalView terminalView = (TerminalView) findCurrentView(R.id.console_flip);
+				/*final TerminalView terminalView = (TerminalView) findCurrentView(R.id.console_flip);
 
 				List<String> urls = terminalView.bridge.scanForURLs();
 
@@ -844,7 +837,14 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 
 				urlListView.setAdapter(new ArrayAdapter<String>(ConsoleActivity.this, android.R.layout.simple_list_item_1, urls));
 				urlDialog.setContentView(urlListView);
-				urlDialog.show();
+				urlDialog.show();*/
+				View flip = findCurrentView(R.id.console_flip);
+				if (flip == null) return true;
+
+				TerminalView terminal = (TerminalView)flip;
+
+				TerminalKeyListener handler = terminal.bridge.getKeyHandler();
+				handler.urlScan(terminal);
 
 				return true;
 			}
@@ -1215,36 +1215,6 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 			hideAllPrompts();
 			view.requestFocus();
 		}
-	}
-
-	private class URLItemListener implements OnItemClickListener {
-		private WeakReference<Context> contextRef;
-
-		URLItemListener(Context context) {
-			this.contextRef = new WeakReference<Context>(context);
-		}
-
-		public void onItemClick(AdapterView<?> arg0, View view, int position, long id) {
-			Context context = contextRef.get();
-
-			if (context == null)
-				return;
-
-			try {
-				TextView urlView = (TextView) view;
-
-				String url = urlView.getText().toString();
-				if (url.indexOf("://") < 0)
-					url = "http://" + url;
-
-				Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-				context.startActivity(intent);
-			} catch (Exception e) {
-				Log.e(TAG, "couldn't open URL", e);
-				// We should probably tell the user that we couldn't find a handler...
-			}
-		}
-
 	}
 
 	@Override
