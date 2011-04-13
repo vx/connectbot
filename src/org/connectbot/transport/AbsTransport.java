@@ -210,6 +210,32 @@ public abstract class AbsTransport {
 		return null;
 	}
 
+	/**
+	 * Whether or not this transport type can transfer files.
+	 * @return true on ability to transfer files
+	 */
+	public boolean canTransferFiles() {
+		return false;
+	}
+
+	/**
+	 * Downloads the specified remote file to the local connectbot folder.
+	 * @param remoteFile The path to the remote file to be downloaded. Must be non-null.
+	 * @return true on success, false on failure
+	 */
+	public boolean downloadFile(String remoteFile) {
+		return false;
+	}
+
+	/**
+	 * Uploads the specified local file to the remote host's default directory.
+	 * @param localFile The path to the local file to be uploaded. Must be non-null.
+	 * @return true on success, false on failure
+	 */
+	public boolean uploadFile(String localFile) {
+		return false;
+	}
+
 	public abstract boolean isConnected();
 	public abstract boolean isSessionOpen();
 

@@ -17,19 +17,25 @@
 
 package org.connectbot;
 
+import java.io.File;
+import java.net.URI;
 import java.lang.ref.WeakReference;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import org.connectbot.bean.SelectionArea;
 import org.connectbot.service.PromptHelper;
 import org.connectbot.service.TerminalBridge;
 import org.connectbot.service.TerminalKeyListener;
 import org.connectbot.service.TerminalManager;
+import org.connectbot.util.FilePicker;
+import org.connectbot.util.FilePickerCallback;
 import org.connectbot.util.PreferenceConstants;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -38,6 +44,7 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -79,7 +86,7 @@ import com.nullwire.trace.ExceptionHandler;
 
 import de.mud.terminal.vt320;
 
-public class ConsoleActivity extends Activity {
+public class ConsoleActivity extends Activity implements FilePickerCallback {
 	public final static String TAG = "ConnectBot.ConsoleActivity";
 
 	protected static final int REQUEST_EDIT = 1;
@@ -118,7 +125,7 @@ public class ConsoleActivity extends Activity {
 
 	private InputMethodManager inputManager;
 
-	private MenuItem disconnect, copy, paste, portForward, resize, urlscan;
+	private MenuItem disconnect, copy, paste, portForward, resize, urlscan, download, upload;
 
 	protected TerminalBridge copySource = null;
 	private int lastTouchRow, lastTouchCol;
@@ -609,12 +616,14 @@ public class ConsoleActivity extends Activity {
 		boolean sessionOpen = false;
 		boolean disconnected = false;
 		boolean canForwardPorts = false;
+		boolean canTransferFiles = false;
 
 		if (activeTerminal) {
 			TerminalBridge bridge = ((TerminalView) view).bridge;
 			sessionOpen = bridge.isSessionOpen();
 			disconnected = bridge.isDisconnected();
 			canForwardPorts = bridge.canFowardPorts();
+			canTransferFiles = bridge.canTransferFiles();
 		}
 
 		menu.setQwertyMode(true);
@@ -754,7 +763,136 @@ public class ConsoleActivity extends Activity {
 			}
 		});
 
+		download = menu.add(R.string.console_menu_download);
+		download.setAlphabeticShortcut('d');
+		download.setEnabled(sessionOpen && canTransferFiles);
+		download.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+			public boolean onMenuItemClick(MenuItem item) {
+				final TerminalView terminalView = (TerminalView) findCurrentView(R.id.console_flip);
+				final TerminalBridge bridge = terminalView.bridge;
+
+				final EditText textField = new EditText(ConsoleActivity.this);
+				textField.setText(clipboard.getText().toString());
+				textField.selectAll();
+
+				new AlertDialog.Builder(ConsoleActivity.this)
+					.setTitle(R.string.transfer_pick_remote)
+					.setMessage(R.string.transfer_pick_remote_desc)
+					.setView(textField)
+					.setPositiveButton(R.string.transfer_remote_action, new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int whichButton) {
+							ProgressDialog progress = new ProgressDialog(ConsoleActivity.this);
+							progress.setIndeterminate(true);
+							progress.setMessage(getString(R.string.transfer_downloading));
+							progress.setCancelable(false);
+							progress.show();
+							new TransferThread(bridge, textField.getText().toString(), progress, false).start();
+						}
+					}).setNegativeButton(android.R.string.cancel, null).create().show();
+
+				return true;
+			}
+		});
+
+		upload = menu.add(R.string.console_menu_upload);
+		upload.setAlphabeticShortcut('p');
+		upload.setEnabled(sessionOpen && canTransferFiles);
+		upload.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+			public boolean onMenuItemClick(MenuItem item) {
+				FilePicker.pickFile(ConsoleActivity.this, ConsoleActivity.this);
+				return true;
+			}
+		});
+
 		return true;
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+		super.onActivityResult(requestCode, resultCode, intent);
+
+		switch (requestCode) {
+		case FilePicker.REQUEST_CODE_PICK_FILE:
+			if (resultCode == RESULT_OK && intent != null) {
+				Uri uri = intent.getData();
+				try {
+					if (uri != null) {
+						filePicked(new File(URI.create(uri.toString())));
+					} else {
+						String filename = intent.getDataString();
+						if (filename != null) {
+							filePicked(new File(URI.create(filename)));
+						}
+					}
+				} catch (IllegalArgumentException e) {
+					Log.e(TAG, "Couldn't read from picked file", e);
+				}
+			}
+			break;
+		}
+	}
+
+	public void filePicked(File f) {
+		Log.d(TAG, "File picker returned " + f);
+		ProgressDialog progress = new ProgressDialog(this);
+		progress.setIndeterminate(true);
+		progress.setMessage(getString(R.string.transfer_uploading));
+		progress.setCancelable(false);
+		progress.show();
+
+		TerminalView terminalView = (TerminalView) findCurrentView(R.id.console_flip);
+		TerminalBridge bridge = terminalView.bridge;
+
+		new TransferThread(bridge, f.toString(), progress, true).start();
+	}
+
+	class TransferThread extends Thread {
+		private final TerminalBridge bridge;
+		private final String files;
+		private final ProgressDialog dialog;
+		private final boolean upload;
+
+		TransferThread(TerminalBridge bridge, String files, ProgressDialog dialog, boolean upload) {
+			this.bridge = bridge;
+			this.files = files;
+			this.dialog = dialog;
+			this.upload = upload;
+			Log.d(TAG, "Requested " + (upload ? "up" : "down") + " transfer of [" + files + "]" );
+		}
+
+		@Override
+		public void run() {
+			Resources res = getResources();
+			String failed = "";
+			try {
+				StringTokenizer fileSet = new StringTokenizer(files, "\n");
+				while (fileSet.hasMoreTokens()) {
+					String file = fileSet.nextToken();
+					final String newMessage = res.getString(upload ? R.string.transfer_uploading_file : R.string.transfer_downloading_file, file);
+					handler.post(new Runnable() {
+						public void run() {
+							dialog.setMessage(newMessage);
+						}
+					});
+					boolean success = (upload ? bridge.uploadFile(file) : bridge.downloadFile(file));
+					if (! success) {
+						failed += " " + file;
+					}
+				}
+			} finally {
+				final String failMessage = (failed.length() == 0 ? null : res.getString(upload ? R.string.transfer_uploads_failed : R.string.transfer_downloads_failed, failed));
+				handler.post(new Runnable() {
+					public void run() {
+						dialog.dismiss();
+						if (failMessage != null) {
+							new AlertDialog.Builder(ConsoleActivity.this)
+								.setMessage(failMessage)
+								.setNegativeButton(android.R.string.ok, null).create().show();
+						}
+					}
+				});
+			}
+		}
 	}
 
 	@Override
@@ -768,12 +906,14 @@ public class ConsoleActivity extends Activity {
 		boolean sessionOpen = false;
 		boolean disconnected = false;
 		boolean canForwardPorts = false;
+		boolean canTransferFiles = false;
 
 		if (activeTerminal) {
 			TerminalBridge bridge = ((TerminalView) view).bridge;
 			sessionOpen = bridge.isSessionOpen();
 			disconnected = bridge.isDisconnected();
 			canForwardPorts = bridge.canFowardPorts();
+			canTransferFiles = bridge.canTransferFiles();
 		}
 
 		disconnect.setEnabled(activeTerminal);
@@ -786,6 +926,8 @@ public class ConsoleActivity extends Activity {
 		portForward.setEnabled(sessionOpen && canForwardPorts);
 		urlscan.setEnabled(activeTerminal);
 		resize.setEnabled(sessionOpen);
+		download.setEnabled(sessionOpen && canTransferFiles);
+		upload.setEnabled(sessionOpen && canTransferFiles);
 
 		return true;
 	}
