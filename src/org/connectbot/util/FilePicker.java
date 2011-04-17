@@ -71,9 +71,6 @@ public final class FilePicker {
 	}
 
 	private static void pickFileSimple(Activity source, final FilePickerCallback callback) {
-		// build list of all files in sdcard root
-		final File sdcard = Environment.getExternalStorageDirectory();
-
 		// Don't show a dialog if the SD card is completely absent.
 		final String state = Environment.getExternalStorageState();
 		if (!Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)
@@ -84,26 +81,61 @@ public final class FilePicker {
 			return;
 		}
 
-		List<String> names = new LinkedList<String>();
-		File[] files = sdcard.listFiles();
+		// build list of all files in sdcard root
+		final File sdcard = Environment.getExternalStorageDirectory();
+		pickFileRecursive(source, callback, sdcard, sdcard);
+	}
+
+	private static void pickFileRecursive(final Activity source, final FilePickerCallback callback, final File sdcard, final File currentDir) {
+		List<String> fileNames = new LinkedList<String>();
+		List<String> dirNames = new LinkedList<String>();
+		File[] files = currentDir.listFiles();
 		if (files != null) {
-			for (File file : sdcard.listFiles()) {
-				if (! file.isDirectory()) {
-					names.add(file.getName());
+			for (File file : files) {
+				if (file.isDirectory()) {
+					dirNames.add(file.getName() + '/');
+				} else {
+					fileNames.add(file.getName());
 				}
 			}
 		}
-		Collections.sort(names);
+		Collections.sort(dirNames);
+		Collections.sort(fileNames);
 
-		final String[] namesList = names.toArray(new String[] {});
+		final String[] namesList = new String[(sdcard.equals(currentDir) ? 0 : 1) + dirNames.size() + fileNames.size()];
+		int ix = 0;
+		if (! sdcard.equals(currentDir)) {
+			namesList[ix] = "..";
+			ix++;
+		}
+		for (String dirname : dirNames) {
+			namesList[ix] = dirname;
+			ix++;
+		}
+		final int fileStartIndex = ix;
+		for (String fileName : fileNames) {
+			namesList[ix] = fileName;
+			ix++;
+		}
 
-		// prompt user to select any file from the sdcard root
+		// prompt user to select any file from the current dir
 		new AlertDialog.Builder(source)
 			.setTitle(R.string.pubkey_list_pick)
 			.setItems(namesList, new OnClickListener() {
 				public void onClick(DialogInterface dialog, int index) {
-					String name = namesList[index];
-					callback.filePicked(new File(sdcard, name));
+					if (! sdcard.equals(currentDir) && index == 0) {
+						// go back up to the parent dir
+						pickFileRecursive(source, callback, sdcard, currentDir.getParentFile());
+						return;
+					}
+					File selected = new File(currentDir, namesList[index]);
+					if (index < fileStartIndex) {
+						// it's a directory
+						pickFileRecursive(source, callback, sdcard, selected);
+					} else {
+						// it's a file, notify callback
+						callback.filePicked(selected);
+					}
 				}
 			})
 			.setNegativeButton(android.R.string.cancel, null).create().show();
