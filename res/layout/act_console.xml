@@ -156,6 +156,16 @@
 			android:src="@+drawable/button_esc"
 			/>
 
+		<ImageView
+			android:id="@+id/button_sym"
+			android:paddingRight="15dip"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentBottom="true"
+			android:layout_toRightOf="@+id/button_esc"		
+			android:src="@+drawable/button_sym"
+			/>
+
 	</RelativeLayout>
 
 </RelativeLayout>

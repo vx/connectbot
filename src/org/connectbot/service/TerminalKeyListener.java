@@ -27,11 +27,16 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.Configuration;
 import android.preference.PreferenceManager;
 import android.text.ClipboardManager;
+import android.text.Editable;
+import android.text.method.CharacterPickerDialog;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnKeyListener;
+import android.widget.AdapterView;
+import android.widget.Button;
 import de.mud.terminal.VDUBuffer;
 import de.mud.terminal.vt320;
 
@@ -105,6 +110,13 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 
 		updateKeymode();
 	}
+
+    private static SparseArray<String> PICKER_SETS =
+            new SparseArray<String>();
+    	static {
+    		PICKER_SETS.put(KeyCharacterMap.PICKER_DIALOG_INPUT,
+    				"~\\^()[]{}<>|/:_;,.!@#$%&*?\"'-+=€¥£");
+    	};
 
 	/**
 	 * Handle onKey() events coming down from a {@link TerminalView} above us.
@@ -204,6 +216,17 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 			}
 
 			final boolean printing = (key != 0);
+
+			//Show up the CharacterPickerDialog when the SYM key is pressed
+			if( (keyCode == KeyEvent.KEYCODE_SYM || keyCode == KeyEvent.KEYCODE_PICTSYMBOLS ||
+					key == KeyCharacterMap.PICKER_DIALOG_INPUT) && v != null) {
+				showCharPickerDialog(v);
+				if(metaState == 4) { // reset fn-key state
+					metaState = 0;
+					bridge.redraw();
+				}
+				return true;
+			}
 
 			// otherwise pass through to existing session
 			// print normal keys
@@ -574,5 +597,41 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 
 	public void setCharset(String encoding) {
 		this.encoding = encoding;
+	}
+
+	public boolean showCharPickerDialog(View v) {
+		CharSequence str = "";
+		Editable content = Editable.Factory.getInstance().newEditable(str);
+
+		final String set = PICKER_SETS.get(KeyCharacterMap.PICKER_DIALOG_INPUT);
+		if (set == null) return false;
+
+		CharacterPickerDialog cpd = new CharacterPickerDialog(v.getContext(), v, content, set, true) {
+			private void writeCharAndClose(CharSequence result) {
+				try {
+					bridge.transport.write(result.toString().getBytes());
+				} catch (IOException e) {
+					Log.e(TAG, "Problem with the CharacterPickerDialog", e);
+				}
+				dismiss();
+			}
+
+			@Override
+			public void onItemClick(AdapterView p, View v, int pos, long id) {
+				String result = String.valueOf(set.charAt(pos));
+				writeCharAndClose(result);
+			}
+
+			@Override
+			public void onClick(View v) {
+				if (v instanceof Button) {
+					CharSequence result = ((Button) v).getText();
+					writeCharAndClose(result);
+				}
+				dismiss(); //Closes the picker
+			}
+		};
+		cpd.show();
+		return true;
 	}
 }

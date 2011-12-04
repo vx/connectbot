@@ -52,18 +52,19 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewConfiguration;
-import android.view.WindowManager;
-import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
 import android.view.View.OnTouchListener;
+import android.view.ViewConfiguration;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -73,8 +74,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
-import android.widget.AdapterView.OnItemClickListener;
-
 import de.mud.terminal.vt320;
 
 public class ConsoleActivity extends Activity {
@@ -365,6 +364,20 @@ public class ConsoleActivity extends Activity {
 					return;
 
 				inputManager.showSoftInput(flip, InputMethodManager.SHOW_FORCED);
+				keyboardGroup.setVisibility(View.GONE);
+			}
+		});
+
+		final ImageView symButton = (ImageView) findViewById(R.id.button_sym);
+		symButton.setOnClickListener(new OnClickListener() {
+			public void onClick(View view) {
+				View flip = findCurrentView(R.id.console_flip);
+				if (flip == null) return;
+
+				TerminalView terminal = (TerminalView)flip;
+
+				TerminalKeyListener handler = terminal.bridge.getKeyHandler();
+				handler.showCharPickerDialog(terminal);
 				keyboardGroup.setVisibility(View.GONE);
 			}
 		});
