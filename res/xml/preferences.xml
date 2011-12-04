@@ -151,6 +151,13 @@
 			android:defaultValue="false"
 			/>
 
+		<CheckBoxPreference
+			android:key="xperiaProFix"
+			android:title="@string/pref_xperiapro_title"
+			android:summary="@string/pref_xperiapro_summary"
+			android:defaultValue="false"
+			/>
+
 	</PreferenceCategory>
 
 </PreferenceScreen>

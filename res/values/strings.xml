@@ -465,4 +465,8 @@
 	<string name="color_green">"green"</string>
 	<string name="color_blue">"blue"</string>
 	<string name="color_gray">"gray"</string>
+
+	<!--  Sony Xperia (mini) pro HW keyboard fix -->
+	<string name="pref_xperiapro_title">Sony Ericsson Xperia (mini) pro key remap</string>
+	<string name="pref_xperiapro_summary">Remap keys on Xperia (mini) pro hardware keyboard</string>
 </resources>

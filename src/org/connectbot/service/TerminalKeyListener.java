@@ -427,6 +427,11 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 				return true;
 
 			case KeyEvent.KEYCODE_DPAD_CENTER:
+			case KeyEvent.KEYCODE_SWITCH_CHARSET:
+				if (keyCode == KeyEvent.KEYCODE_SWITCH_CHARSET && !prefs.getBoolean("xperiaProFix", false)) {
+					bridge.redraw();
+					return true;
+				}
 				if (selectingForCopy) {
 					if (selectionArea.isSelectingOrigin())
 						selectionArea.finishSelectingOrigin();
@@ -456,6 +461,25 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 				bridge.redraw();
 
 				return true;
+
+			case KeyEvent.KEYCODE_S:
+				if(prefs.getBoolean("xperiaProFix", false)) {
+					bridge.transport.write(0x7C);
+					metaState &= ~META_TRANSIENT;
+					bridge.redraw();
+					return true;
+				}
+
+			case KeyEvent.KEYCODE_Z:
+				if(prefs.getBoolean("xperiaProFix", false)) {
+					bridge.transport.write(0x5C);
+					metaState &= ~META_TRANSIENT;
+					bridge.redraw();
+					return true;
+				}
+
+			bridge.redraw();
+			return true;
 			}
 
 		} catch (IOException e) {
