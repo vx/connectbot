@@ -779,8 +779,14 @@ public class ConsoleActivity extends Activity {
 								// make the input boxes turn red to indicate an error.
 								return;
 							}
-
-							terminalView.forceSize(width, height);
+							if (width > 0 && height > 0)
+								terminalView.forceSize(width, height);
+							else {
+								new AlertDialog.Builder(ConsoleActivity.this)
+								.setMessage("Width and height must be higher than zero.")
+								.setTitle("Error")
+								.show();
+							}
 						}
 					}).setNegativeButton(android.R.string.cancel, null).create().show();
 
