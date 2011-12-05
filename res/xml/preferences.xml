@@ -157,8 +157,26 @@
 			android:summary="@string/pref_xperiapro_summary"
 			android:defaultValue="false"
 			/>
-
 	</PreferenceCategory>
 
+	<PreferenceCategory
+		android:title="@string/pref_default_fsize_category">
+
+		<EditTextPreference
+			android:key="default_fsize_width"
+			android:title="@string/pref_default_fsize_width"
+			android:summary="@string/pref_default_fsize_width_summary"
+			android:defaultValue="80"
+			android:numeric="integer"
+			/>
+
+		<EditTextPreference
+			android:key="default_fsize_height"
+			android:title="@string/pref_default_fsize_height"
+			android:summary="@string/pref_default_fsize_height_summary"
+			android:defaultValue="25"
+			android:numeric="integer"
+			/>
+	</PreferenceCategory>
 
 </PreferenceScreen>

@@ -470,4 +470,10 @@
 	<string name="pref_xperiapro_title">Sony Ericsson Xperia (mini) pro key remap</string>
 	<string name="pref_xperiapro_summary">Remap keys on Xperia (mini) pro hardware keyboard</string>
 
+	<!--  Force screen size -->
+	<string name="pref_default_fsize_category">Default values for force size</string>
+	<string name="pref_default_fsize_width">Default width for force size</string>
+	<string name="pref_default_fsize_width_summary">Default screen width in rows for force resize</string>
+	<string name="pref_default_fsize_height">Default height for force size</string>
+	<string name="pref_default_fsize_height_summary">Default screen height in columns for force resize</string>
 </resources>
