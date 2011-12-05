@@ -758,9 +758,9 @@ public class ConsoleActivity extends Activity {
 
 				final View resizeView = inflater.inflate(R.layout.dia_resize, null, false);
 				((EditText) resizeView.findViewById(R.id.width))
-				.setText(prefs.getString("default_fsize_width", "80"));
+					.setText(prefs.getString("default_fsize_width", "80"));
 				((EditText) resizeView.findViewById(R.id.height))
-				.setText(prefs.getString("default_fsize_height", "25"));
+					.setText(prefs.getString("default_fsize_height", "25"));
 
 				new AlertDialog.Builder(ConsoleActivity.this)
 					.setView(resizeView)
