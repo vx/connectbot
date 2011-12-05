@@ -459,7 +459,7 @@
 	<string name="menu_colors_reset">"Reset"</string>
 
 	<!-- Displayed in the notification bar that connections are active -->
-	<string name="app_is_running">"ConnectBot is running"</string>
+	<string name="app_is_running">"VX ConnectBot is running"</string>
 
 	<string name="color_red">"red"</string>
 	<string name="color_green">"green"</string>
@@ -469,4 +469,5 @@
 	<!--  Sony Xperia (mini) pro HW keyboard fix -->
 	<string name="pref_xperiapro_title">Sony Ericsson Xperia (mini) pro key remap</string>
 	<string name="pref_xperiapro_summary">Remap keys on Xperia (mini) pro hardware keyboard</string>
+
 </resources>

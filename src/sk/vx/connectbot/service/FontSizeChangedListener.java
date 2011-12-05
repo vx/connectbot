@@ -1,5 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
 /*
  * ConnectBot: simple, powerful, open-source SSH client for Android
  * Copyright 2007 Kenny Root, Jeffrey Sharkey
@@ -16,18 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
--->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical"
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent"
-	>
+package sk.vx.connectbot.service;
 
-	<sk.vx.connectbot.util.HelpTopicView
-		android:id="@+id/topic_text"
-		android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
-		/>
+/**
+ * @author Kenny Root
+ *
+ */
+public interface FontSizeChangedListener {
 
-</LinearLayout>
+	/**
+	 * @param size
+	 *            new font size
+	 */
+	void onFontSizeChanged(float size);
+}

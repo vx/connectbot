@@ -18,7 +18,7 @@
  */
 -->
 <resources>
-	<string name="app_name" translatable="false">ConnectBot</string>
+	<string name="app_name" translatable="false">VX ConnectBot</string>
 	<!-- DO NOT MANUALLY UPDATE VERSION!!!
 	  Updating is update by the ant task "update-version" in build.xml
 	-->

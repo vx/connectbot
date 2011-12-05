@@ -16,9 +16,9 @@
  limitations under the License.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="org.connectbot"
+	package="sk.vx.connectbot"
 	android:versionName="1.7.1"
-	android:versionCode="356"
+	android:versionCode="1"
 	android:installLocation="auto">
 
 	<uses-sdk android:targetSdkVersion="11" android:minSdkVersion="3" />
@@ -59,7 +59,7 @@
 		<activity android:name=".HelpTopicActivity" android:configChanges="keyboardHidden|orientation" />
 		<activity android:name=".ColorsActivity" android:configChanges="keyboardHidden|orientation" />
 
-		<service android:name="org.connectbot.service.TerminalManager"
+		<service android:name="sk.vx.connectbot.service.TerminalManager"
 			android:configChanges="keyboardHidden|orientation"
 			android:description="@string/service_desc" />
 

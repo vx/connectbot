@@ -1,8 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
 /*
  * ConnectBot: simple, powerful, open-source SSH client for Android
- * Copyright 2007 Kenny Root, Jeffrey Sharkey
+ * Copyright 2010 Kenny Root, Jeffrey Sharkey
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,18 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
--->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical"
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent"
-	>
+package sk.vx.connectbot.util;
 
-	<sk.vx.connectbot.util.HelpTopicView
-		android:id="@+id/topic_text"
-		android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
-		/>
-
-</LinearLayout>
+/**
+ * @author kroot
+ *
+ */
+public interface OnDbWrittenListener {
+	public void onDbWritten();
+}
