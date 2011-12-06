@@ -368,8 +368,13 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 				break;
 
 			case KeyEvent.KEYCODE_DEL:
-				((vt320) buffer).keyPressed(vt320.KEY_BACK_SPACE, ' ',
+				if ((metaState & META_ALT_MASK) != 0) {
+					((vt320) buffer).keyPressed(vt320.KEY_DELETE, ' ',
 						getStateForBuffer());
+				} else {
+					((vt320) buffer).keyPressed(vt320.KEY_BACK_SPACE, ' ',
+						getStateForBuffer());
+				}
 				metaState &= ~META_TRANSIENT;
 				return true;
 			case KeyEvent.KEYCODE_ENTER:
