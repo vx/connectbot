@@ -1,0 +1,1023 @@
+com.google.ase.Exec:
+    36:36:public static java.io.FileDescriptor createSubprocess(java.lang.String,java.lang.String,java.lang.String)
+com.jcraft.jzlib.Adler32:
+    private static final int BASE
+    private static final int NMAX
+com.jcraft.jzlib.Deflate:
+    private static final int MAX_MEM_LEVEL
+    private static final int Z_DEFAULT_COMPRESSION
+    private static final int MAX_WBITS
+    private static final int DEF_MEM_LEVEL
+    private static final int STORED
+    private static final int FAST
+    private static final int SLOW
+    private static final int NeedMore
+    private static final int BlockDone
+    private static final int FinishStarted
+    private static final int FinishDone
+    private static final int PRESET_DICT
+    private static final int Z_FILTERED
+    private static final int Z_HUFFMAN_ONLY
+    private static final int Z_DEFAULT_STRATEGY
+    private static final int Z_NO_FLUSH
+    private static final int Z_PARTIAL_FLUSH
+    private static final int Z_SYNC_FLUSH
+    private static final int Z_FULL_FLUSH
+    private static final int Z_FINISH
+    private static final int Z_OK
+    private static final int Z_STREAM_END
+    private static final int Z_NEED_DICT
+    private static final int Z_ERRNO
+    private static final int Z_STREAM_ERROR
+    private static final int Z_DATA_ERROR
+    private static final int Z_MEM_ERROR
+    private static final int Z_BUF_ERROR
+    private static final int Z_VERSION_ERROR
+    private static final int INIT_STATE
+    private static final int BUSY_STATE
+    private static final int FINISH_STATE
+    private static final int Z_DEFLATED
+    private static final int STORED_BLOCK
+    private static final int STATIC_TREES
+    private static final int DYN_TREES
+    private static final int Z_BINARY
+    private static final int Z_ASCII
+    private static final int Z_UNKNOWN
+    private static final int Buf_size
+    private static final int REP_3_6
+    private static final int REPZ_3_10
+    private static final int REPZ_11_138
+    private static final int MIN_MATCH
+    private static final int MAX_MATCH
+    private static final int MIN_LOOKAHEAD
+    private static final int MAX_BITS
+    private static final int D_CODES
+    private static final int BL_CODES
+    private static final int LENGTH_CODES
+    private static final int LITERALS
+    private static final int L_CODES
+    private static final int HEAP_SIZE
+    private static final int END_BLOCK
+    1320:1320:int deflateInit(com.jcraft.jzlib.ZStream,int)
+    1407:1417:int deflateEnd()
+    1421:1445:int deflateParams(com.jcraft.jzlib.ZStream,int,int)
+    1449:1478:int deflateSetDictionary(com.jcraft.jzlib.ZStream,byte[],int)
+com.jcraft.jzlib.InfBlocks:
+    private static final int MANY
+    private static final int Z_OK
+    private static final int Z_STREAM_END
+    private static final int Z_NEED_DICT
+    private static final int Z_ERRNO
+    private static final int Z_STREAM_ERROR
+    private static final int Z_DATA_ERROR
+    private static final int Z_MEM_ERROR
+    private static final int Z_BUF_ERROR
+    private static final int Z_VERSION_ERROR
+    private static final int TYPE
+    private static final int LENS
+    private static final int STORED
+    private static final int TABLE
+    private static final int BTREE
+    private static final int DTREE
+    private static final int CODES
+    private static final int DRY
+    private static final int DONE
+    private static final int BAD
+    543:545:void set_dictionary(byte[],int,int)
+    550:550:int sync_point()
+com.jcraft.jzlib.InfCodes:
+    private static final int Z_OK
+    private static final int Z_STREAM_END
+    private static final int Z_NEED_DICT
+    private static final int Z_ERRNO
+    private static final int Z_STREAM_ERROR
+    private static final int Z_DATA_ERROR
+    private static final int Z_MEM_ERROR
+    private static final int Z_BUF_ERROR
+    private static final int Z_VERSION_ERROR
+    private static final int START
+    private static final int LEN
+    private static final int LENEXT
+    private static final int DIST
+    private static final int DISTEXT
+    private static final int COPY
+    private static final int LIT
+    private static final int WASH
+    private static final int END
+    private static final int BADCODE
+com.jcraft.jzlib.InfTree:
+    private static final int MANY
+    private static final int Z_OK
+    private static final int Z_STREAM_END
+    private static final int Z_NEED_DICT
+    private static final int Z_ERRNO
+    private static final int Z_STREAM_ERROR
+    private static final int Z_DATA_ERROR
+    private static final int Z_MEM_ERROR
+    private static final int Z_BUF_ERROR
+    private static final int Z_VERSION_ERROR
+    static final int fixed_bl
+    static final int fixed_bd
+    static final int BMAX
+com.jcraft.jzlib.Inflate:
+    private static final int MAX_WBITS
+    private static final int PRESET_DICT
+    static final int Z_NO_FLUSH
+    static final int Z_PARTIAL_FLUSH
+    static final int Z_SYNC_FLUSH
+    static final int Z_FULL_FLUSH
+    static final int Z_FINISH
+    private static final int Z_DEFLATED
+    private static final int Z_OK
+    private static final int Z_STREAM_END
+    private static final int Z_NEED_DICT
+    private static final int Z_ERRNO
+    private static final int Z_STREAM_ERROR
+    private static final int Z_DATA_ERROR
+    private static final int Z_MEM_ERROR
+    private static final int Z_BUF_ERROR
+    private static final int Z_VERSION_ERROR
+    private static final int METHOD
+    private static final int FLAG
+    private static final int DICT4
+    private static final int DICT3
+    private static final int DICT2
+    private static final int DICT1
+    private static final int DICT0
+    private static final int BLOCKS
+    private static final int CHECK4
+    private static final int CHECK3
+    private static final int CHECK2
+    private static final int CHECK1
+    private static final int DONE
+    private static final int BAD
+    292:309:int inflateSetDictionary(com.jcraft.jzlib.ZStream,byte[],int)
+    321:360:int inflateSync(com.jcraft.jzlib.ZStream)
+    370:372:int inflateSyncPoint(com.jcraft.jzlib.ZStream)
+com.jcraft.jzlib.JZlib
+com.jcraft.jzlib.StaticTree:
+    private static final int MAX_BITS
+    private static final int BL_CODES
+    private static final int D_CODES
+    private static final int LITERALS
+    private static final int LENGTH_CODES
+    private static final int L_CODES
+    static final int MAX_BL_BITS
+com.jcraft.jzlib.Tree:
+    private static final int MAX_BITS
+    private static final int BL_CODES
+    private static final int D_CODES
+    private static final int LITERALS
+    private static final int LENGTH_CODES
+    private static final int L_CODES
+    private static final int HEAP_SIZE
+    static final int MAX_BL_BITS
+    static final int END_BLOCK
+    static final int REP_3_6
+    static final int REPZ_3_10
+    static final int REPZ_11_138
+    static final int Buf_size
+    static final int DIST_CODE_LEN
+com.jcraft.jzlib.ZInputStream
+com.jcraft.jzlib.ZOutputStream
+com.jcraft.jzlib.ZStream:
+    private static final int MAX_WBITS
+    private static final int DEF_WBITS
+    private static final int Z_NO_FLUSH
+    private static final int Z_PARTIAL_FLUSH
+    private static final int Z_SYNC_FLUSH
+    private static final int Z_FULL_FLUSH
+    private static final int Z_FINISH
+    private static final int MAX_MEM_LEVEL
+    private static final int Z_OK
+    private static final int Z_STREAM_END
+    private static final int Z_NEED_DICT
+    private static final int Z_ERRNO
+    private static final int Z_STREAM_ERROR
+    private static final int Z_DATA_ERROR
+    private static final int Z_MEM_ERROR
+    private static final int Z_BUF_ERROR
+    private static final int Z_VERSION_ERROR
+    84:84:public int inflateInit(boolean)
+    100:103:public int inflateEnd()
+    106:108:public int inflateSync()
+    111:113:public int inflateSetDictionary(byte[],int)
+    120:120:public int deflateInit(int,boolean)
+    136:139:public int deflateEnd()
+    142:143:public int deflateParams(int,int)
+    146:148:public int deflateSetDictionary(byte[],int)
+    206:210:public void free()
+com.jcraft.jzlib.ZStreamException
+com.trilead.ssh2.ChannelCondition
+com.trilead.ssh2.Connection:
+    public static final java.lang.String identification
+    65:65:public static synchronized java.lang.String[] getAvailableCiphers()
+    75:75:public static synchronized java.lang.String[] getAvailableMACs()
+    86:86:public static synchronized java.lang.String[] getAvailableServerHostKeyAlgorithms()
+    122:123:public Connection(java.lang.String)
+    174:194:public synchronized boolean authenticateWithDSA(java.lang.String,java.lang.String,java.lang.String)
+    426:446:public synchronized boolean authenticateWithPublicKey(java.lang.String,char[],java.lang.String)
+    530:549:public synchronized boolean authenticateWithPublicKey(java.lang.String,java.io.File,java.lang.String)
+    630:630:public synchronized com.trilead.ssh2.ConnectionInfo connect()
+    891:897:public synchronized com.trilead.ssh2.LocalPortForwarder createLocalPortForwarder(int,java.lang.String,int)
+    947:953:public synchronized com.trilead.ssh2.LocalStreamForwarder createLocalStreamForwarder(java.lang.String,int)
+    972:978:public synchronized com.trilead.ssh2.DynamicPortForwarder createDynamicPortForwarder(int)
+    1022:1028:public synchronized com.trilead.ssh2.SCPClient createSCPClient()
+    1046:1050:public synchronized void forceKeyExchange()
+    1059:1059:public synchronized java.lang.String getHostname()
+    1069:1069:public synchronized int getPort()
+    1083:1086:public synchronized com.trilead.ssh2.ConnectionInfo getConnectionInfo()
+    1160:1163:public synchronized boolean isAuthenticationPartialSuccess()
+    1233:1239:public synchronized void sendIgnorePacket()
+    1250:1261:public synchronized void sendIgnorePacket(byte[])
+    1274:1308:private java.lang.String[] removeDuplicates(java.lang.String[])
+    1318:1323:public synchronized void setClient2ServerCiphers(java.lang.String[])
+    1332:1337:public synchronized void setClient2ServerMACs(java.lang.String[])
+    1350:1354:public synchronized void setDHGexParameters(com.trilead.ssh2.DHGexParameters)
+    1363:1368:public synchronized void setServer2ClientCiphers(java.lang.String[])
+    1377:1383:public synchronized void setServer2ClientMACs(java.lang.String[])
+    1400:1406:public synchronized void setServerHostKeyAlgorithms(java.lang.String[])
+    1423:1427:public synchronized void setTCPNoDelay(boolean)
+    1449:1450:public synchronized void setProxyData(com.trilead.ssh2.ProxyData)
+    1547:1551:public synchronized void setSecureRandom(java.security.SecureRandom)
+    1572:1595:public synchronized void enableDebugging(boolean,com.trilead.ssh2.DebugLogger)
+    1617:1624:public synchronized void ping()
+com.trilead.ssh2.Connection$2
+com.trilead.ssh2.DHGexParameters:
+    private static final int MIN_ALLOWED
+    private static final int MAX_ALLOWED
+    44:52:public DHGexParameters(int)
+com.trilead.ssh2.DynamicPortForwarder:
+    40:48:DynamicPortForwarder(com.trilead.ssh2.channel.ChannelManager,int)
+com.trilead.ssh2.HTTPProxyData:
+    30:31:public HTTPProxyData(java.lang.String,int)
+    43:44:public HTTPProxyData(java.lang.String,int,java.lang.String,java.lang.String)
+    68:82:public HTTPProxyData(java.lang.String,int,java.lang.String,java.lang.String,java.lang.String[])
+com.trilead.ssh2.HTTPProxyException:
+    private static final long serialVersionUID
+com.trilead.ssh2.KnownHosts:
+    public static final int HOSTKEY_IS_OK
+    public static final int HOSTKEY_IS_NEW
+    public static final int HOSTKEY_HAS_CHANGED
+    70:73:public KnownHosts(char[])
+    75:78:public KnownHosts(java.io.File)
+    126:127:public void addHostkeys(char[])
+    137:138:public void addHostkeys(java.io.File)
+    149:160:public static final java.lang.String createHashedHostname(java.lang.String)
+    257:274:private java.util.Vector getAllKeys(java.lang.String)
+    291:315:public java.lang.String[] getPreferredServerHostkeyAlgorithmOrder(java.lang.String)
+    390:418:private void initialize(char[])
+    422:441:private void initialize(java.io.File)
+    535:583:private java.lang.String[] recommendHostkeyAlgorithms(java.lang.String)
+    661:698:public static final void addHostkeyToFile(java.io.File,java.lang.String[],java.lang.String,byte[])
+    771:809:private static final java.lang.String rawToBubblebabbleFingerprint(byte[])
+    841:842:public static final java.lang.String createBubblebabbleFingerprint(java.lang.String,byte[])
+com.trilead.ssh2.LocalPortForwarder:
+    30:40:LocalPortForwarder(com.trilead.ssh2.channel.ChannelManager,int,java.lang.String,int)
+com.trilead.ssh2.LocalStreamForwarder
+com.trilead.ssh2.SCPClient
+com.trilead.ssh2.SCPClient$LenNamePair
+com.trilead.ssh2.SFTPException
+com.trilead.ssh2.SFTPv3Client
+com.trilead.ssh2.SFTPv3DirectoryEntry
+com.trilead.ssh2.SFTPv3FileAttributes
+com.trilead.ssh2.SFTPv3FileHandle
+com.trilead.ssh2.Session:
+    52:53:public void requestDumbPTY()
+    63:64:public void requestPTY(java.lang.String)
+    182:253:public void requestX11Forwarding(java.lang.String,int,byte[],boolean)
+    264:280:public void execCommand(java.lang.String)
+    313:329:public void startSubSystem(java.lang.String)
+    344:355:public void ping()
+    419:436:public int waitUntilDataAvailable(long)
+    482:482:public java.lang.Integer getExitStatus()
+    496:496:public java.lang.String getExitSignal()
+com.trilead.ssh2.StreamGobbler
+com.trilead.ssh2.StreamGobbler$GobblerThread
+com.trilead.ssh2.auth.AuthenticationManager:
+    119:119:public boolean getPartialSuccess()
+    164:166:public boolean authenticatePublicKey(java.lang.String,char[],java.lang.String,java.security.SecureRandom)
+com.trilead.ssh2.channel.AuthAgentForwardThread:
+    private static final int SSH2_AGENTC_REQUEST_IDENTITIES
+    private static final int SSH2_AGENT_IDENTITIES_ANSWER
+    private static final int SSH2_AGENTC_SIGN_REQUEST
+    private static final int SSH2_AGENT_SIGN_RESPONSE
+    private static final int SSH2_AGENTC_ADD_IDENTITY
+    private static final int SSH2_AGENTC_REMOVE_IDENTITY
+    private static final int SSH2_AGENTC_REMOVE_ALL_IDENTITIES
+    private static final int SSH_AGENTC_LOCK
+    private static final int SSH_AGENTC_UNLOCK
+    private static final int SSH2_AGENTC_ADD_ID_CONSTRAINED
+    private static final int SSH_AGENT_CONSTRAIN_LIFETIME
+    private static final int SSH_AGENT_CONSTRAIN_CONFIRM
+com.trilead.ssh2.channel.Channel:
+    static final int STATE_OPENING
+    static final int STATE_OPEN
+    static final int STATE_CLOSED
+    static final int CHANNEL_BUFFER_SIZE
+com.trilead.ssh2.channel.ChannelManager:
+    204:208:public void registerX11Cookie(java.lang.String,com.trilead.ssh2.channel.X11ServerData)
+    623:646:public void requestGlobalTrileadPing()
+    652:680:public void requestChannelTrileadPing(com.trilead.ssh2.channel.Channel)
+    745:775:public void requestX11(com.trilead.ssh2.channel.Channel,boolean,java.lang.String,java.lang.String,int)
+    781:807:public void requestSubSystem(com.trilead.ssh2.channel.Channel,java.lang.String)
+    813:842:public void requestExecCommand(com.trilead.ssh2.channel.Channel,java.lang.String)
+com.trilead.ssh2.channel.DynamicAcceptThread:
+    229:236:public DynamicAcceptThread(com.trilead.ssh2.channel.ChannelManager,int)
+com.trilead.ssh2.channel.DynamicAcceptThread$DynamicAcceptRunnable:
+    private static final int idleTimeout
+com.trilead.ssh2.channel.LocalAcceptThread:
+    23:31:public LocalAcceptThread(com.trilead.ssh2.channel.ChannelManager,int,java.lang.String,int)
+com.trilead.ssh2.compression.CompressionFactory:
+    63:65:public static void checkCompressorList(java.lang.String[])
+com.trilead.ssh2.compression.Zlib:
+    private static final int DEFAULT_BUF_SIZE
+    private static final int LEVEL
+com.trilead.ssh2.crypto.PEMDecoder:
+    public static final int PEM_RSA_PRIVATE_KEY
+    public static final int PEM_DSA_PRIVATE_KEY
+com.trilead.ssh2.crypto.SimpleDERReader:
+    95:104:public int ignoreNextObject()
+com.trilead.ssh2.crypto.cipher.AES:
+    private static final int m1
+    private static final int m2
+    private static final int m3
+    private static final int BLOCK_SIZE
+    512:512:public final java.lang.String getAlgorithmName()
+    555:555:public final void reset()
+com.trilead.ssh2.crypto.cipher.BlockCipherFactory:
+    63:65:public static void checkCipherList(java.lang.String[])
+com.trilead.ssh2.crypto.cipher.BlowFish
+com.trilead.ssh2.crypto.cipher.CipherInputStream:
+    98:98:public int read(byte[])
+    123:127:public int read()
+com.trilead.ssh2.crypto.cipher.CipherOutputStream:
+    60:66:private void internal_write(int)
+    124:127:public void write(int)
+    131:134:public void writePlain(int)
+com.trilead.ssh2.crypto.cipher.DES:
+    65:65:public java.lang.String getAlgorithmName()
+    85:85:public void reset()
+com.trilead.ssh2.crypto.cipher.DESede:
+    73:73:public java.lang.String getAlgorithmName()
+    104:104:public void reset()
+com.trilead.ssh2.crypto.cipher.NullCipher:
+    17:20:public NullCipher(int)
+com.trilead.ssh2.crypto.digest.HashForSSH2Types:
+    16:19:public HashForSSH2Types(com.trilead.ssh2.crypto.digest.Digest)
+com.trilead.ssh2.crypto.digest.MAC:
+    24:26:public static final void checkMacList(java.lang.String[])
+com.trilead.ssh2.crypto.digest.SHA1:
+    598:606:private static final java.lang.String toHexString(byte[])
+    611:663:public static void main(java.lang.String[])
+com.trilead.ssh2.packets.PacketChannelOpenFailure:
+    29:50:public PacketChannelOpenFailure(byte[],int,int)
+com.trilead.ssh2.packets.PacketChannelTrileadPing
+com.trilead.ssh2.packets.PacketChannelWindowAdjust
+com.trilead.ssh2.packets.PacketDisconnect:
+    20:35:public PacketDisconnect(byte[],int,int)
+com.trilead.ssh2.packets.PacketGlobalTrileadPing
+com.trilead.ssh2.packets.PacketIgnore
+com.trilead.ssh2.packets.PacketKexInit:
+    104:104:public java.lang.String[] getCompression_algorithms_client_to_server()
+    109:109:public java.lang.String[] getCompression_algorithms_server_to_client()
+    114:114:public byte[] getCookie()
+    119:119:public java.lang.String[] getEncryption_algorithms_client_to_server()
+    124:124:public java.lang.String[] getEncryption_algorithms_server_to_client()
+    134:134:public java.lang.String[] getKex_algorithms()
+    139:139:public java.lang.String[] getLanguages_client_to_server()
+    144:144:public java.lang.String[] getLanguages_server_to_client()
+    149:149:public java.lang.String[] getMac_algorithms_client_to_server()
+    154:154:public java.lang.String[] getMac_algorithms_server_to_client()
+    159:159:public int getReserved_field1()
+    164:164:public java.lang.String[] getServer_host_key_algorithms()
+com.trilead.ssh2.packets.PacketNewKeys:
+    19:34:public PacketNewKeys(byte[],int,int)
+com.trilead.ssh2.packets.PacketOpenSessionChannel:
+    27:46:public PacketOpenSessionChannel(byte[],int,int)
+com.trilead.ssh2.packets.PacketServiceAccept:
+    18:21:public PacketServiceAccept(java.lang.String)
+    52:59:public byte[] getPayload()
+com.trilead.ssh2.packets.PacketServiceRequest:
+    22:39:public PacketServiceRequest(byte[],int,int)
+com.trilead.ssh2.packets.PacketSessionExecCommand
+com.trilead.ssh2.packets.PacketSessionSubsystemRequest
+com.trilead.ssh2.packets.PacketSessionX11Request
+com.trilead.ssh2.packets.PacketUserauthBanner:
+    18:22:public PacketUserauthBanner(java.lang.String,java.lang.String)
+    50:58:public byte[] getPayload()
+com.trilead.ssh2.packets.PacketUserauthFailure:
+    19:23:public PacketUserauthFailure(java.lang.String[],boolean)
+com.trilead.ssh2.packets.PacketUserauthInfoRequest:
+    67:67:public java.lang.String getLanguageTag()
+com.trilead.ssh2.packets.PacketUserauthRequestNone:
+    24:46:public PacketUserauthRequestNone(byte[],int,int)
+com.trilead.ssh2.packets.PacketUserauthRequestPassword:
+    26:50:public PacketUserauthRequestPassword(byte[],int,int)
+com.trilead.ssh2.packets.PacketUserauthRequestPublicKey:
+    java.lang.String password
+    32:45:public PacketUserauthRequestPublicKey(byte[],int,int)
+com.trilead.ssh2.packets.Packets:
+    public static final int SSH_MSG_DISCONNECT
+    public static final int SSH_MSG_IGNORE
+    public static final int SSH_MSG_UNIMPLEMENTED
+    public static final int SSH_MSG_DEBUG
+    public static final int SSH_MSG_SERVICE_REQUEST
+    public static final int SSH_MSG_SERVICE_ACCEPT
+    public static final int SSH_MSG_KEXINIT
+    public static final int SSH_MSG_NEWKEYS
+    public static final int SSH_MSG_KEXDH_INIT
+    public static final int SSH_MSG_KEXDH_REPLY
+    public static final int SSH_MSG_KEX_DH_GEX_REQUEST_OLD
+    public static final int SSH_MSG_KEX_DH_GEX_REQUEST
+    public static final int SSH_MSG_KEX_DH_GEX_GROUP
+    public static final int SSH_MSG_KEX_DH_GEX_INIT
+    public static final int SSH_MSG_KEX_DH_GEX_REPLY
+    public static final int SSH_MSG_USERAUTH_REQUEST
+    public static final int SSH_MSG_USERAUTH_FAILURE
+    public static final int SSH_MSG_USERAUTH_SUCCESS
+    public static final int SSH_MSG_USERAUTH_BANNER
+    public static final int SSH_MSG_USERAUTH_INFO_REQUEST
+    public static final int SSH_MSG_USERAUTH_INFO_RESPONSE
+    public static final int SSH_MSG_GLOBAL_REQUEST
+    public static final int SSH_MSG_REQUEST_SUCCESS
+    public static final int SSH_MSG_REQUEST_FAILURE
+    public static final int SSH_MSG_CHANNEL_OPEN
+    public static final int SSH_MSG_CHANNEL_OPEN_CONFIRMATION
+    public static final int SSH_MSG_CHANNEL_OPEN_FAILURE
+    public static final int SSH_MSG_CHANNEL_WINDOW_ADJUST
+    public static final int SSH_MSG_CHANNEL_DATA
+    public static final int SSH_MSG_CHANNEL_EXTENDED_DATA
+    public static final int SSH_MSG_CHANNEL_EOF
+    public static final int SSH_MSG_CHANNEL_CLOSE
+    public static final int SSH_MSG_CHANNEL_REQUEST
+    public static final int SSH_MSG_CHANNEL_SUCCESS
+    public static final int SSH_MSG_CHANNEL_FAILURE
+    public static final int SSH_EXTENDED_DATA_STDERR
+    public static final int SSH_DISCONNECT_HOST_NOT_ALLOWED_TO_CONNECT
+    public static final int SSH_DISCONNECT_PROTOCOL_ERROR
+    public static final int SSH_DISCONNECT_KEY_EXCHANGE_FAILED
+    public static final int SSH_DISCONNECT_RESERVED
+    public static final int SSH_DISCONNECT_MAC_ERROR
+    public static final int SSH_DISCONNECT_COMPRESSION_ERROR
+    public static final int SSH_DISCONNECT_SERVICE_NOT_AVAILABLE
+    public static final int SSH_DISCONNECT_PROTOCOL_VERSION_NOT_SUPPORTED
+    public static final int SSH_DISCONNECT_HOST_KEY_NOT_VERIFIABLE
+    public static final int SSH_DISCONNECT_CONNECTION_LOST
+    public static final int SSH_DISCONNECT_BY_APPLICATION
+    public static final int SSH_DISCONNECT_TOO_MANY_CONNECTIONS
+    public static final int SSH_DISCONNECT_AUTH_CANCELLED_BY_USER
+    public static final int SSH_DISCONNECT_NO_MORE_AUTH_METHODS_AVAILABLE
+    public static final int SSH_DISCONNECT_ILLEGAL_USER_NAME
+    public static final int SSH_OPEN_ADMINISTRATIVELY_PROHIBITED
+    public static final int SSH_OPEN_CONNECT_FAILED
+    public static final int SSH_OPEN_UNKNOWN_CHANNEL_TYPE
+    public static final int SSH_OPEN_RESOURCE_SHORTAGE
+com.trilead.ssh2.packets.TypesReader:
+    29:37:public TypesReader(byte[],int)
+    75:80:public void readBytes(byte[],int,int)
+    101:110:public long readUINT64()
+com.trilead.ssh2.packets.TypesWriter:
+    33:33:public int length()
+    45:46:public void getBytes(byte[])
+    67:78:public void writeUINT64(long)
+    152:156:public void writeString(java.lang.String,java.lang.String)
+com.trilead.ssh2.sftp.AttrTextHints
+com.trilead.ssh2.sftp.AttribBits
+com.trilead.ssh2.sftp.AttribFlags
+com.trilead.ssh2.sftp.AttribPermissions
+com.trilead.ssh2.sftp.AttribTypes
+com.trilead.ssh2.sftp.ErrorCodes
+com.trilead.ssh2.sftp.OpenFlags
+com.trilead.ssh2.sftp.Packet
+com.trilead.ssh2.signature.DSAPrivateKey:
+    46:46:public java.math.BigInteger getY()
+com.trilead.ssh2.signature.RSAPrivateKey:
+    31:31:public java.math.BigInteger getE()
+com.trilead.ssh2.transport.KexManager:
+    317:322:public static final void checkServerHostkeyAlgorithmsList(java.lang.String[])
+    332:345:public static final void checkKexAlgorithmList(java.lang.String[])
+com.trilead.ssh2.transport.NegotiateException:
+    private static final long serialVersionUID
+com.trilead.ssh2.transport.TransportConnection:
+    com.trilead.ssh2.transport.ClientServerHello csh
+    145:146:public void sendMessage(byte[],int,int)
+    245:265:public int peekNextMessageLength()
+com.trilead.ssh2.transport.TransportManager:
+    226:227:public void setSoTimeout(int)
+    577:578:public void forceKeyExchange(com.trilead.ssh2.crypto.CryptoWishList,com.trilead.ssh2.DHGexParameters)
+    608:609:public void startCompression()
+de.mud.telnet.TelnetProtocolHandler:
+    public static final java.lang.String ID
+    private static final int debug
+    private static final byte STATE_DATA
+    private static final byte STATE_IAC
+    private static final byte STATE_IACSB
+    private static final byte STATE_IACWILL
+    private static final byte STATE_IACDO
+    private static final byte STATE_IACWONT
+    private static final byte STATE_IACDONT
+    private static final byte STATE_IACSBIAC
+    private static final byte STATE_IACSBDATA
+    private static final byte STATE_IACSBDATAIAC
+    private static final byte IAC
+    private static final byte EOR
+    private static final byte WILL
+    private static final byte WONT
+    private static final byte DO
+    private static final byte DONT
+    private static final byte SB
+    private static final byte SE
+    private static final byte TELOPT_BINARY
+    private static final byte TELOPT_ECHO
+    private static final byte TELOPT_SGA
+    private static final byte TELOPT_EOR
+    private static final byte TELOPT_NAWS
+    private static final byte TELOPT_TTYPE
+    private static final byte TELOPT_CHARSET
+    private static final byte CHARSET_ACCEPTED
+    private static final byte CHARSET_REJECTED
+    private static final byte TELQUAL_IS
+    private static final byte TELQUAL_SEND
+    207:212:public void sendTelnetControl(byte)
+    288:288:public void startup()
+    299:352:public void transpose(byte[])
+    354:354:public void setCRLF(java.lang.String)
+    355:355:public void setCR(java.lang.String)
+de.mud.terminal.Precomposer:
+    private static final int UNICODE_SHIFT
+de.mud.terminal.VDUBuffer:
+    public static final java.lang.String ID
+    public static final int debug
+    public static final boolean SCROLL_UP
+    public static final boolean SCROLL_DOWN
+    public static final int NORMAL
+    public static final int BOLD
+    public static final int UNDERLINE
+    public static final int INVERT
+    public static final int LOW
+    public static final int INVISIBLE
+    public static final int FULLWIDTH
+    public static final int COLOR_FG_SHIFT
+    public static final int COLOR_BG_SHIFT
+    public static final int COLOR
+    public static final int COLOR_FG
+    public static final int COLOR_BG
+    251:252:public void putString(int,int,java.lang.String)
+    274:276:public void putString(int,int,java.lang.String,int)
+    287:288:public void insertLine(int)
+    299:300:public void insertLine(int,int)
+    551:552:public void deleteArea(int,int,int,int)
+    642:649:public void setTopMargin(int)
+    665:672:public void setBottomMargin(int)
+    713:713:public int getBufferSize()
+    721:721:public int getMaxBufferSize()
+de.mud.terminal.VDUDisplay:
+    public abstract void setVDUBuffer(de.mud.terminal.VDUBuffer)
+    public abstract de.mud.terminal.VDUBuffer getVDUBuffer()
+de.mud.terminal.VDUInput
+de.mud.terminal.vt320:
+    public static final java.lang.String ID
+    private static final int debug
+    int Stm
+    int Sbm
+    private static final char ESC
+    private static final char IND
+    private static final char NEL
+    private static final char RI
+    private static final char SS2
+    private static final char SS3
+    private static final char DCS
+    private static final char HTS
+    private static final char CSI
+    private static final char OSC
+    private static final int TSTATE_DATA
+    private static final int TSTATE_ESC
+    private static final int TSTATE_CSI
+    private static final int TSTATE_DCS
+    private static final int TSTATE_DCEQ
+    private static final int TSTATE_ESCSQUARE
+    private static final int TSTATE_OSC
+    private static final int TSTATE_SETG0
+    private static final int TSTATE_SETG1
+    private static final int TSTATE_SETG2
+    private static final int TSTATE_SETG3
+    private static final int TSTATE_CSI_DOLLAR
+    private static final int TSTATE_CSI_EX
+    private static final int TSTATE_ESCSPACE
+    private static final int TSTATE_VT52X
+    private static final int TSTATE_VT52Y
+    private static final int TSTATE_CSI_TICKS
+    private static final int TSTATE_CSI_EQUAL
+    private static final int TSTATE_TITLE
+    public static final int KEY_PAUSE
+    public static final int KEY_F1
+    public static final int KEY_F2
+    public static final int KEY_F3
+    public static final int KEY_F4
+    public static final int KEY_F5
+    public static final int KEY_F6
+    public static final int KEY_F7
+    public static final int KEY_F8
+    public static final int KEY_F9
+    public static final int KEY_F10
+    public static final int KEY_F11
+    public static final int KEY_F12
+    public static final int KEY_UP
+    public static final int KEY_DOWN
+    public static final int KEY_LEFT
+    public static final int KEY_RIGHT
+    public static final int KEY_PAGE_DOWN
+    public static final int KEY_PAGE_UP
+    public static final int KEY_INSERT
+    public static final int KEY_DELETE
+    public static final int KEY_BACK_SPACE
+    public static final int KEY_HOME
+    public static final int KEY_END
+    public static final int KEY_NUM_LOCK
+    public static final int KEY_CAPS_LOCK
+    public static final int KEY_SHIFT
+    public static final int KEY_CONTROL
+    public static final int KEY_ALT
+    public static final int KEY_ENTER
+    public static final int KEY_NUMPAD0
+    public static final int KEY_NUMPAD1
+    public static final int KEY_NUMPAD2
+    public static final int KEY_NUMPAD3
+    public static final int KEY_NUMPAD4
+    public static final int KEY_NUMPAD5
+    public static final int KEY_NUMPAD6
+    public static final int KEY_NUMPAD7
+    public static final int KEY_NUMPAD8
+    public static final int KEY_NUMPAD9
+    public static final int KEY_DECIMAL
+    public static final int KEY_ADD
+    public static final int KEY_ESCAPE
+    public static final int DELETE_IS_DEL
+    public static final int DELETE_IS_BACKSPACE
+    private static final java.lang.String scoansi_acs
+    347:372:public void mousePressed(int,int,int)
+    382:408:public void mouseReleased(int,int,int)
+    419:420:public void setLocalEcho(boolean)
+    445:494:public void setKeyCodes(java.util.Properties)
+    528:528:public java.lang.String getTerminalID()
+    574:579:private boolean write(int,boolean)
+    583:583:private boolean write(java.lang.String)
+net.sourceforge.jsocks.Authentication
+net.sourceforge.jsocks.AuthenticationNone
+net.sourceforge.jsocks.Proxy
+net.sourceforge.jsocks.ProxyMessage:
+    public abstract void read(java.io.InputStream)
+    public abstract void read(java.io.InputStream,boolean)
+    76:76:public java.net.InetAddress getInetAddress()
+net.sourceforge.jsocks.ProxyServer
+net.sourceforge.jsocks.Socks4Message:
+    static final int SOCKS_VERSION
+    public static final int REQUEST_CONNECT
+    public static final int REQUEST_BIND
+    public static final int REPLY_OK
+    public static final int REPLY_REJECTED
+    public static final int REPLY_NO_CONNECT
+    public static final int REPLY_BAD_IDENTD
+    43:44:public Socks4Message(int,java.net.InetAddress,int,java.lang.String)
+    93:94:public void read(java.io.InputStream)
+net.sourceforge.jsocks.Socks4Proxy
+net.sourceforge.jsocks.Socks5DatagramSocket
+net.sourceforge.jsocks.Socks5Message:
+    public static final int SOCKS_VERSION
+    public static final int SOCKS_ATYP_IPV4
+    public static final int SOCKS_ATYP_DOMAINNAME
+    public static final int SOCKS_ATYP_IPV6
+    public static final int SOCKS_IPV6_LENGTH
+    108:109:public Socks5Message(java.io.InputStream)
+    137:138:public void read(java.io.InputStream)
+    233:235:public java.net.InetAddress getInetAddress()
+    258:258:public static boolean resolveIP()
+    268:270:public static boolean resolveIP(boolean)
+net.sourceforge.jsocks.Socks5Proxy
+net.sourceforge.jsocks.SocksException:
+    private static final long serialVersionUID
+    static final java.lang.String UNASSIGNED_ERROR_MESSAGE
+    45:45:public int getErrorCode()
+net.sourceforge.jsocks.SocksServerSocket
+net.sourceforge.jsocks.SocksSocket
+net.sourceforge.jsocks.UDPEncapsulation
+net.sourceforge.jsocks.UDPRelayServer
+net.sourceforge.jsocks.server.ServerAuthenticator:
+    public abstract net.sourceforge.jsocks.UDPEncapsulation getUdpEncapsulation()
+    public abstract boolean checkRequest(java.net.DatagramPacket,boolean)
+net.sourceforge.jsocks.server.ServerAuthenticatorNone:
+    104:104:public net.sourceforge.jsocks.UDPEncapsulation getUdpEncapsulation()
+    118:118:public boolean checkRequest(java.net.DatagramPacket,boolean)
+org.apache.harmony.niochar.charset.additional.IBM437$Decoder:
+    private native int nDecode(char[],int,int,long,int)
+org.apache.harmony.niochar.charset.additional.IBM437$Encoder:
+    private native void nEncode(long,int,char[],int,int[])
+org.openintents.intents.FileManagerIntents
+sk.vx.connectbot.ConsoleActivity:
+    public static final java.lang.String TAG
+    protected static final int REQUEST_EDIT
+    private static final int CLICK_TIME
+    private static final float MAX_CLICK_DISTANCE
+    private static final int KEYBOARD_DISPLAY_TIME
+    private static final int SHIFT_LEFT
+    private static final int SHIFT_RIGHT
+sk.vx.connectbot.GeneratePubkeyActivity:
+    public static final java.lang.String TAG
+    static final int DEFAULT_BITS
+sk.vx.connectbot.HelpActivity:
+    public static final java.lang.String TAG
+    public static final java.lang.String HELPDIR
+    public static final java.lang.String SUFFIX
+sk.vx.connectbot.HelpTopicActivity:
+    public static final java.lang.String TAG
+sk.vx.connectbot.HostEditorActivity:
+    protected static final java.lang.String TAG
+sk.vx.connectbot.HostListActivity:
+    public static final int REQUEST_EDIT
+    public static final int REQUEST_EULA
+sk.vx.connectbot.HostListActivity$HostAdapter:
+    public static final int STATE_UNKNOWN
+    public static final int STATE_CONNECTED
+    public static final int STATE_DISCONNECTED
+sk.vx.connectbot.PortForwardListActivity:
+    public static final java.lang.String TAG
+    private static final int LISTENER_CYCLE_TIME
+sk.vx.connectbot.PubkeyListActivity:
+    public static final java.lang.String TAG
+    private static final int MAX_KEYFILE_SIZE
+    private static final int REQUEST_CODE_PICK_FILE
+    private static final java.lang.String ANDEXPLORER_TITLE
+    private static final java.lang.String MIME_TYPE_ANDEXPLORER_FILE
+sk.vx.connectbot.R
+sk.vx.connectbot.R$anim
+sk.vx.connectbot.R$array
+sk.vx.connectbot.R$attr
+sk.vx.connectbot.R$color
+sk.vx.connectbot.R$drawable
+sk.vx.connectbot.R$id
+sk.vx.connectbot.R$layout
+sk.vx.connectbot.R$raw
+sk.vx.connectbot.R$string
+sk.vx.connectbot.R$style
+sk.vx.connectbot.R$xml
+sk.vx.connectbot.SettingsActivity:
+    private static final java.lang.String TAG
+sk.vx.connectbot.TerminalView:
+    private static final java.lang.String BACKSPACE_CODE
+    private static final java.lang.String CONTROL_CODE_PATTERN
+    private static final int ACCESSIBILITY_EVENT_THRESHOLD
+    private static final java.lang.String SCREENREADER_INTENT_ACTION
+    private static final java.lang.String SCREENREADER_INTENT_CATEGORY
+    152:153:public void destroy()
+    292:293:public void setNotifications(boolean)
+sk.vx.connectbot.bean.AbstractBean:
+    public abstract android.content.ContentValues getValues()
+    public abstract java.lang.String getBeanName()
+    34:46:public java.lang.String toXML()
+sk.vx.connectbot.bean.HostBean:
+    public static final java.lang.String BEAN_NAME
+    59:59:public java.lang.String getBeanName()
+    62:68:public HostBean(java.lang.String,java.lang.String,java.lang.String,java.lang.String,int)
+    110:111:public void setHostKeyAlgo(java.lang.String)
+    113:113:public java.lang.String getHostKeyAlgo()
+    116:120:public void setHostKey(byte[])
+    122:125:public byte[] getHostKey()
+    143:143:public boolean getUseKeys()
+    205:210:public java.lang.String getDescription()
+sk.vx.connectbot.bean.PortForwardBean:
+    public static final java.lang.String BEAN_NAME
+    78:78:public java.lang.String getBeanName()
+    151:152:public void setDestAddr(java.lang.String)
+    165:166:public void setDestPort(int)
+sk.vx.connectbot.bean.PubkeyBean:
+    public static final java.lang.String BEAN_NAME
+    private static final java.lang.String KEY_TYPE_RSA
+    private static final java.lang.String KEY_TYPE_DSA
+    62:62:public java.lang.String getBeanName()
+    168:169:public void setUnlocked(boolean)
+    172:172:public boolean isUnlocked()
+    176:177:public void setUnlockedPrivate(java.lang.Object)
+    180:180:public java.lang.Object getUnlockedPrivate()
+sk.vx.connectbot.service.BackupWrapper
+sk.vx.connectbot.service.BackupWrapper$FroyoAndBeyond
+sk.vx.connectbot.service.BackupWrapper$FroyoAndBeyond$Holder
+sk.vx.connectbot.service.BackupWrapper$PreFroyo
+sk.vx.connectbot.service.BackupWrapper$PreFroyo$Holder
+sk.vx.connectbot.service.ConnectionNotifier:
+    private static final int ONLINE_NOTIFICATION
+    private static final int ACTIVITY_NOTIFICATION
+    126:127:public void hideActivityNotification(android.app.Service)
+sk.vx.connectbot.service.ConnectivityReceiver:
+    private static final java.lang.String TAG
+sk.vx.connectbot.service.Relay:
+    private static final java.lang.String TAG
+    private static final int BUFFER_SIZE
+sk.vx.connectbot.service.TerminalBridge:
+    public static final java.lang.String TAG
+    public static final int DEFAULT_FONT_SIZE
+    private static final int FONT_SIZE_STEP
+    289:294:public java.lang.String[] replyToChallenge(java.lang.String,java.lang.String,int,java.lang.String[],boolean[])
+    530:531:public void removeFontSizeChangedListener(sk.vx.connectbot.service.FontSizeChangedListener)
+    635:637:public synchronized void parentDestroyed()
+    646:647:public void setVDUBuffer(de.mud.terminal.VDUBuffer)
+    650:650:public de.mud.terminal.VDUBuffer getVDUBuffer()
+sk.vx.connectbot.service.TerminalKeyListener:
+    private static final java.lang.String TAG
+    public static final int META_CTRL_ON
+    public static final int META_CTRL_LOCK
+    public static final int META_ALT_ON
+    public static final int META_ALT_LOCK
+    public static final int META_SHIFT_ON
+    public static final int META_SHIFT_LOCK
+    public static final int META_SLASH
+    public static final int META_TAB
+    public static final int META_CTRL_MASK
+    public static final int META_ALT_MASK
+    public static final int META_SHIFT_MASK
+    public static final int KEYCODE_ESCAPE
+    public static final int HC_META_CTRL_ON
+    public static final int META_TRANSIENT
+    602:603:public void setTerminalKeyMode(java.lang.String)
+sk.vx.connectbot.service.TerminalManager:
+    public static final java.lang.String TAG
+    public static final long VIBRATE_DURATION
+    424:428:public java.lang.Object getKey(byte[])
+sk.vx.connectbot.transport.AbsTransport:
+    44:48:public AbsTransport(sk.vx.connectbot.bean.HostBean,sk.vx.connectbot.service.TerminalBridge,sk.vx.connectbot.service.TerminalManager)
+    54:54:public static java.lang.String getProtocolName()
+    62:62:public static android.net.Uri getUri(java.lang.String)
+    124:124:public void setOptions(java.util.Map)
+    127:127:public java.util.Map getOptions()
+    public abstract int getDefaultPort()
+    public abstract java.lang.String getDefaultNickname(java.lang.String,java.lang.String,int)
+sk.vx.connectbot.transport.Local:
+    private static final java.lang.String TAG
+    private static final java.lang.String PROTOCOL
+    private static final java.lang.String DEFAULT_URI
+    64:65:public Local(sk.vx.connectbot.bean.HostBean,sk.vx.connectbot.service.TerminalBridge,sk.vx.connectbot.service.TerminalManager)
+    131:131:public int getDefaultPort()
+sk.vx.connectbot.transport.SSH:
+    private static final java.lang.String PROTOCOL
+    private static final java.lang.String TAG
+    private static final int DEFAULT_PORT
+    private static final java.lang.String AUTH_PUBLICKEY
+    private static final java.lang.String AUTH_PASSWORD
+    private static final java.lang.String AUTH_KEYBOARDINTERACTIVE
+    private static final int AUTH_TRIES
+    private static final int conditions
+    85:86:public SSH(sk.vx.connectbot.bean.HostBean,sk.vx.connectbot.service.TerminalBridge,sk.vx.connectbot.service.TerminalManager)
+    539:543:public java.util.Map getOptions()
+    548:550:public void setOptions(java.util.Map)
+    735:735:public int getDefaultPort()
+sk.vx.connectbot.transport.Telnet:
+    private static final java.lang.String TAG
+    private static final java.lang.String PROTOCOL
+    private static final int DEFAULT_PORT
+    118:119:public Telnet(sk.vx.connectbot.bean.HostBean,sk.vx.connectbot.service.TerminalBridge,sk.vx.connectbot.service.TerminalManager)
+    162:162:public int getDefaultPort()
+sk.vx.connectbot.transport.TransportFactory:
+    private static final java.lang.String TAG
+    79:82:public static boolean isSameTransportType(sk.vx.connectbot.transport.AbsTransport,sk.vx.connectbot.transport.AbsTransport)
+sk.vx.connectbot.util.EastAsianWidth$PreFroyo:
+    private static final int BUFFER_SIZE
+sk.vx.connectbot.util.Encryptor:
+    private static final java.lang.String CHARSET_NAME
+    private static final java.lang.String RNG_ALGORITHM
+    private static final java.lang.String DIGEST_ALGORITHM
+    private static final java.lang.String KEY_ALGORITHM
+    private static final java.lang.String CIPHER_ALGORITHM
+sk.vx.connectbot.util.EntropyView:
+    private static final int SHA1_MAX_BYTES
+    private static final int MILLIS_BETWEEN_INPUTS
+    84:85:public void removeOnEntropyGatheredListener(sk.vx.connectbot.util.OnEntropyGatheredListener)
+sk.vx.connectbot.util.HostDatabase:
+    public static final java.lang.String TAG
+    public static final java.lang.String DB_NAME
+    public static final int DB_VERSION
+    public static final java.lang.String TABLE_HOSTS
+    public static final java.lang.String FIELD_HOST_NICKNAME
+    public static final java.lang.String FIELD_HOST_PROTOCOL
+    public static final java.lang.String FIELD_HOST_USERNAME
+    public static final java.lang.String FIELD_HOST_HOSTNAME
+    public static final java.lang.String FIELD_HOST_PORT
+    public static final java.lang.String FIELD_HOST_HOSTKEYALGO
+    public static final java.lang.String FIELD_HOST_HOSTKEY
+    public static final java.lang.String FIELD_HOST_LASTCONNECT
+    public static final java.lang.String FIELD_HOST_COLOR
+    public static final java.lang.String FIELD_HOST_USEKEYS
+    public static final java.lang.String FIELD_HOST_USEAUTHAGENT
+    public static final java.lang.String FIELD_HOST_POSTLOGIN
+    public static final java.lang.String FIELD_HOST_PUBKEYID
+    public static final java.lang.String FIELD_HOST_WANTSESSION
+    public static final java.lang.String FIELD_HOST_DELKEY
+    public static final java.lang.String FIELD_HOST_FONTSIZE
+    public static final java.lang.String FIELD_HOST_COMPRESSION
+    public static final java.lang.String FIELD_HOST_ENCODING
+    public static final java.lang.String FIELD_HOST_STAYCONNECTED
+    public static final java.lang.String TABLE_PORTFORWARDS
+    public static final java.lang.String FIELD_PORTFORWARD_HOSTID
+    public static final java.lang.String FIELD_PORTFORWARD_NICKNAME
+    public static final java.lang.String FIELD_PORTFORWARD_TYPE
+    public static final java.lang.String FIELD_PORTFORWARD_SOURCEPORT
+    public static final java.lang.String FIELD_PORTFORWARD_DESTADDR
+    public static final java.lang.String FIELD_PORTFORWARD_DESTPORT
+    public static final java.lang.String TABLE_COLORS
+    public static final java.lang.String FIELD_COLOR_SCHEME
+    public static final java.lang.String FIELD_COLOR_NUMBER
+    public static final java.lang.String FIELD_COLOR_VALUE
+    public static final java.lang.String TABLE_COLOR_DEFAULTS
+    public static final java.lang.String FIELD_COLOR_FG
+    public static final java.lang.String FIELD_COLOR_BG
+    public static final int DEFAULT_FG_COLOR
+    public static final int DEFAULT_BG_COLOR
+    public static final java.lang.String COLOR_RED
+    public static final java.lang.String COLOR_GREEN
+    public static final java.lang.String COLOR_BLUE
+    public static final java.lang.String COLOR_GRAY
+    public static final java.lang.String PORTFORWARD_LOCAL
+    public static final java.lang.String PORTFORWARD_REMOTE
+    public static final java.lang.String PORTFORWARD_DYNAMIC4
+    public static final java.lang.String PORTFORWARD_DYNAMIC5
+    public static final java.lang.String DELKEY_DEL
+    public static final java.lang.String DELKEY_BACKSPACE
+    public static final java.lang.String AUTHAGENT_NO
+    public static final java.lang.String AUTHAGENT_CONFIRM
+    public static final java.lang.String AUTHAGENT_YES
+    public static final long PUBKEYID_NEVER
+    public static final long PUBKEYID_ANY
+    public static final int DEFAULT_COLOR_SCHEME
+    public static final java.lang.String CREATE_TABLE_COLOR_DEFAULTS
+    public static final java.lang.String CREATE_TABLE_COLOR_DEFAULTS_INDEX
+    private static final java.lang.String WHERE_SCHEME_AND_COLOR
+    737:737:public int[] getGlobalDefaultColors()
+sk.vx.connectbot.util.OnDbWrittenListener
+sk.vx.connectbot.util.PreferenceConstants:
+    public static final java.lang.String MEMKEYS
+    public static final java.lang.String UPDATE
+    public static final java.lang.String UPDATE_DAILY
+    public static final java.lang.String UPDATE_WEEKLY
+    public static final java.lang.String UPDATE_NEVER
+    public static final java.lang.String LAST_CHECKED
+    public static final java.lang.String SCROLLBACK
+    public static final java.lang.String EMULATION
+    public static final java.lang.String ROTATION
+    public static final java.lang.String ROTATION_DEFAULT
+    public static final java.lang.String ROTATION_LANDSCAPE
+    public static final java.lang.String ROTATION_PORTRAIT
+    public static final java.lang.String ROTATION_AUTOMATIC
+    public static final java.lang.String FULLSCREEN
+    public static final java.lang.String KEYMODE
+    public static final java.lang.String KEYMODE_RIGHT
+    public static final java.lang.String KEYMODE_LEFT
+    public static final java.lang.String CAMERA
+    public static final java.lang.String CAMERA_CTRLA_SPACE
+    public static final java.lang.String CAMERA_CTRLA
+    public static final java.lang.String CAMERA_ESC
+    public static final java.lang.String CAMERA_ESC_A
+    public static final java.lang.String KEEP_ALIVE
+    public static final java.lang.String WIFI_LOCK
+    public static final java.lang.String BUMPY_ARROWS
+    public static final java.lang.String EULA
+    public static final java.lang.String SORT_BY_COLOR
+    public static final java.lang.String BELL
+    public static final java.lang.String BELL_VOLUME
+    public static final java.lang.String BELL_VIBRATE
+    public static final java.lang.String BELL_NOTIFICATION
+    public static final float DEFAULT_BELL_VOLUME
+    public static final java.lang.String CONNECTION_PERSIST
+    public static final java.lang.String BACKUP_PREF_KEY
+sk.vx.connectbot.util.PubkeyDatabase:
+    public static final java.lang.String TAG
+    public static final java.lang.String DB_NAME
+    public static final int DB_VERSION
+    public static final java.lang.String TABLE_PUBKEYS
+    public static final java.lang.String FIELD_PUBKEY_NICKNAME
+    public static final java.lang.String FIELD_PUBKEY_TYPE
+    public static final java.lang.String FIELD_PUBKEY_PRIVATE
+    public static final java.lang.String FIELD_PUBKEY_PUBLIC
+    public static final java.lang.String FIELD_PUBKEY_ENCRYPTED
+    public static final java.lang.String FIELD_PUBKEY_STARTUP
+    public static final java.lang.String FIELD_PUBKEY_CONFIRMUSE
+    public static final java.lang.String FIELD_PUBKEY_LIFETIME
+    public static final java.lang.String KEY_TYPE_RSA
+    public static final java.lang.String KEY_TYPE_DSA
+    public static final java.lang.String KEY_TYPE_IMPORTED
+sk.vx.connectbot.util.PubkeyUtils:
+    public static final java.lang.String PKCS8_START
+    public static final java.lang.String PKCS8_END
+    private static final int SALT_SIZE
+    private static final int ITERATIONS
+    154:156:public static java.security.PublicKey decodePublic(byte[],java.lang.String)
+sk.vx.connectbot.util.UberColorPickerDialog$ColorPickerView:
+    private static final int SWATCH_HEIGHT
+    private static final int SLIDER_THICKNESS
+    private static final int METHOD_HS_V_PALETTE
+    private static final int TRACKED_NONE
+    private static final int TRACK_SWATCH_OLD
+    private static final int TRACK_SWATCH_NEW
+    private static final int TRACK_HS_PALETTE
+    private static final int TRACK_VER_VALUE_SLIDER
+    private static final int TEXT_SIZE
+    private static final float PI
+sk.vx.connectbot.util.XmlBuilder

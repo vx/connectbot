@@ -257,6 +257,10 @@ public class ConsoleActivity extends Activity {
 	protected void hideAllPrompts() {
 		stringPromptGroup.setVisibility(View.GONE);
 		booleanPromptGroup.setVisibility(View.GONE);
+		// adjust window back if size was changed during prompt input
+		View view = findCurrentView(R.id.console_flip);
+		if(!(view instanceof TerminalView)) return;
+		((TerminalView)view).bridge.parentChanged((TerminalView)view);
 	}
 
 	// more like configureLaxMode -- enable network IO on UI thread
