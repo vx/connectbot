@@ -391,7 +391,7 @@ public class ConsoleActivity extends Activity {
 				View flip = findCurrentView(R.id.console_flip);
 				if (flip == null) return;
 
-				TerminalView terminal = (TerminalView)flip;
+				final TerminalView terminal = (TerminalView)flip;
 
 				Thread promptThread = new Thread(new Runnable() {
 					public void run() {
