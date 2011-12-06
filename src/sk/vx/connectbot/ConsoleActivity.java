@@ -779,8 +779,10 @@ public class ConsoleActivity extends Activity {
 								// make the input boxes turn red to indicate an error.
 								return;
 							}
-							if (width > 0 && height > 0)
+							if (width > 0 && height > 0) {
 								terminalView.forceSize(width, height);
+								terminalView.bridge.parentChanged(terminalView);
+							}
 							else {
 								new AlertDialog.Builder(ConsoleActivity.this)
 								.setMessage("Width and height must be higher than zero.")
