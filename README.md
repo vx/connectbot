@@ -6,13 +6,15 @@ Copyright (c) 2011 Martin Matuska <martin at matuska dot vx dot sk> http://conne
 ## Description
 
 VX ConnectBot is an enhanced version of the popular open-source telnet and secure shell (SSH) client ConnectBot.
+
 It is targeted to users with smartphones with a physical keyboard. Currently, there are customizations for the following smartphones:
 
  - Sony Ericsson Xperia pro
  - Sony Ericsson Xperia mini pro
 
-## Enhancements to original connectbot
+## Features and enhancements
 
+ - based on ConnectBot 1.7.1
  - character picker dialog (on-screen and hardware SYM keys)
  - customizable default font size
  - customizable values for force size
