@@ -5,12 +5,18 @@ Copyright (c) 2011 Martin Matuska <martin at matuska dot vx dot sk> http://conne
 
 ## Description
 
-This is a modified version of connectbot (http://code.google.com/p/connectbot/) targetting users of Sony Ericsson Xperia (mini) pro smartphones.
+VX ConnectBot is an enhanced version of the popular open-source telnet and secure shell (SSH) client ConnectBot.
+It is targeted to users with smartphones with a physical keyboard. Currently, there are customizations for the following smartphones:
+
+ - Sony Ericsson Xperia pro
+ - Sony Ericsson Xperia mini pro
 
 ## Enhancements to original connectbot
 
  - character picker dialog (on-screen and hardware SYM keys)
+ - customizable default font size
  - customizable values for force size
+ - reset screen to default size
  - single line input (on-screen key)
  
 Key mappings:
@@ -29,11 +35,15 @@ Must be activated in settings menu:
  - ALT + S maps to pipe
  - ALT + Z maps to backslash
  
+## License
+
+VX ConnectBot is licensed under the Apache License, Version 2.0
+
 ## Credits
 
-This software is based on connectbot (http://code.google.com/p/connectbot/):
+This software is based on ConnectBot (http://code.google.com/p/connectbot/)
 
-Copyright (c) 2007-2011 Kenny Root http://the-b.org, Jeffrey Sharkey http://jsharkey.org
+ConnectBot Copyright (c) 2007-2011 Kenny Root http://the-b.org, Jeffrey Sharkey http://jsharkey.org
 
 Based in part on the Trilead SSH2 client, provided under a BSD-style license.  Copyright (c) 2007 Trilead AG.  http://www.trilead.com
 
