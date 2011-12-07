@@ -875,6 +875,11 @@ public class ConsoleActivity extends Activity {
 		// connect with manager service to find all bridges
 		// when connected it will insert all views
 		bindService(new Intent(this, TerminalManager.class), connection, Context.BIND_AUTO_CREATE);
+
+		if (getResources().getConfiguration().hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_NO) {
+			this.mKeyboardButton.setVisibility(View.GONE);
+		}
+
 	}
 
 	@Override
@@ -1118,7 +1123,6 @@ public class ConsoleActivity extends Activity {
 			bound.hardKeyboardHidden = (newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_YES);
 
 			mKeyboardButton.setVisibility(bound.hardKeyboardHidden ? View.VISIBLE : View.GONE);
-			mInputButton.setVisibility(bound.hardKeyboardHidden ? View.VISIBLE : View.GONE);
 		}
 	}
 
