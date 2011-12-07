@@ -1,7 +1,7 @@
 VX ConnectBot
 =========
 
-Copyright (c) 2011 Martin Matuska <mm at FreeBSD.org> http://blog.vx.sk
+Copyright (c) 2011 Martin Matuska <martin at matuska dot vx dot sk> http://connectbot.vx.sk
 
 ## Description
 
