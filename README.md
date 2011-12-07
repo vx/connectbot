@@ -1,4 +1,4 @@
-VX Connectbot
+VX ConnectBot
 =========
 
 Copyright (c) 2011 Martin Matuska <mm at FreeBSD.org> http://blog.vx.sk
