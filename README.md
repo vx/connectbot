@@ -14,6 +14,7 @@ This is a modified version of connectbot (http://code.google.com/p/connectbot/) 
  - single line input (on-screen key)
  
 Key mappings:
+
  - ALT + Up Arrow maps to Page Up
  - ALT + Down Arrow maps to Page Down
  - ALT + Left Arrow maps to Home
@@ -23,6 +24,7 @@ Key mappings:
 ## Xperia (mini) pro customizations
 
 Must be activated in settings menu:
+
  - language key maps to CTRL (pressed 2x = ESC)
  - ALT + S maps to pipe
  - ALT + Z maps to backslash
