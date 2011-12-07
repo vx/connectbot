@@ -60,7 +60,7 @@
 			android:layout_height="wrap_content"
 			android:paddingTop="10dip"
 			android:autoLink="web"
-			android:text="You can view the full text at http://www.gnu.org/licenses/gpl-3.0.txt"
+			android:text="You can view the full text at http://www.apache.org/licenses/LICENSE-2.0"
 			android:textSize="14sp"
 			android:textColor="#bebebe"
 			/>
