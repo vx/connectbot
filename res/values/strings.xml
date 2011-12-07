@@ -127,6 +127,8 @@
 	<string name="button_generate">"Generate Key"</string>
 	<!-- Button that resizes the screen to the user-specified dimensions. -->
 	<string name="button_resize">"Resize"</string>
+	<!-- Button that resets to default size  -->
+	<string name="button_resize_reset">"Reset"</string>
 
 	<string name="alert_disconnect_msg">"Connection Lost"</string>
 
@@ -471,9 +473,11 @@
 	<string name="pref_xperiapro_summary">Remap keys on Xperia (mini) pro hardware keyboard</string>
 
 	<!--  Force screen size -->
-	<string name="pref_default_fsize_category">Default values for force size</string>
-	<string name="pref_default_fsize_width">Default width for force size</string>
+	<string name="pref_default_size_category">Default sizing values</string>
+	<string name="pref_default_font_size">Default font size</string>
+	<string name="pref_default_font_size_summary">Default start font size (0 = Auto)</string>
+	<string name="pref_default_fsize_width">Default width (force size)</string>
 	<string name="pref_default_fsize_width_summary">Default screen width in rows for force resize</string>
-	<string name="pref_default_fsize_height">Default height for force size</string>
+	<string name="pref_default_fsize_height">Default height (force size)</string>
 	<string name="pref_default_fsize_height_summary">Default screen height in columns for force resize</string>
 </resources>

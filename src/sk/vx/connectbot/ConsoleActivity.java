@@ -810,7 +810,6 @@ public class ConsoleActivity extends Activity {
 							}
 							if (width > 0 && height > 0) {
 								terminalView.forceSize(width, height);
-								terminalView.bridge.parentChanged(terminalView);
 							}
 							else {
 								new AlertDialog.Builder(ConsoleActivity.this)
@@ -819,7 +818,12 @@ public class ConsoleActivity extends Activity {
 								.show();
 							}
 						}
-					}).setNegativeButton(android.R.string.cancel, null).create().show();
+					}).setNeutralButton(R.string.button_resize_reset, new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {
+								terminalView.bridge.resetSize(terminalView);
+						}
+					}).setNegativeButton(android.R.string.cancel, null)
+					.create().show();
 
 				return true;
 			}

@@ -154,6 +154,7 @@ public class TerminalBridge implements VDUDisplay {
 		transport = null;
 
 		keyListener = new TerminalKeyListener(manager, this, buffer, null);
+
 	}
 
 	/**
@@ -162,6 +163,7 @@ public class TerminalBridge implements VDUDisplay {
 	 * and password authentication.
 	 */
 	public TerminalBridge(final TerminalManager manager, final HostBean host) throws IOException {
+		float hostFontSize;
 		this.manager = manager;
 		this.host = host;
 
@@ -181,7 +183,16 @@ public class TerminalBridge implements VDUDisplay {
 
 		fontSizeChangedListeners = new LinkedList<FontSizeChangedListener>();
 
-		int hostFontSize = host.getFontSize();
+		Integer defaultFontSize = Integer.parseInt(manager.prefs.getString("default_font_size", "-1"));
+		Log.d(TAG, "fontSize: " + this.fontSize + ", defaultFontSize: " + defaultFontSize);
+		if (this.fontSize == -1) {
+			if (defaultFontSize > 0)
+				hostFontSize = defaultFontSize;
+			else
+				hostFontSize = host.getFontSize();
+		} else
+			hostFontSize = this.fontSize;
+
 		if (hostFontSize <= 0)
 			hostFontSize = DEFAULT_FONT_SIZE;
 		setFontSize(hostFontSize);
@@ -505,8 +516,6 @@ public class TerminalBridge implements VDUDisplay {
 
 		host.setFontSize((int) fontSize);
 		manager.hostdb.updateFontSize(host);
-
-		forcedSize = false;
 	}
 
 	/**
@@ -808,8 +817,8 @@ public class TerminalBridge implements VDUDisplay {
 
 		this.columns = cols;
 		this.rows = rows;
-		setFontSize(size);
 		forcedSize = true;
+		setFontSize(size);
 	}
 
 	private int fontSizeCompare(float size, int cols, int rows, int width, int height) {
@@ -1013,5 +1022,17 @@ public class TerminalBridge implements VDUDisplay {
 	 */
 	public void decreaseFontSize() {
 		setFontSize(fontSize - FONT_SIZE_STEP);
+	}
+
+	/**
+	 * Auto-size window back to default
+	 */
+	public void resetSize(TerminalView parent) {
+		this.forcedSize = false;
+		Integer defaultFontSize = Integer.parseInt(manager.prefs.getString("default_font_size", "-1"));
+		if (this.fontSize != -1 && defaultFontSize > 0)
+			setFontSize(defaultFontSize);
+		else
+			setFontSize(DEFAULT_FONT_SIZE);
 	}
 }

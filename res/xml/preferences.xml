@@ -160,7 +160,15 @@
 	</PreferenceCategory>
 
 	<PreferenceCategory
-		android:title="@string/pref_default_fsize_category">
+		android:title="@string/pref_default_size_category">
+
+		<EditTextPreference
+			android:key="default_font_size"
+			android:title="@string/pref_default_font_size"
+			android:summary="@string/pref_default_font_size_summary"
+			android:defaultValue="0"
+			android:numeric="integer"
+			/>
 
 		<EditTextPreference
 			android:key="default_fsize_width"
