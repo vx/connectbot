@@ -1,4 +1,4 @@
-package org.connectbot.service;
+package sk.vx.connectbot.service;
 
 import java.io.IOException;
 import java.security.SecureRandom;
@@ -9,8 +9,8 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import org.connectbot.service.TerminalManager.KeyHolder;
-
+import sk.vx.connectbot.service.TerminalManager;
+import sk.vx.connectbot.service.TerminalManager.KeyHolder;
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.Intent;

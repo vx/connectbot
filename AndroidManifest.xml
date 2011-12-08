@@ -68,7 +68,7 @@
 			android:configChanges="keyboardHidden|orientation"
 			android:description="@string/service_desc" />
 			
-		<service android:name="org.connectbot.service.AuthAgentService"
+		<service android:name="sk.vx.connectbot.service.AuthAgentService"
 			android:description="@string/auth_agent_service_desc"
 			android:permission="org.openintents.ssh.permission.ACCESS_SSH_AGENT">
 			<intent-filter>
