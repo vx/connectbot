@@ -114,7 +114,7 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
             new SparseArray<String>();
     	static {
     		PICKER_SETS.put(KeyCharacterMap.PICKER_DIALOG_INPUT,
-    				"~\\^()[]{}<>|/:_;,.!@#$%&*?\"'-+=€¥£");
+    				"~\\^()[]{}<>|/:_;,.!@#$%&*?\"'-+=");
     	};
 
 	/**
