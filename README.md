@@ -15,6 +15,7 @@ It is targeted to users with smartphones with a physical keyboard. Currently, th
 ## Features and enhancements
 
  - based on ConnectBot 1.7.1
+ - ssh-agent from Roberto Tyley
  - character picker dialog (on-screen and hardware SYM keys)
  - customizable default font size
  - customizable values for force size
@@ -56,3 +57,5 @@ Also based in part on the JSOCKS library, provided under the GNU LGPL license. (
 Also based in part on JZlib provided under a BSD-style license. Copyright (c) JCraft, Inc., 2000-2004 http://www.jcraft.com
 
 This software includes modifications from Irssiconnectbot (https://github.com/irssiconnectbot/irssiconnectbot) developed by Iiro Uusitalo and Ville Kerminen.
+
+This software includes the ssh-agent service developed by Roberto Tyley (https://github.com/rtyley)
