@@ -295,7 +295,7 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 			// try handling keymode shortcuts
 			if (hardKeyboard && !hardKeyboardHidden &&
 					event.getRepeatCount() == 0) {
-				if (PreferenceConstants.KEYMODE_RIGHT.equals(keymode)) {
+				if (PreferenceConstants.KEYMODE_RIGHT.equals(keymode) && !prefs.getBoolean("xperiaProFix", false)) {
 					switch (keyCode) {
 					case KeyEvent.KEYCODE_ALT_RIGHT:
 						metaState |= META_SLASH;
@@ -310,7 +310,7 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 						metaPress(META_ALT_ON);
 						return true;
 					}
-				} else if (PreferenceConstants.KEYMODE_LEFT.equals(keymode)) {
+				} else if (PreferenceConstants.KEYMODE_LEFT.equals(keymode) && !prefs.getBoolean("xperiaProFix", false)) {
 					switch (keyCode) {
 					case KeyEvent.KEYCODE_ALT_LEFT:
 						metaState |= META_SLASH;
@@ -487,7 +487,8 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 				return true;
 
 			case KeyEvent.KEYCODE_S:
-				if(prefs.getBoolean("xperiaProFix", false)) {
+				if (prefs.getBoolean("xperiaProFix", false) &&
+						hardKeyboard && !hardKeyboardHidden) {
 					bridge.transport.write(0x7C);
 					metaState &= ~META_TRANSIENT;
 					bridge.redraw();
@@ -495,7 +496,8 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 				}
 
 			case KeyEvent.KEYCODE_Z:
-				if(prefs.getBoolean("xperiaProFix", false)) {
+				if (prefs.getBoolean("xperiaProFix", false) &&
+						hardKeyboard && !hardKeyboardHidden) {
 					bridge.transport.write(0x5C);
 					metaState &= ~META_TRANSIENT;
 					bridge.redraw();
