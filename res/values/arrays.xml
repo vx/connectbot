@@ -42,6 +42,7 @@
 	</string-array>
 
 	<string-array name="list_camera" translatable="false">
+		<item>@string/list_camera_screen_capture</item>
 		<item>@string/list_camera_ctrlaspace</item>
 		<item>@string/list_camera_ctrla</item>
 		<item>@string/list_camera_esc</item>
@@ -50,6 +51,7 @@
 	</string-array>
 
 	<string-array name="list_camera_values" translatable="false">
+		<item>Screen Capture</item>
 		<item>Ctrl+A then Space</item>
 		<item>Ctrl+A</item>
 		<item>Esc</item>

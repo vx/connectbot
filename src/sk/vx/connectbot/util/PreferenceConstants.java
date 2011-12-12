@@ -57,6 +57,7 @@ public class PreferenceConstants {
 
 	public static final String CAMERA = "camera";
 
+	public static final String CAMERA_SCREEN_CAPTURE = "Screen Capture";
 	public static final String CAMERA_CTRLA_SPACE = "Ctrl+A then Space";
 	public static final String CAMERA_CTRLA = "Ctrl+A";
 	public static final String CAMERA_ESC = "Esc";

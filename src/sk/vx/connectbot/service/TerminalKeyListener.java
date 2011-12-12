@@ -352,8 +352,10 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 				// check to see which shortcut the camera button triggers
 				String camera = manager.prefs.getString(
 						PreferenceConstants.CAMERA,
-						PreferenceConstants.CAMERA_CTRLA_SPACE);
-				if(PreferenceConstants.CAMERA_CTRLA_SPACE.equals(camera)) {
+						PreferenceConstants.CAMERA_SCREEN_CAPTURE);
+				if(PreferenceConstants.CAMERA_SCREEN_CAPTURE.equals(camera)) {
+					bridge.captureScreen();
+				} else if (PreferenceConstants.CAMERA_CTRLA_SPACE.equals(camera)) {
 					bridge.transport.write(0x01);
 					bridge.transport.write(' ');
 				} else if(PreferenceConstants.CAMERA_CTRLA.equals(camera)) {

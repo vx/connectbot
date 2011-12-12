@@ -17,10 +17,7 @@
 
 package sk.vx.connectbot;
 
-import java.io.FileOutputStream;
 import java.lang.ref.WeakReference;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import sk.vx.connectbot.bean.SelectionArea;
@@ -40,11 +37,9 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
@@ -842,7 +837,8 @@ public class ConsoleActivity extends Activity {
 		screenCapture.setEnabled(activeTerminal);
 		screenCapture.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 			public boolean onMenuItemClick(MenuItem item) {
-				ConsoleActivity.this.captureScreen();
+				final TerminalView terminalView = (TerminalView) findCurrentView(R.id.console_flip);
+				terminalView.bridge.captureScreen();
 				return true;
 			}
 		});
@@ -1218,48 +1214,5 @@ public class ConsoleActivity extends Activity {
 			updatePromptVisible();
 			updateEmptyVisible();
 		}
-	}
-
-	/**
-	 * Create a screenshot of the console
-	 */
-	private void captureScreen() {
-			String path, msg;
-			boolean success = true;
-			final TerminalView terminalView = (TerminalView) findCurrentView(R.id.console_flip);
-			Bitmap screenshot = terminalView.bridge.getBitmap();
-			SimpleDateFormat s = new SimpleDateFormat("yyyyMMdd_hhmmss");
-			String date = s.format(new Date());
-			String prefix = prefs.getString("screen_capture_folder",
-					Environment.getExternalStorageDirectory().getAbsolutePath());
-			path = prefix + "/" + "sc-" + date + ".png";
-			try {
-				FileOutputStream out = new FileOutputStream(path);
-				screenshot.compress(Bitmap.CompressFormat.PNG, 90, out);
-				out.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-				success = false;
-			}
-
-			if (success) {
-				msg = getResources().getString(R.string.screenshot_saved_as) + " " + path;
-				if (prefs.getBoolean("screen_capture_popup",true)) {
-					new AlertDialog.Builder(ConsoleActivity.this)
-					.setTitle(R.string.screenshot_success_title)
-					.setMessage(msg)
-					.setPositiveButton(R.string.button_close, null)
-					.show();
-				}
-			} else {
-				msg = getResources().getString(R.string.screenshot_not_saved_as) + " " + path;
-				new AlertDialog.Builder(ConsoleActivity.this)
-				.setTitle(R.string.screenshot_error_title)
-				.setMessage(msg)
-				.setNegativeButton(R.string.button_close, null)
-				.show();
-			}
-
-			return;
 	}
 }

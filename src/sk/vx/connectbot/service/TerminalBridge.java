@@ -17,8 +17,11 @@
 
 package sk.vx.connectbot.service;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -32,6 +35,7 @@ import sk.vx.connectbot.bean.SelectionArea;
 import sk.vx.connectbot.transport.AbsTransport;
 import sk.vx.connectbot.transport.TransportFactory;
 import sk.vx.connectbot.util.HostDatabase;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
@@ -40,6 +44,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.FontMetrics;
 import android.graphics.Typeface;
+import android.os.Environment;
 import android.text.ClipboardManager;
 import android.util.Log;
 import de.mud.terminal.VDUBuffer;
@@ -1041,5 +1046,52 @@ public class TerminalBridge implements VDUDisplay {
 	 */
 	public Bitmap getBitmap() {
 		return this.bitmap;
+	}
+
+	/**
+	 * Create a screenshot of the current view
+	 */
+	public void captureScreen() {
+			String path, msg;
+			boolean success = true;
+
+			if (manager == null || parent == null)
+				return;
+
+			TerminalView terminalView = parent;
+			Bitmap screenshot = terminalView.bridge.getBitmap();
+			SimpleDateFormat s = new SimpleDateFormat("yyyyMMdd_hhmmss");
+			String date = s.format(new Date());
+			String prefix = manager.prefs.getString("screen_capture_folder",
+					Environment.getExternalStorageDirectory().getAbsolutePath());
+			path = prefix + "/" + "sc-" + date + ".png";
+			try {
+				FileOutputStream out = new FileOutputStream(path);
+				screenshot.compress(Bitmap.CompressFormat.PNG, 90, out);
+				out.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+				success = false;
+			}
+
+			if (success) {
+				msg = manager.getResources().getString(R.string.screenshot_saved_as) + " " + path;
+				if (manager.prefs.getBoolean("screen_capture_popup",true)) {
+					new AlertDialog.Builder(terminalView.getContext())
+					.setTitle(R.string.screenshot_success_title)
+					.setMessage(msg)
+					.setPositiveButton(R.string.button_close, null)
+					.show();
+				}
+			} else {
+				msg = manager.getResources().getString(R.string.screenshot_not_saved_as) + " " + path;
+				new AlertDialog.Builder(terminalView.getContext())
+				.setTitle(R.string.screenshot_error_title)
+				.setMessage(msg)
+				.setNegativeButton(R.string.button_close, null)
+				.show();
+			}
+
+			return;
 	}
 }

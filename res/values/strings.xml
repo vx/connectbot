@@ -380,6 +380,8 @@
 	<!-- Selection to indicate the rotation should be selected automatically based on the tilt sensor. -->
 	<string name="list_rotation_auto">"Automatic"</string>
 
+	<!-- Selection to indicate pressing the Camera button should do a screen capture -->
+	<string name="list_camera_screen_capture">"Screen Capture"</string>
 	<!-- Selection to indicate pressing the Camera button should send "Ctrl+A then Space". -->
 	<string name="list_camera_ctrlaspace">"Ctrl+A then Space"</string>
 	<!-- Selection to indicate pressing the Camera button should send "Ctrl+A". -->
