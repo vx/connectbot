@@ -77,7 +77,7 @@
   <string name="pref_emulation_summary">Použiť mód emulácie terminálu pri PTY spojeniach</string>
   <string name="pref_scrollback_title">Veľkosť histórie</string>
   <string name="pref_scrollback_summary">Veľkosť histórie uložená v pamäti pre každú konzolu</string>
-  <string name="pref_ui_category">Užívateľské rozhranie</string>
+  <string name="pref_ui_category">Používateľské rozhranie</string>
   <string name="pref_rotation_title">Mód otáčania</string>
   <string name="pref_rotation_summary">Ako zmeniť rotáciu, keď sa zobrazí / skryje klávesnica</string>
   <string name="pref_fullscreen_title">Celá obrazovka</string>
@@ -130,7 +130,7 @@
   <string name="hostpref_encoding_title">Kódovanie</string>
   <string name="hostpref_encoding_summary">Kódovanie znakov hostiteľa</string>
   <string name="hostpref_connection_category">Nastavenia pripojenia</string>
-  <string name="hostpref_username_title">Užívateľské meno</string>
+  <string name="hostpref_username_title">Používateľské meno</string>
   <string name="hostpref_hostname_title">Hostiteľ</string>
   <string name="hostpref_port_title">Port</string>
   <string name="bind_never">Nikdy nepripojený</string>
@@ -157,7 +157,7 @@
   <string name="portforward_menu_add">Pridať presmerovanie portu</string>
   <string name="hint_userhost">používateľské_meno\@hostiteľ</string>
   <string name="list_format_error">Použite formát \"%1$s\"</string>
-  <string name="format_username">užívateľské meno</string>
+  <string name="format_username">používateľské meno</string>
   <string name="format_hostname">meno hostiteľa</string>
   <string name="format_port">port</string>
   <string name="list_menu_pubkeys">Spravovať verejné kľúče</string>
