@@ -489,6 +489,8 @@
 	<string name="pref_default_fsize_width_summary">Default screen width in rows for force resize</string>
 	<string name="pref_default_fsize_height">Default height (force size)</string>
 	<string name="pref_default_fsize_height_summary">Default screen height in columns for force resize</string>
+	<string name="resize_error_title">Error resizing screen</string>
+	<string name="resize_error_width_height">Width and height must be higher than 0</string>
 
 	<!--  Screen capture -->
 	<string name="pref_screen_capture_category">Screen Capture</string>

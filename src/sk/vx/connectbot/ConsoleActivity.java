@@ -818,8 +818,9 @@ public class ConsoleActivity extends Activity {
 							}
 							else {
 								new AlertDialog.Builder(ConsoleActivity.this)
-								.setMessage("Width and height must be higher than zero.")
-								.setTitle("Error")
+								.setTitle(R.string.resize_error_title)
+								.setMessage(R.string.resize_error_width_height)
+								.setNegativeButton(R.string.button_close, null)
 								.show();
 							}
 						}
