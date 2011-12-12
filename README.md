@@ -15,13 +15,14 @@ It is targeted to users with smartphones with a physical keyboard. Currently, th
 ## Features and enhancements
 
  - based on ConnectBot 1.7.1
- - ssh-agent from Roberto Tyley
+ - screen capture (save a PNG screenshot of the console)
  - character picker dialog (on-screen and hardware SYM keys)
  - customizable default font size
  - customizable values for force size
  - reset screen to default size
  - single line input (on-screen key)
- 
+ - ssh-agent from Roberto Tyley
+  
 Key mappings:
 
  - ALT + Up Arrow maps to Page Up
