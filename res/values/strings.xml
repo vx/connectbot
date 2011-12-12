@@ -324,6 +324,8 @@
 	<string name="console_menu_resize">"Force Size"</string>
 	<!-- Button that brings up the list of URLs on the current screen -->
 	<string name="console_menu_urlscan">"URL Scan"</string>
+	<!--  Button that initiates screen capture -->
+	<string name="console_menu_screencapture">"Screen Capture"</string>
 
 	<!-- Button label to answer "Yes" to a yes/no prompt -->
 	<string name="button_yes">"Yes"</string>
@@ -473,6 +475,8 @@
 	<string name="color_blue">"blue"</string>
 	<string name="color_gray">"gray"</string>
 
+	<string name="button_close">Close</string>
+
 	<!--  Sony Xperia (mini) pro HW keyboard fix -->
 	<string name="pref_xperiapro_title">Sony Ericsson Xperia (mini) pro key remap</string>
 	<string name="pref_xperiapro_summary">Remap keys on Xperia (mini) pro hardware keyboard</string>
@@ -485,4 +489,15 @@
 	<string name="pref_default_fsize_width_summary">Default screen width in rows for force resize</string>
 	<string name="pref_default_fsize_height">Default height (force size)</string>
 	<string name="pref_default_fsize_height_summary">Default screen height in columns for force resize</string>
+
+	<!--  Screen capture -->
+	<string name="pref_screen_capture_category">Screen Capture</string>
+	<string name="pref_screen_capture_folder">Folder for screen capture</string>
+	<string name="pref_screen_capture_folder_summary">Folder to save screen capture files</string>
+	<string name="pref_screen_capture_popup">Screen capture report</string>
+	<string name="pref_screen_capture_popup_summary">Display a pop-up window on successful screen capture</string>
+	<string name="screenshot_success_title">Screenshot saved</string>
+	<string name="screenshot_saved_as">Screenshot saved as</string>
+	<string name="screenshot_error_title">Error saving screenshot</string>
+	<string name="screenshot_not_saved_as">Could not save screenshot as</string>
 </resources>

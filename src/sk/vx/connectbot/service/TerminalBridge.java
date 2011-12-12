@@ -1035,4 +1035,11 @@ public class TerminalBridge implements VDUDisplay {
 		else
 			setFontSize(DEFAULT_FONT_SIZE);
 	}
+
+	/**
+	 * Return current bitmap
+	 */
+	public Bitmap getBitmap() {
+		return this.bitmap;
+	}
 }

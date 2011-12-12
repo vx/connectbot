@@ -187,4 +187,22 @@
 			/>
 	</PreferenceCategory>
 
+	<PreferenceCategory
+		android:title="@string/pref_screen_capture_category">
+
+		<EditTextPreference
+			android:key="screen_capture_folder"
+			android:title="@string/pref_screen_capture_folder"
+			android:summary="@string/pref_screen_capture_folder_summary"
+			/>
+
+		<CheckBoxPreference
+			android:key="screen_capture_popup"
+			android:title="@string/pref_screen_capture_popup"
+			android:summary="@string/pref_screen_capture_popup_summary"
+			android:defaultValue="true"
+			/>
+
+	</PreferenceCategory>
+
 </PreferenceScreen>
