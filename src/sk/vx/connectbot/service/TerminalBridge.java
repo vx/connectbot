@@ -1054,7 +1054,7 @@ public class TerminalBridge implements VDUDisplay {
 			if (manager == null || parent == null || screenshot == null)
 				return;
 
-			SimpleDateFormat s = new SimpleDateFormat("yyyyMMdd_hhmmss");
+			SimpleDateFormat s = new SimpleDateFormat("yyyyMMdd_HHmmss");
 			String date = s.format(new Date());
 			String pref_path = manager.prefs.getString("screen_capture_folder", "");
 			File default_path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
