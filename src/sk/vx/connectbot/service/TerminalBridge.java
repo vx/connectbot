@@ -17,6 +17,7 @@
 
 package sk.vx.connectbot.service;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -1042,30 +1043,28 @@ public class TerminalBridge implements VDUDisplay {
 	}
 
 	/**
-	 * Return current bitmap
-	 */
-	public Bitmap getBitmap() {
-		return this.bitmap;
-	}
-
-	/**
 	 * Create a screenshot of the current view
 	 */
 	public void captureScreen() {
-			String path, msg;
+			String msg;
+			File dir, path;
 			boolean success = true;
+			Bitmap screenshot = this.bitmap;
 
-			if (manager == null || parent == null)
+			if (manager == null || parent == null || screenshot == null)
 				return;
 
-			TerminalView terminalView = parent;
-			Bitmap screenshot = terminalView.bridge.getBitmap();
 			SimpleDateFormat s = new SimpleDateFormat("yyyyMMdd_hhmmss");
 			String date = s.format(new Date());
-			String prefix = manager.prefs.getString("screen_capture_folder",
-					Environment.getExternalStorageDirectory().getAbsolutePath());
-			path = prefix + "/" + "sc-" + date + ".png";
+			String pref_path = manager.prefs.getString("screen_capture_folder", "");
+			File default_path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+			if (pref_path.equals(""))
+				dir = default_path;
+			else
+				dir = new File(pref_path);
+			path = new File(dir, "vx-" + date + ".png");
 			try {
+				dir.mkdirs();
 				FileOutputStream out = new FileOutputStream(path);
 				screenshot.compress(Bitmap.CompressFormat.PNG, 90, out);
 				out.close();
@@ -1077,7 +1076,7 @@ public class TerminalBridge implements VDUDisplay {
 			if (success) {
 				msg = manager.getResources().getString(R.string.screenshot_saved_as) + " " + path;
 				if (manager.prefs.getBoolean("screen_capture_popup",true)) {
-					new AlertDialog.Builder(terminalView.getContext())
+					new AlertDialog.Builder(parent.getContext())
 					.setTitle(R.string.screenshot_success_title)
 					.setMessage(msg)
 					.setPositiveButton(R.string.button_close, null)
@@ -1085,7 +1084,7 @@ public class TerminalBridge implements VDUDisplay {
 				}
 			} else {
 				msg = manager.getResources().getString(R.string.screenshot_not_saved_as) + " " + path;
-				new AlertDialog.Builder(terminalView.getContext())
+				new AlertDialog.Builder(parent.getContext())
 				.setTitle(R.string.screenshot_error_title)
 				.setMessage(msg)
 				.setNegativeButton(R.string.button_close, null)
