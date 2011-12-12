@@ -194,6 +194,7 @@
 			android:key="screen_capture_folder"
 			android:title="@string/pref_screen_capture_folder"
 			android:summary="@string/pref_screen_capture_folder_summary"
+			android:inputType="text"
 			/>
 
 		<CheckBoxPreference

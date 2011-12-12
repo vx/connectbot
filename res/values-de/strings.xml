@@ -173,6 +173,7 @@
   <string name="list_rotation_land">Querformat erzwingen</string>
   <string name="list_rotation_port">Hochformat erzwingen</string>
   <string name="list_rotation_auto">Automatisch</string>
+  <string name="list_camera_screen_capture">Screenshot</string>
   <string name="list_camera_ctrlaspace">Strg+A dann Space</string>
   <string name="list_camera_ctrla">Strg+A</string>
   <string name="list_camera_esc">Esc</string>

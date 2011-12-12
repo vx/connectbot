@@ -173,6 +173,7 @@
   <string name="list_rotation_land">Vynútiť na šírku</string>
   <string name="list_rotation_port">Vynútiť na výšku</string>
   <string name="list_rotation_auto">Automaticky</string>
+  <string name="list_camera_screen_capture">Snímka obrazovky</string>
   <string name="list_camera_ctrlaspace">Ctrl+A , potom medzerník</string>
   <string name="list_camera_ctrla">Ctrl+A</string>
   <string name="list_camera_esc">Klávesa Esc</string>
