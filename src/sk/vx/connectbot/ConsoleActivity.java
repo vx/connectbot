@@ -733,52 +733,9 @@ public class ConsoleActivity extends Activity {
 			}
 		});
 
-		portForward = menu.add(R.string.console_menu_portforwards);
-		if (hardKeyboard)
-			portForward.setAlphabeticShortcut('f');
-		portForward.setIcon(android.R.drawable.ic_menu_manage);
-		portForward.setEnabled(sessionOpen && canForwardPorts);
-		portForward.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-			public boolean onMenuItemClick(MenuItem item) {
-				TerminalView terminalView = (TerminalView) findCurrentView(R.id.console_flip);
-				TerminalBridge bridge = terminalView.bridge;
-
-				Intent intent = new Intent(ConsoleActivity.this, PortForwardListActivity.class);
-				intent.putExtra(Intent.EXTRA_TITLE, bridge.host.getId());
-				ConsoleActivity.this.startActivityForResult(intent, REQUEST_EDIT);
-				return true;
-			}
-		});
-
-		urlscan = menu.add(R.string.console_menu_urlscan);
-		if (hardKeyboard)
-			urlscan.setAlphabeticShortcut('u');
-		urlscan.setIcon(android.R.drawable.ic_menu_search);
-		urlscan.setEnabled(activeTerminal);
-		urlscan.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-			public boolean onMenuItemClick(MenuItem item) {
-				final TerminalView terminalView = (TerminalView) findCurrentView(R.id.console_flip);
-
-				List<String> urls = terminalView.bridge.scanForURLs();
-
-				Dialog urlDialog = new Dialog(ConsoleActivity.this);
-				urlDialog.setTitle(R.string.console_menu_urlscan);
-
-				ListView urlListView = new ListView(ConsoleActivity.this);
-				URLItemListener urlListener = new URLItemListener(ConsoleActivity.this);
-				urlListView.setOnItemClickListener(urlListener);
-
-				urlListView.setAdapter(new ArrayAdapter<String>(ConsoleActivity.this, android.R.layout.simple_list_item_1, urls));
-				urlDialog.setContentView(urlListView);
-				urlDialog.show();
-
-				return true;
-			}
-		});
-
 		resize = menu.add(R.string.console_menu_resize);
 		if (hardKeyboard)
-			resize.setAlphabeticShortcut('s');
+			resize.setAlphabeticShortcut('r');
 		resize.setIcon(android.R.drawable.ic_menu_crop);
 		resize.setEnabled(sessionOpen);
 		resize.setOnMenuItemClickListener(new OnMenuItemClickListener() {
@@ -832,13 +789,56 @@ public class ConsoleActivity extends Activity {
 
 		screenCapture = menu.add(R.string.console_menu_screencapture);
 		if (hardKeyboard)
-			screenCapture.setAlphabeticShortcut('a');
+			screenCapture.setAlphabeticShortcut('s');
 		screenCapture.setIcon(android.R.drawable.ic_menu_camera);
 		screenCapture.setEnabled(activeTerminal);
 		screenCapture.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 			public boolean onMenuItemClick(MenuItem item) {
 				final TerminalView terminalView = (TerminalView) findCurrentView(R.id.console_flip);
 				terminalView.bridge.captureScreen();
+				return true;
+			}
+		});
+
+		portForward = menu.add(R.string.console_menu_portforwards);
+		if (hardKeyboard)
+			portForward.setAlphabeticShortcut('f');
+		portForward.setIcon(android.R.drawable.ic_menu_manage);
+		portForward.setEnabled(sessionOpen && canForwardPorts);
+		portForward.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+			public boolean onMenuItemClick(MenuItem item) {
+				TerminalView terminalView = (TerminalView) findCurrentView(R.id.console_flip);
+				TerminalBridge bridge = terminalView.bridge;
+
+				Intent intent = new Intent(ConsoleActivity.this, PortForwardListActivity.class);
+				intent.putExtra(Intent.EXTRA_TITLE, bridge.host.getId());
+				ConsoleActivity.this.startActivityForResult(intent, REQUEST_EDIT);
+				return true;
+			}
+		});
+
+		urlscan = menu.add(R.string.console_menu_urlscan);
+		if (hardKeyboard)
+			urlscan.setAlphabeticShortcut('u');
+		urlscan.setIcon(android.R.drawable.ic_menu_search);
+		urlscan.setEnabled(activeTerminal);
+		urlscan.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+			public boolean onMenuItemClick(MenuItem item) {
+				final TerminalView terminalView = (TerminalView) findCurrentView(R.id.console_flip);
+
+				List<String> urls = terminalView.bridge.scanForURLs();
+
+				Dialog urlDialog = new Dialog(ConsoleActivity.this);
+				urlDialog.setTitle(R.string.console_menu_urlscan);
+
+				ListView urlListView = new ListView(ConsoleActivity.this);
+				URLItemListener urlListener = new URLItemListener(ConsoleActivity.this);
+				urlListView.setOnItemClickListener(urlListener);
+
+				urlListView.setAdapter(new ArrayAdapter<String>(ConsoleActivity.this, android.R.layout.simple_list_item_1, urls));
+				urlDialog.setContentView(urlListView);
+				urlDialog.show();
+
 				return true;
 			}
 		});
