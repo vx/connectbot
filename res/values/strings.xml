@@ -22,10 +22,10 @@
 	<string name="app_desc">"Simple, powerful, open-source SSH client."</string>
 	<string name="service_desc">"Maintains SSH connections and loaded pubkeys"</string>
 	<string name="auth_agent_service_desc">"Acts as an ssh-agent for other Android Apps on the device"</string>
-	
+
 	<string name="ssh_agent_permission_label">use SSH keys stored in your SSH Agent</string>
     <string name="ssh_agent_permission_desc">Allows the application to authenticate SSH transactions using your private keys stored in ConnectBot.
-    	VERY DANGEROUS if used by a malicious application.</string>	
+		VERY DANGEROUS if used by a malicious application.</string>
 
 	<!-- Window title for the Host List -->
 	<string name="title_hosts_list">"Hosts"</string>
@@ -133,7 +133,7 @@
 	<!-- Button that resizes the screen to the user-specified dimensions. -->
 	<string name="button_resize">"Resize"</string>
 	<!-- Button that resets to default size  -->
-	<string name="button_resize_reset">"Reset"</string>
+	<string name="button_resize_reset">"Default size"</string>
 
 	<string name="alert_disconnect_msg">"Connection Lost"</string>
 
@@ -488,20 +488,21 @@
 	<string name="pref_default_font_size">Default font size</string>
 	<string name="pref_default_font_size_summary">Default start font size (0 = Auto)</string>
 	<string name="pref_default_fsize_width">Default width (force size)</string>
-	<string name="pref_default_fsize_width_summary">Default screen width in rows for force resize</string>
+	<string name="pref_default_fsize_width_summary">Default screen width in columns for force resize</string>
 	<string name="pref_default_fsize_height">Default height (force size)</string>
-	<string name="pref_default_fsize_height_summary">Default screen height in columns for force resize</string>
+	<string name="pref_default_fsize_height_summary">Default screen height in rows for force resize</string>
 	<string name="resize_error_title">Error resizing screen</string>
 	<string name="resize_error_width_height">Width and height must be higher than 0</string>
 
 	<!--  Screen capture -->
 	<string name="pref_screen_capture_category">Screen Capture</string>
-	<string name="pref_screen_capture_folder">Folder for screen capture</string>
+	<string name="pref_screen_capture_folder">Screen capture path</string>
 	<string name="pref_screen_capture_folder_summary">Folder to save screen capture files</string>
 	<string name="pref_screen_capture_popup">Screen capture report</string>
 	<string name="pref_screen_capture_popup_summary">Display a pop-up window on successful screen capture</string>
-	<string name="screenshot_success_title">Screenshot saved</string>
+	<string name="screen_capture">Screen Capture</string>
+	<string name="screenshot_success_title">Screenshot successful</string>
 	<string name="screenshot_saved_as">Screenshot saved as</string>
-	<string name="screenshot_error_title">Error saving screenshot</string>
+	<string name="screenshot_error_title">Error creating screenshot</string>
 	<string name="screenshot_not_saved_as">Could not save screenshot as</string>
 </resources>

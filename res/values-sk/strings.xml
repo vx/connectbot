@@ -2,6 +2,10 @@
 <resources>
   <string name="app_desc">Jednoduchý, výkonný, open-source SSH klient.</string>
   <string name="service_desc">Spravuje SSH spojenia a načítané verejné kľúče</string>
+  <string name="auth_agent_service_desc">"Pracuje ako SSH-Agent pre iné aplikácie na tomto zarieadení"</string>
+  <string name="ssh_agent_permission_label">použíť SSH kľúče uložené vo Vašom SSH-Agentovi</string>
+  <string name="ssh_agent_permission_desc">Povolí aplikácií autentifikáciu SSH transakcií pomocou Vašich súkromných kľúčov uložených v aplikácii ConnectBot.
+		VEĽMI NEBEZPEČNÉ ak zneužité zlomyselnou aplikáciou.</string>
   <string name="title_hosts_list">Hostitelia</string>
   <string name="title_pubkey_list">Verejné kľúče</string>
   <string name="title_port_forwards_list">Presmerovanie portov</string>
@@ -65,6 +69,7 @@
   <string name="button_change">Zmeniť</string>
   <string name="button_generate">Vygenerovať kľúč</string>
   <string name="button_resize">Zmeniť veľkosť</string>
+  <string name="button_resize_reset">Prednastavená veľkosť</string>
   <string name="alert_disconnect_msg">Spojenie stratené</string>
   <string name="msg_copyright">Copyright © 2007-2008 Kenny Root http://the-b.org/, Jeffrey Sharkey http://jsharkey.org/</string>
   <string name="pref_emulation_category">Emulácia terminálu</string>
@@ -140,6 +145,7 @@
   <string name="console_menu_portforwards">Presmerovanie portov</string>
   <string name="console_menu_resize">Vynútiť veľkosť</string>
   <string name="console_menu_urlscan">Nájsť URL</string>
+  <string name="console_menu_screencapture">Snímka obrazovky</string>
   <string name="button_yes">Áno</string>
   <string name="button_no">Nie</string>
   <string name="portforward_local">Lokálny</string>
@@ -209,9 +215,31 @@
   <string name="yes">Áno</string>
   <string name="exceptions_submit_message">Ostatné spustenie ConnectBot asi skončilo chybou. Zaslať chýbovú správu vývojárom ConnectBot?</string>
   <string name="menu_colors_reset">Pôvodné</string>
-  <string name="app_is_running">ConnectBot je spustený</string>
+  <string name="app_is_running">VX ConnectBot je spustený</string>
   <string name="color_red">červená</string>
   <string name="color_green">zelená</string>
   <string name="color_blue">modrá</string>
   <string name="color_gray">sivá</string>
+  <string name="button_close">Zavrieť</string>
+  <string name="pref_xperiapro_title">Sony Ericsson Xperia (mini) pro klávesnica</string>
+  <string name="pref_xperiapro_summary">Presmerovať klávesy pre hardvérovú klávesnicu Xperia (mini) pro</string>
+  <string name="pref_default_size_category">Prednastavenia veľkosti</string>
+  <string name="pref_default_font_size">Prednastavená veľkosť písma</string>
+  <string name="pref_default_font_size_summary">Veľkosť písma pri spustení (0 = Automaticky)</string>
+  <string name="pref_default_fsize_width">Prednastavená šírka (vynútiť veľkosť)</string>
+  <string name="pref_default_fsize_width_summary">Prednastavená šírka v stĺpcoch pre vynútenie veľkosti</string>
+  <string name="pref_default_fsize_height">Prednastavená výška (vynútiť veľkosť)</string>
+  <string name="pref_default_fsize_height_summary">Prednastavená výška v riadkoch pre vynútenie veľkosti</string>
+  <string name="resize_error_title">Chyba pri zmene veľkosti</string>
+  <string name="resize_error_width_height">Šírka a výška musia byť väčšie ako 0</string>
+  <string name="pref_screen_capture_category">Snímka obrazovky</string>
+  <string name="pref_screen_capture_folder">Cesta pre snímku obrazovky</string>
+  <string name="pref_screen_capture_folder_summary">Priečinok, kam sa budú ukladať snímky obrazovky</string>
+  <string name="pref_screen_capture_popup">Správa o snímke obrazovky</string>
+  <string name="pref_screen_capture_popup_summary">Zobraziť vyskakovacie okno pri úspešnej snímke obrazovky</string>
+  <string name="screen_capture">Snímka obrazovky</string>
+  <string name="screenshot_success_title">Snímka obrazovky úspešná</string>
+  <string name="screenshot_saved_as">Snímka obrazovky bola uložená do</string>
+  <string name="screenshot_error_title">Chyba pri snímke obrazvky</string>
+  <string name="screenshot_not_saved_as">Snímka obrazovky nemohla byť uložená do</string>
 </resources>

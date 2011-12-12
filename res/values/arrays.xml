@@ -51,7 +51,7 @@
 	</string-array>
 
 	<string-array name="list_camera_values" translatable="false">
-		<item>Screen Capture</item>
+		<item>@string/screen_capture</item>
 		<item>Ctrl+A then Space</item>
 		<item>Ctrl+A</item>
 		<item>Esc</item>
