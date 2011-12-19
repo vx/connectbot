@@ -243,4 +243,6 @@
   <string name="screenshot_saved_as">Snímka obrazovky bola uložená do</string>
   <string name="screenshot_error_title">Chyba pri snímke obrazvky</string>
   <string name="screenshot_not_saved_as">Snímka obrazovky nemohla byť uložená do</string>
+  <string name="pref_picker_string">Obsah dialógového okna SYM</string>
+  <string name="pref_picker_string_summary">Sada znakov do dialógového okna na výber znaku</string>
 </resources>

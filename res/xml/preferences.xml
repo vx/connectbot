@@ -122,6 +122,14 @@
 			android:summary="@string/pref_bumpyarrows_summary"
 			android:defaultValue="true"
 			/>
+
+		<EditTextPreference
+			android:key="picker_string"
+			android:title="@string/pref_picker_string"
+			android:summary="@string/pref_picker_string_summary"
+			android:defaultValue="~\\^()[]{}&lt;&gt;|/:_;,.!@#$%&amp;*?\&quot;&apos;-+="
+			android:singleLine="true"
+			/>
 	</PreferenceCategory>
 
 	<PreferenceCategory

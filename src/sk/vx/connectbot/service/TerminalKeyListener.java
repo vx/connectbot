@@ -29,7 +29,6 @@ import android.text.ClipboardManager;
 import android.text.Editable;
 import android.text.method.CharacterPickerDialog;
 import android.util.Log;
-import android.util.SparseArray;
 import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
 import android.view.View;
@@ -109,13 +108,6 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 
 		updateKeymode();
 	}
-
-    private static SparseArray<String> PICKER_SETS =
-            new SparseArray<String>();
-    	static {
-    		PICKER_SETS.put(KeyCharacterMap.PICKER_DIALOG_INPUT,
-    				"~\\^()[]{}<>|/:_;,.!@#$%&*?\"'-+=");
-    	};
 
 	/**
 	 * Handle onKey() events coming down from a {@link TerminalView} above us.
@@ -651,14 +643,21 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 		this.encoding = encoding;
 	}
 
+	private String getPickerString() {
+		final String defaultSet = "~\\^()[]{}<>|/:_;,.!@#$%&*?\"'-+=";
+		String set = prefs.getString("picker_string",defaultSet);
+		if (set == null || set.equals("")) {
+			set = defaultSet;
+		}
+		return set;
+	}
+
 	public boolean showCharPickerDialog(View v) {
 		CharSequence str = "";
 		Editable content = Editable.Factory.getInstance().newEditable(str);
 
-		final String set = PICKER_SETS.get(KeyCharacterMap.PICKER_DIALOG_INPUT);
-		if (set == null) return false;
-
-		CharacterPickerDialog cpd = new CharacterPickerDialog(v.getContext(), v, content, set, true) {
+		CharacterPickerDialog cpd = new CharacterPickerDialog(v.getContext(),
+				v, content, getPickerString(), true) {
 			private void writeCharAndClose(CharSequence result) {
 				try {
 					bridge.transport.write(result.toString().getBytes());
@@ -670,7 +669,7 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 
 			@Override
 			public void onItemClick(AdapterView p, View v, int pos, long id) {
-				String result = String.valueOf(set.charAt(pos));
+				String result = String.valueOf(getPickerString().charAt(pos));
 				writeCharAndClose(result);
 			}
 

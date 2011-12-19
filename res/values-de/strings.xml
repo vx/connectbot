@@ -243,4 +243,6 @@
   <string name="screenshot_saved_as">Screenshot wurde gespeichert als</string>
   <string name="screenshot_error_title">Fehler beim Screenshot</string>
   <string name="screenshot_not_saved_as">Screenshot konnte nicht gespeichert werden als</string>
+  <string name="pref_picker_string">Inhalt des SYM-Dialogfensters</string>
+  <string name="pref_picker_string_summary">Zeichenkette für das Zeichenwahl-Dialogfenster</string>  
 </resources>
