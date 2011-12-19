@@ -19,11 +19,14 @@ package sk.vx.connectbot;
 
 import sk.vx.connectbot.util.HelpTopicView;
 import android.app.Activity;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 /**
@@ -35,6 +38,7 @@ import android.widget.ViewFlipper;
 public class WizardActivity extends Activity {
 	protected ViewFlipper flipper = null;
 	private Button next, prev;
+	private static final String TAG = "ConnectBot.WizardActivity";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -45,7 +49,17 @@ public class WizardActivity extends Activity {
 
 		// inflate the layout for EULA step
 		LayoutInflater inflater = LayoutInflater.from(this);
-		this.flipper.addView(inflater.inflate(R.layout.wiz_eula, this.flipper, false));
+		View helpView = inflater.inflate(R.layout.wiz_eula, this.flipper, false);
+		TextView appVersionView = (TextView) helpView.findViewById(R.id.app_version);
+
+		// get package version
+		try {
+			appVersionView.setText(getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
+		} catch (NameNotFoundException e) {
+			Log.e(TAG, "Problem retrieving application version", e);
+		}
+
+		this.flipper.addView(helpView);
 
 		// Add a view for each help topic we want the user to see.
 		String[] topics = getResources().getStringArray(R.array.list_wizard_topics);

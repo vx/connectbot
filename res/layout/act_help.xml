@@ -34,9 +34,10 @@
 		>
 
 		<TextView
+			android:id="@+id/app_version"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
-			android:text="@string/msg_version"
+			android:text=""
 			android:paddingTop="2dip"
 			android:textAppearance="?android:attr/textAppearanceSmall"
 			android:gravity="right"

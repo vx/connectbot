@@ -84,10 +84,11 @@
 			/>
 
 		<TextView
+			android:id="@+id/app_version"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
 			android:paddingTop="10dip"
-			android:text="@string/msg_version"
+			android:text=""
 			android:textAppearance="?android:attr/textAppearanceSmall"
 			/>
 

@@ -21,6 +21,7 @@ import java.io.IOException;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,6 +29,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 /**
  * @author Kenny Root
@@ -50,6 +52,15 @@ public class HelpActivity extends Activity {
 
 		AssetManager am = this.getAssets();
 		LinearLayout content = (LinearLayout)this.findViewById(R.id.topics);
+
+		TextView appVersionView = (TextView) this.findViewById(R.id.topics).findViewById(R.id.app_version);
+
+		// get package version
+		try {
+			appVersionView.setText(getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
+		} catch (NameNotFoundException e) {
+			Log.e(TAG, "Problem retrieving application version", e);
+		}
 
 		try {
 			for (String name : am.list(HELPDIR)) {
