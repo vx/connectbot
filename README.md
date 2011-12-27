@@ -18,7 +18,7 @@ VX ConnectBot is an enhanced version of the popular open-source telnet and secur
  - single line input (on-screen key)
  - ssh-agent from Roberto Tyley
   
-New key mappings:
+### New key mappings:
 
  - ALT + Up Arrow maps to Page Up
  - ALT + Down Arrow maps to Page Down
@@ -51,6 +51,7 @@ VX ConnectBot is licensed under the Apache License, Version 2.0
 ## Download
 
 [VX Connectbot Homepage](http://connectbot.vx.sk)
+
 [VX Connectbot on Android Market](https://market.android.com/details?id=sk.vx.connectbot)
 
 ## Credits
