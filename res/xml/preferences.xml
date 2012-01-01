@@ -211,7 +211,19 @@
 			android:summary="@string/pref_screen_capture_popup_summary"
 			android:defaultValue="true"
 			/>
+	</PreferenceCategory>
 
+	<PreferenceCategory
+		android:title="@string/pref_file_operations_category">
+
+	<ListPreference
+		android:key="file_dialog"
+		android:title="@string/pref_file_dialog_title"
+		android:summary="@string/pref_file_dialog_summary"
+		android:entries="@array/file_dialog"
+		android:entryValues="@array/file_dialog_values"
+		android:defaultValue="built-in"
+		/>
 	</PreferenceCategory>
 
 </PreferenceScreen>

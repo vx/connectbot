@@ -526,4 +526,22 @@
 	<!--  Character picker (SYM) dialog  -->
 	<string name="pref_picker_string">SYM window contents</string>
 	<string name="pref_picker_string_summary">String of characters for the character picker dialog</string>
+
+	<!-- File Dialog -->
+	<string name="pref_file_operations_category">File Operations</string>
+	<string name="pref_file_dialog_title">File operations dialog</string>
+	<string name="pref_file_dialog_summary">Application for choosing files and directories</string>
+	<string name="pref_file_dialog_builtin">built-in</string>
+	<string name="error_starting">Error starting</string>
+
+	<!-- com.lamerman.FileExplorer -->
+	<string name="location">Location</string>
+	<string name="cant_read_folder">Error reading folder.</string>
+	<string name="nnew">New</string>
+	<string name="select">Select</string>
+	<string name="file_name">File name:</string>
+	<string name="cancel">Cancel</string>
+	<string name="create">Save</string>
+	<string name="no_data">No Data</string>
+	<color name="gray">#ffff0000</color>
 </resources>

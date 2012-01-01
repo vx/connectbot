@@ -141,4 +141,15 @@
 		<item>backspace</item>
 	</string-array>
 
+	<string-array name="file_dialog" translatable="false">
+		<item>@string/pref_file_dialog_builtin</item>
+		<item>OI File Manager</item>
+		<item>AndExplorer</item>
+	</string-array>
+
+	<string-array name="file_dialog_values" translatable="false">
+		<item>built-in</item>
+		<item>OI</item>
+		<item>AE</item>
+	</string-array>
 </resources>

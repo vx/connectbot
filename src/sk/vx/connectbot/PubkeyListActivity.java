@@ -22,33 +22,26 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
 import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
-import java.util.Collections;
 import java.util.EventListener;
-import java.util.LinkedList;
 import java.util.List;
-
-import org.openintents.intents.FileManagerIntents;
 
 import sk.vx.connectbot.bean.PubkeyBean;
 import sk.vx.connectbot.service.TerminalManager;
+import sk.vx.connectbot.util.FileChooser;
+import sk.vx.connectbot.util.FileChooserCallback;
 import sk.vx.connectbot.util.PubkeyDatabase;
 import sk.vx.connectbot.util.PubkeyUtils;
 import android.app.AlertDialog;
 import android.app.ListActivity;
-import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
@@ -80,15 +73,10 @@ import com.trilead.ssh2.crypto.PEMStructure;
  *
  * @author Kenny Root
  */
-public class PubkeyListActivity extends ListActivity implements EventListener {
+public class PubkeyListActivity extends ListActivity implements EventListener, FileChooserCallback {
 	public final static String TAG = "ConnectBot.PubkeyListActivity";
 
 	private static final int MAX_KEYFILE_SIZE = 8192;
-	private static final int REQUEST_CODE_PICK_FILE = 1;
-
-	// Constants for AndExplorer's file picking intent
-	private static final String ANDEXPLORER_TITLE = "explorer_title";
-	private static final String MIME_TYPE_ANDEXPLORER_FILE = "vnd.android.cursor.dir/lysesoft.andexplorer.file";
 
 	protected PubkeyDatabase pubkeydb;
 	private List<PubkeyBean> pubkeys;
@@ -208,34 +196,10 @@ public class PubkeyListActivity extends ListActivity implements EventListener {
 		importkey.setIcon(android.R.drawable.ic_menu_upload);
 		importkey.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 			public boolean onMenuItemClick(MenuItem item) {
-				Uri sdcard = Uri.fromFile(Environment.getExternalStorageDirectory());
-				String pickerTitle = getString(R.string.pubkey_list_pick);
-
-				// Try to use OpenIntent's file browser to pick a file
-				Intent intent = new Intent(FileManagerIntents.ACTION_PICK_FILE);
-				intent.setData(sdcard);
-				intent.putExtra(FileManagerIntents.EXTRA_TITLE, pickerTitle);
-				intent.putExtra(FileManagerIntents.EXTRA_BUTTON_TEXT, getString(android.R.string.ok));
-
-				try {
-					startActivityForResult(intent, REQUEST_CODE_PICK_FILE);
-				} catch (ActivityNotFoundException e) {
-					// If OI didn't work, try AndExplorer
-					intent = new Intent(Intent.ACTION_PICK);
-					intent.setDataAndType(sdcard, MIME_TYPE_ANDEXPLORER_FILE);
-					intent.putExtra(ANDEXPLORER_TITLE, pickerTitle);
-
-					try {
-						startActivityForResult(intent, REQUEST_CODE_PICK_FILE);
-					} catch (ActivityNotFoundException e1) {
-						pickFileSimple();
-					}
-				}
-
+				FileChooser.selectFile(PubkeyListActivity.this, PubkeyListActivity.this);
 				return true;
 			}
 		});
-
 		return true;
 	}
 
@@ -488,20 +452,11 @@ public class PubkeyListActivity extends ListActivity implements EventListener {
 		super.onActivityResult(requestCode, resultCode, intent);
 
 		switch (requestCode) {
-		case REQUEST_CODE_PICK_FILE:
+		case FileChooser.REQUEST_CODE_PICK_FILE:
 			if (resultCode == RESULT_OK && intent != null) {
-				Uri uri = intent.getData();
-				try {
-					if (uri != null) {
-						readKeyFromFile(new File(URI.create(uri.toString())));
-					} else {
-						String filename = intent.getDataString();
-						if (filename != null)
-							readKeyFromFile(new File(URI.create(filename)));
-					}
-				} catch (IllegalArgumentException e) {
-					Log.e(TAG, "Couldn't read from picked file", e);
-				}
+				File file = FileChooser.getSelectedFile(intent);
+				if (file != null)
+					readKeyFromFile(file);
 			}
 			break;
 		}
@@ -568,50 +523,9 @@ public class PubkeyListActivity extends ListActivity implements EventListener {
 		}
 	}
 
-	/**
-	 *
-	 */
-	private void pickFileSimple() {
-		// build list of all files in sdcard root
-		final File sdcard = Environment.getExternalStorageDirectory();
-		Log.d(TAG, sdcard.toString());
-
-		// Don't show a dialog if the SD card is completely absent.
-		final String state = Environment.getExternalStorageState();
-		if (!Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)
-				&& !Environment.MEDIA_MOUNTED.equals(state)) {
-			new AlertDialog.Builder(PubkeyListActivity.this)
-				.setMessage(R.string.alert_sdcard_absent)
-				.setNegativeButton(android.R.string.cancel, null).create().show();
-			return;
-		}
-
-		List<String> names = new LinkedList<String>();
-		{
-			File[] files = sdcard.listFiles();
-			if (files != null) {
-				for(File file : sdcard.listFiles()) {
-					if(file.isDirectory()) continue;
-					names.add(file.getName());
-				}
-			}
-		}
-		Collections.sort(names);
-
-		final String[] namesList = names.toArray(new String[] {});
-		Log.d(TAG, names.toString());
-
-		// prompt user to select any file from the sdcard root
-		new AlertDialog.Builder(PubkeyListActivity.this)
-			.setTitle(R.string.pubkey_list_pick)
-			.setItems(namesList, new OnClickListener() {
-				public void onClick(DialogInterface arg0, int arg1) {
-					String name = namesList[arg1];
-
-					readKeyFromFile(new File(sdcard, name));
-				}
-			})
-			.setNegativeButton(android.R.string.cancel, null).create().show();
+	public void fileSelected(File f) {
+		Log.d(TAG, "File chooser returned " + f);
+		readKeyFromFile(f);
 	}
 
 	class PubkeyAdapter extends ArrayAdapter<PubkeyBean> {
