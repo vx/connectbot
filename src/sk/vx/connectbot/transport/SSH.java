@@ -17,6 +17,7 @@
 
 package sk.vx.connectbot.transport;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -47,6 +48,7 @@ import sk.vx.connectbot.util.PubkeyDatabase;
 import sk.vx.connectbot.util.PubkeyUtils;
 import android.content.Context;
 import android.net.Uri;
+import android.os.Environment;
 import android.util.Log;
 
 import com.trilead.ssh2.AuthAgentCallback;
@@ -58,6 +60,7 @@ import com.trilead.ssh2.DynamicPortForwarder;
 import com.trilead.ssh2.InteractiveCallback;
 import com.trilead.ssh2.KnownHosts;
 import com.trilead.ssh2.LocalPortForwarder;
+import com.trilead.ssh2.SCPClient;
 import com.trilead.ssh2.ServerHostKeyVerifier;
 import com.trilead.ssh2.Session;
 import com.trilead.ssh2.crypto.PEMDecoder;
@@ -712,6 +715,35 @@ public class SSH extends AbsTransport implements ConnectionMonitor, InteractiveC
 		} else {
 			// Unsupported type
 			Log.e(TAG, String.format("attempt to forward unknown type %s", portForward.getType()));
+			return false;
+		}
+	}
+
+	@Override
+	public boolean canTransferFiles() {
+		return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
+	}
+
+	@Override
+	public boolean downloadFile(String remoteFile) {
+		try {
+			SCPClient client = new SCPClient(connection);
+			client.get(remoteFile, Environment.getExternalStorageDirectory().getAbsolutePath());
+			return true;
+		} catch (IOException e) {
+			Log.e(TAG, "Could not download remote file", e);
+			return false;
+		}
+	}
+
+	@Override
+	public boolean uploadFile(String localFile) {
+		try {
+			SCPClient client = new SCPClient(connection);
+			client.put(localFile, "");
+			return true;
+		} catch (IOException e) {
+			Log.e(TAG, "Could not upload local file", e);
 			return false;
 		}
 	}

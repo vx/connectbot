@@ -326,6 +326,10 @@
 	<string name="console_menu_urlscan">"URL Scan"</string>
 	<!--  Button that initiates screen capture -->
 	<string name="console_menu_screencapture">"Screen Capture"</string>
+	<!-- Button that lets user pick the file to download -->
+	<string name="console_menu_download">"Download File"</string>
+	<!-- Button that lets user pick the file to upload -->
+	<string name="console_menu_upload">"Upload File"</string>
 
 	<!-- Button label to answer "Yes" to a yes/no prompt -->
 	<string name="button_yes">"Yes"</string>
@@ -544,4 +548,15 @@
 	<string name="create">Save</string>
 	<string name="no_data">No Data</string>
 	<color name="gray">#ffff0000</color>
+
+	<!-- File Transfer -->
+	<string name="transfer_downloading">"Downloading files..."</string>
+	<string name="transfer_downloading_file">"Downloading file %1$s..."</string>
+	<string name="transfer_downloads_failed">"Error downloading files:%1$s"</string>
+	<string name="transfer_pick_remote">"Select remote file"</string>
+	<string name="transfer_pick_remote_desc">"Enter the paths of the remote files to download (one per line; no wildcard expansion)"</string>
+	<string name="transfer_remote_action">"Download"</string>
+	<string name="transfer_uploading">"Uploading file..."</string>
+	<string name="transfer_uploading_file">"Uploading file %1$s..."</string>
+	<string name="transfer_uploads_failed">"Error uploading files:%1$s"</string>
 </resources>

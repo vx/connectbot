@@ -912,6 +912,29 @@ public class TerminalBridge implements VDUDisplay {
 	}
 
 	/**
+	 * @return whether underlying transport can transfer files
+	 */
+	public boolean canTransferFiles() {
+		return transport.canTransferFiles();
+	}
+
+	/**
+	 * Downloads the specified remote file to the local connectbot folder.
+	 * @return true on success, false on failure
+	 */
+	public boolean downloadFile(String remoteFile) {
+		return transport.downloadFile(remoteFile);
+	}
+
+	/**
+	 * Uploads the specified local file to the remote host's default directory.
+	 * @return true on success, false on failure
+	 */
+	public boolean uploadFile(String localFile) {
+		return transport.uploadFile(localFile);
+	}
+
+	/**
 	 * @return whether the TerminalBridge should close
 	 */
 	public boolean isAwaitingClose() {
