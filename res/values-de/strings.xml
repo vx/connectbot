@@ -265,7 +265,7 @@
   <string name="pref_background_file_transfer">Hintergrundübertragung von Dateien</string>
   <string name="pref_background_file_transfer_summary">Das Herunterladen und Hochladen von Dateien im Hintergrund ausführen.</string>	
   <string name="transfer_downloading">Herunterladen von Dateien...</string>
-  <string name="transfer_downloading_file">Lade heruter: %1$s</string>
+  <string name="transfer_downloading_file">Lade herunter: %1$s</string>
   <string name="transfer_download_complete">Herunterladen abgeschlossen: %1$s</string>
   <string name="transfer_download_failed">Fehler beim Herunterladen: %1$s</string>
   <string name="transfer_downloads_failed">Fehler beim Herunterladen:%1$s</string>
