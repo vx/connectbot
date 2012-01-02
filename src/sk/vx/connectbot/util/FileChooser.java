@@ -54,7 +54,7 @@ public class FileChooser {
 			return;
 		filedialog = prefs.getString("file_dialog", "built-in");
 
-		if (filedialog.equals("OpenIntents")) {
+		if (filedialog.equals("OI")) {
 			intent = new Intent(FileManagerIntents.ACTION_PICK_FILE);
 			intent.setData(Uri.fromFile(sdcard));
 			intent.putExtra(FileManagerIntents.EXTRA_TITLE, pickerTitle);
@@ -68,7 +68,7 @@ public class FileChooser {
 						source.getString(R.string.error_starting) + " OpenIntents File Manager",
 						Toast.LENGTH_LONG).show();
 			}
-		} else if (filedialog.equals("AndExplorer")) {
+		} else if (filedialog.equals("AE")) {
 			intent = new Intent(Intent.ACTION_PICK);
 			intent.setDataAndType(Uri.fromFile(sdcard), MIME_TYPE_ANDEXPLORER_FILE);
 			intent.putExtra(ANDEXPLORER_TITLE, pickerTitle);
