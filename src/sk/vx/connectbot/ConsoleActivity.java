@@ -870,11 +870,14 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 					.setView(textField)
 					.setPositiveButton(R.string.transfer_remote_action, new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int whichButton) {
-							ProgressDialog progress = new ProgressDialog(ConsoleActivity.this);
-							progress.setIndeterminate(true);
-							progress.setMessage(getString(R.string.transfer_downloading));
-							progress.setCancelable(false);
-							progress.show();
+							ProgressDialog progress = null;
+							if (!prefs.getBoolean(PreferenceConstants.BACKGROUND_FILE_TRANSFER,true)) {
+								progress = new ProgressDialog(ConsoleActivity.this);
+								progress.setIndeterminate(true);
+								progress.setMessage(getString(R.string.transfer_downloading));
+								progress.setCancelable(false);
+								progress.show();
+							}
 							new TransferThread(bridge, textField.getText().toString(), progress, false).start();
 						}
 					}).setNegativeButton(android.R.string.cancel, null).create().show();
@@ -923,11 +926,14 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 
 	public void fileSelected(File f) {
 		Log.d(TAG, "File chooser returned " + f);
-		ProgressDialog progress = new ProgressDialog(this);
-		progress.setIndeterminate(true);
-		progress.setMessage(getString(R.string.transfer_uploading));
-		progress.setCancelable(false);
-		progress.show();
+		ProgressDialog progress = null;
+		if (!prefs.getBoolean(PreferenceConstants.BACKGROUND_FILE_TRANSFER,true)) {
+			progress = new ProgressDialog(this);
+			progress.setIndeterminate(true);
+			progress.setMessage(getString(R.string.transfer_uploading));
+			progress.setCancelable(false);
+			progress.show();
+		}
 
 		TerminalView terminalView = (TerminalView) findCurrentView(R.id.console_flip);
 		TerminalBridge bridge = terminalView.bridge;
@@ -959,22 +965,40 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 				while (fileSet.hasMoreTokens()) {
 					String file = fileSet.nextToken();
 					final String newMessage = res.getString(upload ? R.string.transfer_uploading_file : R.string.transfer_downloading_file, file);
+					final String successMessage = res.getString(upload ? R.string.transfer_upload_complete : R.string.transfer_download_complete, file);
+					final String errorMessage = res.getString(upload ? R.string.transfer_upload_failed : R.string.transfer_download_failed, file);
 					handler.post(new Runnable() {
 						public void run() {
-							dialog.setMessage(newMessage);
+							if (prefs.getBoolean(PreferenceConstants.BACKGROUND_FILE_TRANSFER,true)) {
+								Toast.makeText(ConsoleActivity.this,
+									newMessage,
+									Toast.LENGTH_LONG).show();
+							}
+							if (dialog != null)
+								dialog.setMessage(newMessage);
 						}
 					});
 					boolean success = (upload ? bridge.uploadFile(file, null) : bridge.downloadFile(file, downloadFolder));
-					if (! success) {
+					if (! success)
 						failed += " " + file;
+					if (prefs.getBoolean(PreferenceConstants.BACKGROUND_FILE_TRANSFER,true)) {
+						final boolean suc = success;
+						handler.post(new Runnable() {
+							public void run() {
+								Toast.makeText(ConsoleActivity.this,
+									suc ? successMessage : errorMessage,
+									Toast.LENGTH_LONG).show();
+								}
+						});
 					}
 				}
 			} finally {
 				final String failMessage = (failed.length() == 0 ? null : res.getString(upload ? R.string.transfer_uploads_failed : R.string.transfer_downloads_failed, failed));
 				handler.post(new Runnable() {
 					public void run() {
-						dialog.dismiss();
-						if (failMessage != null) {
+						if (dialog != null)
+							dialog.dismiss();
+						if (failMessage != null && !prefs.getBoolean(PreferenceConstants.BACKGROUND_FILE_TRANSFER,true)) {
 							new AlertDialog.Builder(ConsoleActivity.this)
 								.setMessage(failMessage)
 								.setNegativeButton(android.R.string.ok, null).create().show();

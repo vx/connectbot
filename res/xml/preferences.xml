@@ -231,5 +231,12 @@
 		android:summary="@string/pref_download_folder_summary"
 		android:inputType="text"
 		/>
+		
+	<CheckBoxPreference
+		android:key="background_file_transfer"
+		android:title="@string/pref_background_file_transfer"
+		android:summary="@string/pref_background_file_transfer_summary"
+		android:defaultValue="true"
+		/>
 	</PreferenceCategory>
 </PreferenceScreen>

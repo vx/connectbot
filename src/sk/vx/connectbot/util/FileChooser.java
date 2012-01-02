@@ -33,6 +33,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.lamerman.FileDialog;
+import com.lamerman.SelectionMode;
 
 public class FileChooser {
 	public final static String TAG = "ConnectBot.FileChooser";
@@ -84,6 +85,7 @@ public class FileChooser {
 		}
 		intent = new Intent(source.getBaseContext(), FileDialog.class);
 		intent.putExtra(FileDialog.START_PATH, sdcard.toString());
+		intent.putExtra(FileDialog.SELECTION_MODE, SelectionMode.MODE_OPEN);
 		source.startActivityForResult(intent, REQUEST_CODE_PICK_FILE);
 	}
 
