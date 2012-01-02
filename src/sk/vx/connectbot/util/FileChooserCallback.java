@@ -1,5 +1,5 @@
 /*
- * ConnectBot: simple, powerful, open-source SSH client for Android
+ * File Chooser Callback Class for VX ConnectBot
  * Copyright 2012 Martin Matuska
  *
  * Licensed under the Apache License, Version 2.0 (the "License");

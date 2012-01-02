@@ -1,5 +1,5 @@
 /*
- * ConnectBot: simple, powerful, open-source SSH client for Android
+ * File Chooser Class for VX ConnectBot
  * Copyright 2012 Martin Matuska
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -52,7 +52,7 @@ public class FileChooser {
 
 		if (prefs == null)
 			return;
-		filedialog = prefs.getString("file_dialog", "built-in");
+		filedialog = prefs.getString(PreferenceConstants.FILE_DIALOG, "built-in");
 
 		if (filedialog.equals("OI")) {
 			intent = new Intent(FileManagerIntents.ACTION_PICK_FILE);

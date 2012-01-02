@@ -721,14 +721,18 @@ public class SSH extends AbsTransport implements ConnectionMonitor, InteractiveC
 
 	@Override
 	public boolean canTransferFiles() {
-		return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
+		return true;
 	}
 
 	@Override
-	public boolean downloadFile(String remoteFile) {
+	public boolean downloadFile(String remoteFile, String localFolder) {
 		try {
 			SCPClient client = new SCPClient(connection);
-			client.get(remoteFile, Environment.getExternalStorageDirectory().getAbsolutePath());
+			if (localFolder == null || localFolder == "")
+				localFolder = Environment.getExternalStorageDirectory().getAbsolutePath();
+			File dir = new File(localFolder);
+			dir.mkdirs();
+			client.get(remoteFile, localFolder);
 			return true;
 		} catch (IOException e) {
 			Log.e(TAG, "Could not download remote file", e);
@@ -737,10 +741,12 @@ public class SSH extends AbsTransport implements ConnectionMonitor, InteractiveC
 	}
 
 	@Override
-	public boolean uploadFile(String localFile) {
+	public boolean uploadFile(String localFile, String remoteFolder) {
 		try {
 			SCPClient client = new SCPClient(connection);
-			client.put(localFile, "");
+			if (remoteFolder == null)
+				remoteFolder = "";
+			client.put(localFile, remoteFolder);
 			return true;
 		} catch (IOException e) {
 			Log.e(TAG, "Could not upload local file", e);

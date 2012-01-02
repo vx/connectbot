@@ -218,20 +218,22 @@ public abstract class AbsTransport {
 	}
 
 	/**
-	 * Downloads the specified remote file to the local connectbot folder.
+	 * Downloads the specified remote file to a local folder.
 	 * @param remoteFile The path to the remote file to be downloaded. Must be non-null.
+	 * @param localFolder The path to local folder. Null = default external storage folder.
 	 * @return true on success, false on failure
 	 */
-	public boolean downloadFile(String remoteFile) {
+	public boolean downloadFile(String remoteFile, String localFolder) {
 		return false;
 	}
 
 	/**
-	 * Uploads the specified local file to the remote host's default directory.
+	 * Uploads the specified local file to the remote host.
 	 * @param localFile The path to the local file to be uploaded. Must be non-null.
+	 * @param remoteFolder The path to the remote directory. Null == default remote directory.
 	 * @return true on success, false on failure
 	 */
-	public boolean uploadFile(String localFile) {
+	public boolean uploadFile(String localFile, String remoteFolder) {
 		return false;
 	}
 

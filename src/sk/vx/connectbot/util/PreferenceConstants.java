@@ -83,4 +83,13 @@ public class PreferenceConstants {
 
 	/* Backup identifiers */
 	public static final String BACKUP_PREF_KEY = "prefs";
+
+	public static final String PICKER_STRING = "picker_string";
+	public static final String SCREEN_CAPTURE_POPUP = "screen_capture_popup";
+	public static final String SCREEN_CAPTURE_FOLDER = "screen_capture_folder";
+	public static final String DEFAULT_FONT_SIZE_HEIGHT = "default_fsize_height";
+	public static final String DEFAULT_FONT_SIZE_WIDTH = "default_fsize_width";
+	public static final String DEFAULT_FONT_SIZE = "default_font_size";
+	public static final String FILE_DIALOG = "file_dialog";
+	public static final String DOWNLOAD_FOLDER = "download_folder";
 }

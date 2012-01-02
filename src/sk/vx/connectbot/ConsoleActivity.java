@@ -753,9 +753,9 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 
 				final View resizeView = inflater.inflate(R.layout.dia_resize, null, false);
 				((EditText) resizeView.findViewById(R.id.width))
-					.setText(prefs.getString("default_fsize_width", "80"));
+					.setText(prefs.getString(PreferenceConstants.DEFAULT_FONT_SIZE_WIDTH, "80"));
 				((EditText) resizeView.findViewById(R.id.height))
-					.setText(prefs.getString("default_fsize_height", "25"));
+					.setText(prefs.getString(PreferenceConstants.DEFAULT_FONT_SIZE_HEIGHT, "25"));
 
 				new AlertDialog.Builder(ConsoleActivity.this)
 					.setView(resizeView)
@@ -922,7 +922,7 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 	}
 
 	public void fileSelected(File f) {
-		Log.d(TAG, "File picker returned " + f);
+		Log.d(TAG, "File chooser returned " + f);
 		ProgressDialog progress = new ProgressDialog(this);
 		progress.setIndeterminate(true);
 		progress.setMessage(getString(R.string.transfer_uploading));
@@ -953,6 +953,7 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 		public void run() {
 			Resources res = getResources();
 			String failed = "";
+			String downloadFolder = prefs.getString(PreferenceConstants.DOWNLOAD_FOLDER, "");
 			try {
 				StringTokenizer fileSet = new StringTokenizer(files, "\n");
 				while (fileSet.hasMoreTokens()) {
@@ -963,7 +964,7 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 							dialog.setMessage(newMessage);
 						}
 					});
-					boolean success = (upload ? bridge.uploadFile(file) : bridge.downloadFile(file));
+					boolean success = (upload ? bridge.uploadFile(file, null) : bridge.downloadFile(file, downloadFolder));
 					if (! success) {
 						failed += " " + file;
 					}

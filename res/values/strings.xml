@@ -532,7 +532,7 @@
 	<string name="pref_picker_string_summary">String of characters for the character picker dialog</string>
 
 	<!-- File Dialog -->
-	<string name="pref_file_operations_category">File Operations</string>
+	<string name="pref_file_transfer_category">File Transfer</string>
 	<string name="pref_file_dialog_title">File operations dialog</string>
 	<string name="pref_file_dialog_summary">Application for choosing files and directories</string>
 	<string name="pref_file_dialog_builtin">built-in</string>
@@ -559,4 +559,6 @@
 	<string name="transfer_uploading">"Uploading file..."</string>
 	<string name="transfer_uploading_file">"Uploading file %1$s..."</string>
 	<string name="transfer_uploads_failed">"Error uploading files:%1$s"</string>
+	<string name="pref_download_folder">Download folder</string>
+	<string name="pref_download_folder_summary">Path to save downloaded files</string>
 </resources>

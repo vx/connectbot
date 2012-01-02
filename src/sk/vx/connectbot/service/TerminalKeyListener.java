@@ -645,7 +645,7 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 
 	private String getPickerString() {
 		final String defaultSet = "~\\^()[]{}<>|/:_;,.!@#$%&*?\"'-+=";
-		String set = prefs.getString("picker_string",defaultSet);
+		String set = prefs.getString(PreferenceConstants.PICKER_STRING,defaultSet);
 		if (set == null || set.equals("")) {
 			set = defaultSet;
 		}

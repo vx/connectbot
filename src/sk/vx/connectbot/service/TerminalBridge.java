@@ -36,6 +36,7 @@ import sk.vx.connectbot.bean.SelectionArea;
 import sk.vx.connectbot.transport.AbsTransport;
 import sk.vx.connectbot.transport.TransportFactory;
 import sk.vx.connectbot.util.HostDatabase;
+import sk.vx.connectbot.util.PreferenceConstants;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -189,7 +190,7 @@ public class TerminalBridge implements VDUDisplay {
 
 		fontSizeChangedListeners = new LinkedList<FontSizeChangedListener>();
 
-		Integer defaultFontSize = Integer.parseInt(manager.prefs.getString("default_font_size", "-1"));
+		Integer defaultFontSize = Integer.parseInt(manager.prefs.getString(PreferenceConstants.DEFAULT_FONT_SIZE, "-1"));
 		Log.d(TAG, "fontSize: " + this.fontSize + ", defaultFontSize: " + defaultFontSize);
 		if (this.fontSize == -1) {
 			if (defaultFontSize > 0)
@@ -922,16 +923,16 @@ public class TerminalBridge implements VDUDisplay {
 	 * Downloads the specified remote file to the local connectbot folder.
 	 * @return true on success, false on failure
 	 */
-	public boolean downloadFile(String remoteFile) {
-		return transport.downloadFile(remoteFile);
+	public boolean downloadFile(String remoteFile, String localFolder) {
+		return transport.downloadFile(remoteFile, localFolder);
 	}
 
 	/**
 	 * Uploads the specified local file to the remote host's default directory.
 	 * @return true on success, false on failure
 	 */
-	public boolean uploadFile(String localFile) {
-		return transport.uploadFile(localFile);
+	public boolean uploadFile(String localFile, String remoteFolder) {
+		return transport.uploadFile(localFile, remoteFolder);
 	}
 
 	/**
@@ -1058,7 +1059,7 @@ public class TerminalBridge implements VDUDisplay {
 	 */
 	public void resetSize(TerminalView parent) {
 		this.forcedSize = false;
-		Integer defaultFontSize = Integer.parseInt(manager.prefs.getString("default_font_size", "-1"));
+		Integer defaultFontSize = Integer.parseInt(manager.prefs.getString(PreferenceConstants.DEFAULT_FONT_SIZE, "-1"));
 		if (this.fontSize != -1 && defaultFontSize > 0)
 			setFontSize(defaultFontSize);
 		else
@@ -1079,7 +1080,7 @@ public class TerminalBridge implements VDUDisplay {
 
 			SimpleDateFormat s = new SimpleDateFormat("yyyyMMdd_HHmmss");
 			String date = s.format(new Date());
-			String pref_path = manager.prefs.getString("screen_capture_folder", "");
+			String pref_path = manager.prefs.getString(PreferenceConstants.SCREEN_CAPTURE_FOLDER, "");
 			File default_path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
 			if (pref_path.equals(""))
 				dir = default_path;
@@ -1098,7 +1099,7 @@ public class TerminalBridge implements VDUDisplay {
 
 			if (success) {
 				msg = manager.getResources().getString(R.string.screenshot_saved_as) + " " + path;
-				if (manager.prefs.getBoolean("screen_capture_popup",true)) {
+				if (manager.prefs.getBoolean(PreferenceConstants.SCREEN_CAPTURE_POPUP,true)) {
 					new AlertDialog.Builder(parent.getContext())
 					.setTitle(R.string.screenshot_success_title)
 					.setMessage(msg)

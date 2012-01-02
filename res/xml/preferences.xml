@@ -214,7 +214,7 @@
 	</PreferenceCategory>
 
 	<PreferenceCategory
-		android:title="@string/pref_file_operations_category">
+		android:title="@string/pref_file_transfer_category">
 
 	<ListPreference
 		android:key="file_dialog"
@@ -224,6 +224,12 @@
 		android:entryValues="@array/file_dialog_values"
 		android:defaultValue="built-in"
 		/>
-	</PreferenceCategory>
 
+	<EditTextPreference
+		android:key="download_folder"
+		android:title="@string/pref_download_folder"
+		android:summary="@string/pref_download_folder_summary"
+		android:inputType="text"
+		/>
+	</PreferenceCategory>
 </PreferenceScreen>
