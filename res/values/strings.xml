@@ -533,10 +533,10 @@
 
 	<!-- File Dialog -->
 	<string name="pref_file_transfer_category">File Transfer</string>
-	<string name="pref_file_dialog_title">File operations dialog</string>
-	<string name="pref_file_dialog_summary">Application for choosing files and directories</string>
+	<string name="pref_file_dialog_title">File selection</string>
+	<string name="pref_file_dialog_summary">Dialog for choosing files and directories</string>
 	<string name="pref_file_dialog_builtin">built-in</string>
-	<string name="error_starting">Error starting</string>
+	<string name="error_starting_app">Error starting %1$s</string>
 
 	<!-- com.lamerman.FileExplorer -->
 	<string name="location">Location</string>
@@ -559,7 +559,7 @@
 	<string name="transfer_download_complete">Download complete: %1$s</string>
 	<string name="transfer_download_failed">Error downloading file: %1$s</string>
 	<string name="transfer_downloads_failed">Error downloading files:%1$s</string>
-	<string name="transfer_pick_remote">Select remote file"</string>
+	<string name="transfer_pick_remote">Select remote file</string>
 	<string name="transfer_pick_remote_desc">Enter paths of the remote files to download (one per line)</string>
 	<string name="transfer_remote_action">Download</string>
 	<string name="transfer_uploading">Uploading file...</string>

@@ -66,7 +66,7 @@ public class FileChooser {
 				return;
 			} catch (ActivityNotFoundException e1) {
 				Toast.makeText(source,
-						source.getString(R.string.error_starting) + " OpenIntents File Manager",
+						source.getString(R.string.error_starting_app,"OpenIntents File Manager"),
 						Toast.LENGTH_LONG).show();
 			}
 		} else if (filedialog.equals("AE")) {
@@ -79,7 +79,7 @@ public class FileChooser {
 				return;
 			} catch (ActivityNotFoundException e1) {
 				Toast.makeText(source,
-						source.getString(R.string.error_starting) + " AndExplorer",
+						source.getString(R.string.error_starting_app,"AndExplorer"),
 						Toast.LENGTH_LONG).show();
 			}
 		}
