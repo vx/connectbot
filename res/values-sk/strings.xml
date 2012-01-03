@@ -157,10 +157,10 @@
   <string name="portforward_done">Premerovanie portu úspešne vytvorené</string>
   <string name="portforward_problem">Chyba pri vytvorení presmerovania portu, možno používate port menší ako 1024 alebo je už obsadený?</string>
   <string name="portforward_menu_add">Pridať presmerovanie portu</string>
-  <string name="hint_userhost">používateľské_meno\@hostiteľ</string>
+  <string name="hint_userhost">používateľ\@hostiteľ</string>
   <string name="list_format_error">Použite formát \"%1$s\"</string>
-  <string name="format_username">používateľské meno</string>
-  <string name="format_hostname">meno hostiteľa</string>
+  <string name="format_username">používateľ</string>
+  <string name="format_hostname">hostiteľ</string>
   <string name="format_port">port</string>
   <string name="list_menu_pubkeys">Spravovať verejné kľúče</string>
   <string name="list_menu_sortcolor">Usporiadať podľa farby</string>

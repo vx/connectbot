@@ -357,9 +357,9 @@
 	<string name="list_format_error">"Use the format \"%1$s\""</string>
 
 	<!-- Part of the formatting hints that will be used like: username@hostname:port -->
-	<string name="format_username">"username"</string>
+	<string name="format_username">"user"</string>
 	<!-- Part of the formatting hints that will be used like: username@hostname:port -->
-	<string name="format_hostname">"hostname"</string>
+	<string name="format_hostname">"host"</string>
 	<!-- Part of the formatting hints that will be used like: username@hostname:port -->
 	<string name="format_port">"port"</string>
 

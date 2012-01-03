@@ -157,11 +157,11 @@
   <string name="portforward_done">Port-Weiterleitung angelegt.</string>
   <string name="portforward_problem">Konnte Port-Weiterleitung nicht anlegen. Verwenden Sie Ports kleiner als 1024, oder wird der Port bereits verwendet?</string>
   <string name="portforward_menu_add">Port-Weiterleitung hinzufügen</string>
-  <string name="hint_userhost">benutzer\@hostname</string>
+  <string name="hint_userhost">benutzer\@host</string>
   <string name="list_format_error">Benutze das Format %1$s</string>
-  <string name="format_username">Benutzername</string>
-  <string name="format_hostname">Hostname</string>
-  <string name="format_port">Anschluss</string>
+  <string name="format_username">Benutzer</string>
+  <string name="format_hostname">Host</string>
+  <string name="format_port">Port</string>
   <string name="list_menu_pubkeys">Pubkeys verwalten</string>
   <string name="list_menu_sortcolor">Nach Farbe sortieren</string>
   <string name="list_menu_sortname">Nach Name sortieren</string>
