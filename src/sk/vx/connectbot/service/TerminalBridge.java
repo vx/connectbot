@@ -931,8 +931,10 @@ public class TerminalBridge implements VDUDisplay {
 	 * Uploads the specified local file to the remote host's default directory.
 	 * @return true on success, false on failure
 	 */
-	public boolean uploadFile(String localFile, String remoteFolder) {
-		return transport.uploadFile(localFile, remoteFolder);
+	public boolean uploadFile(String localFile, String remoteFolder, String remoteFile, String mode) {
+		if (mode == null)
+			mode = "0600";
+		return transport.uploadFile(localFile, remoteFolder, remoteFile, mode);
 	}
 
 	/**

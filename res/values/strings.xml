@@ -537,6 +537,10 @@
 	<string name="pref_file_dialog_summary">Dialog for choosing files and directories</string>
 	<string name="pref_file_dialog_builtin">built-in</string>
 	<string name="error_starting_app">Error starting %1$s</string>
+	<string name="file_chooser_select_file">Select file %1$s</string>
+	<string name="select_for_download">for download</string>
+	<string name="select_for_upload">for upload</string>
+	<string name="select_for_key_import">for key import</string>
 
 	<!-- com.lamerman.FileExplorer -->
 	<string name="location">Location</string>
@@ -545,26 +549,46 @@
 	<string name="select">Select</string>
 	<string name="file_name">File name:</string>
 	<string name="cancel">Cancel</string>
-	<string name="create">Save</string>
+	<string name="new_file">New file</string>
+	<string name="save">Save</string>
 	<string name="no_data">No Data</string>
 	<color name="gray">#ffff0000</color>
 
 	<!-- File Transfer -->
 	<string name="pref_download_folder">Download folder</string>
 	<string name="pref_download_folder_summary">Path to save downloaded files</string>
+	<string name="pref_remote_upload_folder">Remote upload folder</string>
+	<string name="pref_remote_upload_folder_summary">Remote path to save uploaded files</string>
+	<string name="pref_upload_dest_prompt">Upload target prompt</string>
+	<string name="pref_upload_dest_prompt_summary">Prompt for remote destination of file uploads</string>
 	<string name="pref_background_file_transfer">Background file transfer</string>
-	<string name="pref_background_file_transfer_summary">Perform file downloads and uploads in background</string>	
+	<string name="pref_background_file_transfer_summary">Perform file downloads and uploads in background</string>
 	<string name="transfer_downloading">Downloading files...</string>
 	<string name="transfer_downloading_file">Downloading file: %1$s</string>
 	<string name="transfer_download_complete">Download complete: %1$s</string>
 	<string name="transfer_download_failed">Error downloading file: %1$s</string>
 	<string name="transfer_downloads_failed">Error downloading files:%1$s</string>
-	<string name="transfer_pick_remote">Select remote file</string>
-	<string name="transfer_pick_remote_desc">Enter paths of the remote files to download (one per line)</string>
-	<string name="transfer_remote_action">Download</string>
+	<string name="transfer_select_remote_download_title">Download file(s)</string>
+	<string name="transfer_select_remote_download_desc">Enter paths of the remote files to download (one per line)</string>
+	<string name="transfer_select_remote_upload_dest_title">Upload destination</string>
+	<string name="transfer_select_remote_upload_dest_desc">Enter remote file name for:</string>
+	<string name="transfer_button_download">Download</string>
+	<string name="transfer_button_upload">Upload</string>
 	<string name="transfer_uploading">Uploading file...</string>
 	<string name="transfer_uploading_file">Uploading file: %1$s</string>
 	<string name="transfer_upload_complete">Upload complete: %1$s</string>
 	<string name="transfer_upload_failed">Error uploading file: %1$s</string>
 	<string name="transfer_uploads_failed">Error uploading files:%1$s</string>
+
+	<!-- Key export -->
+	<string name="pubkey_export_private">"Export private key"</string>
+	<string name="pubkey_export_public">"Export public key"</string>
+	<string name="pubkey_public_save_as">Save public key</string>
+	<string name="pubkey_public_save_as_desc">File name (or full path) to save public key as</string>
+	<string name="pubkey_private_save_as">Save private key</string>
+	<string name="pubkey_private_save_as_desc">File name (or full path) to save private key as</string>
+	<string name="pubkey_public_export_success">Public key saved as %1$s</string>
+	<string name="pubkey_public_export_problem">Error exporting public key</string>
+	<string name="pubkey_private_export_success">Private key saved as %1$s</string>
+	<string name="pubkey_private_export_problem">Error exporting private key</string>
 </resources>

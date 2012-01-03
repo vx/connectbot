@@ -92,5 +92,7 @@ public class PreferenceConstants {
 	public static final String DEFAULT_FONT_SIZE = "default_font_size";
 	public static final String FILE_DIALOG = "file_dialog";
 	public static final String DOWNLOAD_FOLDER = "download_folder";
+	public static final String REMOTE_UPLOAD_FOLDER = "remote_upload_folder";
 	public static final String BACKGROUND_FILE_TRANSFER = "background_file_transfer";
+	public static final String UPLOAD_DESTINATION_PROMPT = "upload_dest_prompt";
 }

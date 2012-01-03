@@ -20,6 +20,7 @@ package sk.vx.connectbot;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.KeyPair;
@@ -42,6 +43,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
@@ -78,6 +80,8 @@ public class PubkeyListActivity extends ListActivity implements EventListener, F
 	public final static String TAG = "ConnectBot.PubkeyListActivity";
 
 	private static final int MAX_KEYFILE_SIZE = 8192;
+	private static final int KEYTYPE_PUBLIC = 0;
+	private static final int KEYTYPE_PRIVATE = 1;
 
 	protected PubkeyDatabase pubkeydb;
 	private List<PubkeyBean> pubkeys;
@@ -197,7 +201,9 @@ public class PubkeyListActivity extends ListActivity implements EventListener, F
 		importkey.setIcon(android.R.drawable.ic_menu_upload);
 		importkey.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 			public boolean onMenuItemClick(MenuItem item) {
-				FileChooser.selectFile(PubkeyListActivity.this, PubkeyListActivity.this);
+				FileChooser.selectFile(PubkeyListActivity.this, PubkeyListActivity.this,
+						FileChooser.REQUEST_CODE_SELECT_FILE,
+						getString(R.string.file_chooser_select_file,getString(R.string.for_key_import)));
 				return true;
 			}
 		});
@@ -293,7 +299,7 @@ public class PubkeyListActivity extends ListActivity implements EventListener, F
 		});
 
 		onstartToggle = menu.add(R.string.pubkey_load_on_start);
-		onstartToggle.setEnabled(!pubkey.isEncrypted());
+		onstartToggle.setVisible(!pubkey.isEncrypted());
 		onstartToggle.setCheckable(true);
 		onstartToggle.setChecked(pubkey.isStartup());
 		onstartToggle.setOnMenuItemClickListener(new OnMenuItemClickListener() {
@@ -306,46 +312,8 @@ public class PubkeyListActivity extends ListActivity implements EventListener, F
 			}
 		});
 
-		MenuItem copyPublicToClipboard = menu.add(R.string.pubkey_copy_public);
-		copyPublicToClipboard.setEnabled(!imported);
-		copyPublicToClipboard.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-			public boolean onMenuItemClick(MenuItem item) {
-				try {
-					PublicKey pk = pubkey.getPublicKey();
-					String openSSHPubkey = PubkeyUtils.convertToOpenSSHFormat(pk, pubkey.getNickname());
-
-					clipboard.setText(openSSHPubkey);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				return true;
-			}
-		});
-
-		MenuItem copyPrivateToClipboard = menu.add(R.string.pubkey_copy_private);
-		copyPrivateToClipboard.setEnabled(!pubkey.isEncrypted() || imported);
-		copyPrivateToClipboard.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-			public boolean onMenuItemClick(MenuItem item) {
-				try {
-					String data = null;
-
-					if (imported)
-						data = new String(pubkey.getPrivateKey());
-					else {
-						PrivateKey pk = PubkeyUtils.decodePrivate(pubkey.getPrivateKey(), pubkey.getType());
-						data = PubkeyUtils.exportPEM(pk, null);
-					}
-
-					clipboard.setText(data);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				return true;
-			}
-		});
-
 		MenuItem changePassword = menu.add(R.string.pubkey_change_password);
-		changePassword.setEnabled(!imported);
+		changePassword.setVisible(!imported);
 		changePassword.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 			public boolean onMenuItemClick(MenuItem item) {
 				final View changePasswordView = inflater.inflate(R.layout.dia_changepassword, null, false);
@@ -405,6 +373,50 @@ public class PubkeyListActivity extends ListActivity implements EventListener, F
 			}
 		});
 
+		MenuItem copyPublicToClipboard = menu.add(R.string.pubkey_copy_public);
+		copyPublicToClipboard.setVisible(!imported);
+		copyPublicToClipboard.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+			public boolean onMenuItemClick(MenuItem item) {
+				String keyString = PubkeyUtils.getPubkeyString(pubkey);
+				if (keyString != null)
+					clipboard.setText(keyString);
+				return true;
+			}
+		});
+
+		MenuItem exportPublic = menu.add(R.string.pubkey_export_public);
+		exportPublic.setVisible(!imported);
+		exportPublic.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+			public boolean onMenuItemClick(MenuItem item) {
+				String keyString = PubkeyUtils.getPubkeyString(pubkey);
+				if (keyString != null)
+					saveKeyToFile(keyString, pubkey.getNickname(), KEYTYPE_PUBLIC);
+				return true;
+			}
+		});
+
+		MenuItem copyPrivateToClipboard = menu.add(R.string.pubkey_copy_private);
+		copyPrivateToClipboard.setVisible(!pubkey.isEncrypted() || imported);
+		copyPrivateToClipboard.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+			public boolean onMenuItemClick(MenuItem item) {
+				String keyString = PubkeyUtils.getPrivkeyString(pubkey);
+				if (keyString != null)
+					clipboard.setText(keyString);
+				return true;
+			}
+		});
+
+		MenuItem exportPrivate = menu.add(R.string.pubkey_export_private);
+		exportPrivate.setVisible(!pubkey.isEncrypted() || imported);
+		exportPrivate.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+			public boolean onMenuItemClick(MenuItem item) {
+				String keyString = PubkeyUtils.getPrivkeyString(pubkey);
+				if (keyString != null)
+					saveKeyToFile(keyString, pubkey.getNickname(), KEYTYPE_PRIVATE);
+				return true;
+			}
+		});
+
 		MenuItem delete = menu.add(R.string.pubkey_delete);
 		delete.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 			public boolean onMenuItemClick(MenuItem item) {
@@ -453,7 +465,7 @@ public class PubkeyListActivity extends ListActivity implements EventListener, F
 		super.onActivityResult(requestCode, resultCode, intent);
 
 		switch (requestCode) {
-		case FileChooser.REQUEST_CODE_PICK_FILE:
+		case FileChooser.REQUEST_CODE_SELECT_FILE:
 			if (resultCode == RESULT_OK && intent != null) {
 				File file = FileChooser.getSelectedFile(intent);
 				if (file != null)
@@ -522,6 +534,72 @@ public class PubkeyListActivity extends ListActivity implements EventListener, F
 			Log.e(TAG, "Problem parsing imported private key", e);
 			Toast.makeText(PubkeyListActivity.this, R.string.pubkey_import_parse_problem, Toast.LENGTH_LONG).show();
 		}
+	}
+
+	private void saveKeyToFile(final String keyString, final String nickName, int keyType) {
+
+		final int titleId, messageId, successId, errorId;
+		final String errorString;
+
+		if (keyType == KEYTYPE_PRIVATE) {
+			titleId = R.string.pubkey_private_save_as;
+			messageId = R.string.pubkey_private_save_as_desc;
+			successId = R.string.pubkey_private_export_success;
+			errorId = R.string.pubkey_private_export_problem;
+			errorString = "Error exporting private key";
+		} else {
+			titleId = R.string.pubkey_public_save_as;
+			messageId = R.string.pubkey_public_save_as_desc;
+			errorId = R.string.pubkey_public_export_problem;
+			successId = R.string.pubkey_public_export_success;
+			errorString = "Error exporting public key";
+		}
+
+
+		final String sdcard = Environment.getExternalStorageDirectory().toString();
+		final EditText fileName = new EditText(PubkeyListActivity.this);
+		fileName.setSingleLine();
+		if (nickName != null) {
+			if (keyType == KEYTYPE_PRIVATE)
+				fileName.setText(sdcard + "/" + nickName.trim());
+			else
+				fileName.setText(sdcard + "/" + nickName.trim() + ".pub");
+		}
+		new AlertDialog.Builder(PubkeyListActivity.this)
+		.setTitle(titleId)
+		.setMessage(messageId)
+		.setView(fileName)
+		.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int whichButton) {
+				File keyFile = new File(fileName.getText().toString());
+				if (!keyFile.exists()) {
+					try {
+						keyFile.createNewFile();
+					} catch (IOException e) {
+						Log.e(TAG, errorString);
+						Toast.makeText(PubkeyListActivity.this,
+								errorId,
+								Toast.LENGTH_LONG).show();
+						return;
+					}
+				}
+				FileOutputStream fout = null;
+				try {
+					fout = new FileOutputStream(keyFile);
+					fout.write(keyString.getBytes(),0,keyString.getBytes().length);
+					fout.flush();
+				} catch (Exception e) {
+					Log.e(TAG, errorString);
+					Toast.makeText(PubkeyListActivity.this,
+							errorId,
+							Toast.LENGTH_LONG).show();
+					return;
+				}
+				Toast.makeText(PubkeyListActivity.this,
+						getResources().getString(successId,keyFile.getPath().toString()),
+						Toast.LENGTH_LONG).show();
+			}
+		}).setNegativeButton(android.R.string.cancel, null).create().show();
 	}
 
 	public void fileSelected(File f) {

@@ -55,6 +55,7 @@ import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.PBEParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
+import sk.vx.connectbot.bean.PubkeyBean;
 import android.util.Log;
 
 import com.trilead.ssh2.crypto.Base64;
@@ -333,5 +334,35 @@ public class PubkeyUtils {
 		}
 
 		return String.valueOf(hex);
+	}
+
+	public static String getPubkeyString(PubkeyBean pubkey) {
+		try {
+			PublicKey pk = pubkey.getPublicKey();
+			return convertToOpenSSHFormat(pk, pubkey.getNickname());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public static String getPrivkeyString(PubkeyBean pubkey) {
+		String data = null;
+		boolean imported = PubkeyDatabase.KEY_TYPE_IMPORTED.equals(pubkey.getType());
+		if (imported || pubkey.isEncrypted())
+			try {
+				data = new String(pubkey.getPrivateKey());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		else {
+			try {
+				PrivateKey pk = decodePrivate(pubkey.getPrivateKey(), pubkey.getType());
+				data = exportPEM(pk, null);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return data;
 	}
 }

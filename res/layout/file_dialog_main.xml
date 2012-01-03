@@ -20,8 +20,11 @@
 					android:layout_width="0dip" android:layout_weight=".3"
 					android:text="@string/nnew"></Button>
 				<Button android:id="@+id/fdButtonSelect" android:layout_height="wrap_content"
-					android:layout_width="0dip" android:layout_weight=".7"
+					android:layout_width="0dip" android:layout_weight=".6"
 					android:text="@string/select"></Button>
+				<Button android:id="@+id/fdButtonCancel" android:layout_height="wrap_content"
+					android:layout_width="0dip" android:layout_weight=".3"
+					android:text="@string/cancel"></Button>
 			</LinearLayout>
 		</LinearLayout>
 
@@ -37,12 +40,12 @@
 
 			<LinearLayout android:orientation="horizontal"
 				android:layout_width="fill_parent" android:layout_height="fill_parent">
-				<Button android:id="@+id/fdButtonCancel" android:layout_height="wrap_content"
+				<Button android:id="@+id/fdButtonCancelCreate" android:layout_height="wrap_content"
 					android:layout_width="0dip" android:layout_weight=".3"
 					android:text="@string/cancel"></Button>
 				<Button android:id="@+id/fdButtonCreate" android:layout_height="wrap_content"
 					android:layout_width="0dip" android:layout_weight=".7"
-					android:text="@string/create"></Button>
+					android:text="@string/new_file"></Button>
 			</LinearLayout>
 		</LinearLayout>
 

@@ -230,8 +230,25 @@
 		android:title="@string/pref_download_folder"
 		android:summary="@string/pref_download_folder_summary"
 		android:inputType="text"
+		android:singleLine="true"
 		/>
-		
+
+	<EditTextPreference
+		android:key="remote_upload_folder"
+		android:title="@string/pref_remote_upload_folder"
+		android:summary="@string/pref_remote_upload_folder_summary"
+		android:inputType="text"
+		android:singleLine="true"
+		android:defaultValue=""
+		/>
+
+	<CheckBoxPreference
+		android:key="upload_dest_prompt"
+		android:title="@string/pref_upload_dest_prompt"
+		android:summary="@string/pref_upload_dest_prompt_summary"
+		android:defaultValue="true"
+		/>
+
 	<CheckBoxPreference
 		android:key="background_file_transfer"
 		android:title="@string/pref_background_file_transfer"

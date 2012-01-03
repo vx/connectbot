@@ -233,7 +233,8 @@ public abstract class AbsTransport {
 	 * @param remoteFolder The path to the remote directory. Null == default remote directory.
 	 * @return true on success, false on failure
 	 */
-	public boolean uploadFile(String localFile, String remoteFolder) {
+	public boolean uploadFile(String localFile, String remoteFile,
+			String remoteFolder, String mode) {
 		return false;
 	}
 

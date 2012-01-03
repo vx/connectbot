@@ -93,6 +93,16 @@ public class FileDialog extends ListActivity {
 			}
 		});
 
+		final Button cancelButton = (Button) findViewById(R.id.fdButtonCancel);
+		cancelButton.setOnClickListener(new OnClickListener() {
+
+			public void onClick(View v) {
+				setResult(RESULT_CANCELED, getIntent());
+				finish();
+			}
+
+		});
+
 		selectionMode = getIntent().getIntExtra(SELECTION_MODE,
 				SelectionMode.MODE_CREATE);
 		if (selectionMode == SelectionMode.MODE_OPEN) {
@@ -103,8 +113,8 @@ public class FileDialog extends ListActivity {
 		layoutCreate = (LinearLayout) findViewById(R.id.fdLinearLayoutCreate);
 		layoutCreate.setVisibility(View.GONE);
 
-		final Button cancelButton = (Button) findViewById(R.id.fdButtonCancel);
-		cancelButton.setOnClickListener(new OnClickListener() {
+		final Button cancelCreateButton = (Button) findViewById(R.id.fdButtonCancelCreate);
+		cancelCreateButton.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
 				setSelectVisible(v);

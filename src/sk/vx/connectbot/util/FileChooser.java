@@ -38,15 +38,21 @@ import com.lamerman.SelectionMode;
 public class FileChooser {
 	public final static String TAG = "ConnectBot.FileChooser";
 
-	public static final int REQUEST_CODE_PICK_FILE = 1;
+	public static final int REQUEST_CODE_SELECT_FILE = 1;
 
 	// Constants for AndExplorer's file picking intent
 	private static final String ANDEXPLORER_TITLE = "explorer_title";
 	private static final String MIME_TYPE_ANDEXPLORER_FILE = "vnd.android.cursor.dir/lysesoft.andexplorer.file";
 
-	public static void selectFile(Activity source, FileChooserCallback callback) {
+	public static void selectFile(Activity source, FileChooserCallback callback, int requestcode) {
+		selectFile(source, callback, requestcode, null);
+	}
+
+	public static void selectFile(Activity source, FileChooserCallback callback, int requestcode, String title) {
 		final File sdcard = Environment.getExternalStorageDirectory();
-		final String pickerTitle = "Select file";
+		if (title == null)
+			title = source.getString(R.string.file_chooser_select_file);
+		int mode = SelectionMode.MODE_OPEN;
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(source);
 		Intent intent;
 		String filedialog;
@@ -58,11 +64,11 @@ public class FileChooser {
 		if (filedialog.equals("OI")) {
 			intent = new Intent(FileManagerIntents.ACTION_PICK_FILE);
 			intent.setData(Uri.fromFile(sdcard));
-			intent.putExtra(FileManagerIntents.EXTRA_TITLE, pickerTitle);
+			intent.putExtra(FileManagerIntents.EXTRA_TITLE, title);
 			intent.putExtra(FileManagerIntents.EXTRA_BUTTON_TEXT, source.getString(android.R.string.ok));
 
 			try {
-				source.startActivityForResult(intent, REQUEST_CODE_PICK_FILE);
+				source.startActivityForResult(intent, requestcode);
 				return;
 			} catch (ActivityNotFoundException e1) {
 				Toast.makeText(source,
@@ -72,10 +78,10 @@ public class FileChooser {
 		} else if (filedialog.equals("AE")) {
 			intent = new Intent(Intent.ACTION_PICK);
 			intent.setDataAndType(Uri.fromFile(sdcard), MIME_TYPE_ANDEXPLORER_FILE);
-			intent.putExtra(ANDEXPLORER_TITLE, pickerTitle);
+			intent.putExtra(ANDEXPLORER_TITLE, title);
 
 			try {
-				source.startActivityForResult(intent, REQUEST_CODE_PICK_FILE);
+				source.startActivityForResult(intent, requestcode);
 				return;
 			} catch (ActivityNotFoundException e1) {
 				Toast.makeText(source,
@@ -85,8 +91,9 @@ public class FileChooser {
 		}
 		intent = new Intent(source.getBaseContext(), FileDialog.class);
 		intent.putExtra(FileDialog.START_PATH, sdcard.toString());
-		intent.putExtra(FileDialog.SELECTION_MODE, SelectionMode.MODE_OPEN);
-		source.startActivityForResult(intent, REQUEST_CODE_PICK_FILE);
+		intent.putExtra(FileDialog.TITLE, title);
+		intent.putExtra(FileDialog.SELECTION_MODE, mode);
+		source.startActivityForResult(intent, requestcode);
 	}
 
 	public static File getSelectedFile(Intent intent) {

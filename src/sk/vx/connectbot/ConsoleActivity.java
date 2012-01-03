@@ -857,28 +857,21 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 		download.setEnabled(sessionOpen && canTransferFiles);
 		download.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 			public boolean onMenuItemClick(MenuItem item) {
+				final String downloadFolder = prefs.getString(PreferenceConstants.DOWNLOAD_FOLDER, "");
 				final TerminalView terminalView = (TerminalView) findCurrentView(R.id.console_flip);
 				final TerminalBridge bridge = terminalView.bridge;
-
 				final EditText textField = new EditText(ConsoleActivity.this);
-				textField.setText(clipboard.getText().toString());
-				textField.selectAll();
 
 				new AlertDialog.Builder(ConsoleActivity.this)
-					.setTitle(R.string.transfer_pick_remote)
-					.setMessage(R.string.transfer_pick_remote_desc)
+					.setTitle(R.string.transfer_select_remote_download_title)
+					.setMessage(R.string.transfer_select_remote_download_desc)
 					.setView(textField)
-					.setPositiveButton(R.string.transfer_remote_action, new DialogInterface.OnClickListener() {
+					.setPositiveButton(R.string.transfer_button_download, new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int whichButton) {
 							ProgressDialog progress = null;
-							if (!prefs.getBoolean(PreferenceConstants.BACKGROUND_FILE_TRANSFER,true)) {
-								progress = new ProgressDialog(ConsoleActivity.this);
-								progress.setIndeterminate(true);
-								progress.setMessage(getString(R.string.transfer_downloading));
-								progress.setCancelable(false);
-								progress.show();
-							}
-							new TransferThread(bridge, textField.getText().toString(), progress, false).start();
+							if (!prefs.getBoolean(PreferenceConstants.BACKGROUND_FILE_TRANSFER,true))
+								fileProgressDialog(getString(R.string.transfer_downloading));
+							new TransferThread(bridge, textField.getText().toString(), null, downloadFolder, progress, false).start();
 						}
 					}).setNegativeButton(android.R.string.cancel, null).create().show();
 
@@ -891,7 +884,9 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 		upload.setEnabled(sessionOpen && canTransferFiles);
 		upload.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 			public boolean onMenuItemClick(MenuItem item) {
-				FileChooser.selectFile(ConsoleActivity.this, ConsoleActivity.this);
+				FileChooser.selectFile(ConsoleActivity.this, ConsoleActivity.this,
+						FileChooser.REQUEST_CODE_SELECT_FILE,
+						getString(R.string.file_chooser_select_file, getString(R.string.for_upload)));
 				return true;
 			}
 		});
@@ -904,7 +899,7 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 		super.onActivityResult(requestCode, resultCode, intent);
 
 		switch (requestCode) {
-		case FileChooser.REQUEST_CODE_PICK_FILE:
+		case FileChooser.REQUEST_CODE_SELECT_FILE:
 			if (resultCode == RESULT_OK && intent != null) {
 				Uri uri = intent.getData();
 				try {
@@ -917,39 +912,84 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 						}
 					}
 				} catch (IllegalArgumentException e) {
-					Log.e(TAG, "Couldn't read from picked file", e);
+					Log.e(TAG, "Couldn't read from selected file", e);
 				}
 			}
 			break;
 		}
 	}
 
-	public void fileSelected(File f) {
+	private ProgressDialog fileProgressDialog(String message) {
+		ProgressDialog progress = new ProgressDialog(this);
+		progress.setIndeterminate(true);
+		progress.setMessage(message);
+		progress.setCancelable(false);
+		progress.show();
+
+		return progress;
+	}
+
+	public void fileSelected(final File f) {
 		Log.d(TAG, "File chooser returned " + f);
-		ProgressDialog progress = null;
-		if (!prefs.getBoolean(PreferenceConstants.BACKGROUND_FILE_TRANSFER,true)) {
-			progress = new ProgressDialog(this);
-			progress.setIndeterminate(true);
-			progress.setMessage(getString(R.string.transfer_uploading));
-			progress.setCancelable(false);
-			progress.show();
+
+		String destFileName;
+		String uploadFolder = prefs.getString(PreferenceConstants.REMOTE_UPLOAD_FOLDER,null);
+		if (uploadFolder == null)
+			uploadFolder = "";
+
+		if (!uploadFolder.equals("") && uploadFolder.charAt(uploadFolder.length()-1) != '/' )
+			destFileName = uploadFolder + "/" + f.getName();
+		else
+			destFileName = uploadFolder + f.getName();
+
+		if (prefs.getBoolean(PreferenceConstants.UPLOAD_DESTINATION_PROMPT,true)) {
+			final EditText fileDest = new EditText(ConsoleActivity.this);
+			fileDest.setSingleLine();
+			fileDest.setText(destFileName);
+			new AlertDialog.Builder(ConsoleActivity.this)
+				.setTitle(R.string.transfer_select_remote_upload_dest_title)
+				.setMessage(getResources().getString(R.string.transfer_select_remote_upload_dest_desc) + "\n" + f.getPath())
+				.setView(fileDest)
+				.setPositiveButton(R.string.transfer_button_upload, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+						ProgressDialog progress = null;
+						if (!prefs.getBoolean(PreferenceConstants.BACKGROUND_FILE_TRANSFER,true))
+							progress = fileProgressDialog(getString(R.string.transfer_uploading));
+
+						TerminalView terminalView = (TerminalView) findCurrentView(R.id.console_flip);
+						TerminalBridge bridge = terminalView.bridge;
+						File uf = new File(fileDest.getText().toString());
+						String name = "", parent = "";
+						if (uf.getParent() != null)
+							parent = uf.getParent().toString();
+						if (uf.getName() != null)
+							name = uf.getName().toString();
+						new TransferThread(bridge, f.toString(), name, parent, progress, true).start();
+					}
+				}).setNegativeButton(android.R.string.cancel, null).create().show();
+		} else {
+			ProgressDialog progress = null;
+			if (!prefs.getBoolean(PreferenceConstants.BACKGROUND_FILE_TRANSFER,true))
+				progress = fileProgressDialog(getString(R.string.transfer_uploading));
+
+			TerminalView terminalView = (TerminalView) findCurrentView(R.id.console_flip);
+			TerminalBridge bridge = terminalView.bridge;
+
+			new TransferThread(bridge, f.toString(), null, uploadFolder, progress, true).start();
 		}
-
-		TerminalView terminalView = (TerminalView) findCurrentView(R.id.console_flip);
-		TerminalBridge bridge = terminalView.bridge;
-
-		new TransferThread(bridge, f.toString(), progress, true).start();
 	}
 
 	class TransferThread extends Thread {
 		private final TerminalBridge bridge;
-		private final String files;
+		private final String files, destFolder, destName;
 		private final ProgressDialog dialog;
 		private final boolean upload;
 
-		TransferThread(TerminalBridge bridge, String files, ProgressDialog dialog, boolean upload) {
+		TransferThread(TerminalBridge bridge, String files, String destName, String destFolder, ProgressDialog dialog, boolean upload) {
 			this.bridge = bridge;
 			this.files = files;
+			this.destFolder = destFolder;
+			this.destName = destName;
 			this.dialog = dialog;
 			this.upload = upload;
 			Log.d(TAG, "Requested " + (upload ? "up" : "down") + " transfer of [" + files + "]" );
@@ -959,7 +999,6 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 		public void run() {
 			Resources res = getResources();
 			String failed = "";
-			String downloadFolder = prefs.getString(PreferenceConstants.DOWNLOAD_FOLDER, "");
 			try {
 				StringTokenizer fileSet = new StringTokenizer(files, "\n");
 				while (fileSet.hasMoreTokens()) {
@@ -978,7 +1017,7 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 								dialog.setMessage(newMessage);
 						}
 					});
-					boolean success = (upload ? bridge.uploadFile(file, null) : bridge.downloadFile(file, downloadFolder));
+					boolean success = (upload ? bridge.uploadFile(file, destName, destFolder, null) : bridge.downloadFile(file, destFolder));
 					if (! success)
 						failed += " " + file;
 					if (prefs.getBoolean(PreferenceConstants.BACKGROUND_FILE_TRANSFER,true)) {

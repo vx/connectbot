@@ -741,12 +741,16 @@ public class SSH extends AbsTransport implements ConnectionMonitor, InteractiveC
 	}
 
 	@Override
-	public boolean uploadFile(String localFile, String remoteFolder) {
+	public boolean uploadFile(String localFile, String remoteFile,
+			String remoteFolder, String mode) {
 		try {
 			SCPClient client = new SCPClient(connection);
 			if (remoteFolder == null)
 				remoteFolder = "";
-			client.put(localFile, remoteFolder);
+			if (remoteFile == null || remoteFile == "")
+				client.put(localFile, remoteFolder, mode);
+			else
+				client.put(localFile, remoteFile, remoteFolder, mode);
 			return true;
 		} catch (IOException e) {
 			Log.e(TAG, "Could not upload local file", e);
