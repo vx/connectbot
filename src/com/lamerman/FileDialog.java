@@ -32,6 +32,7 @@ public class FileDialog extends ListActivity {
 	public static final String START_PATH = "START_PATH";
 	public static final String RESULT_PATH = "RESULT_PATH";
 	public static final String SELECTION_MODE = "SELECTION_MODE";
+	public static final String TITLE = "TITLE";
 
 	private List<String> path = null;
 	private TextView myPath;
@@ -58,6 +59,11 @@ public class FileDialog extends ListActivity {
 		setResult(RESULT_CANCELED, getIntent());
 
 		setContentView(R.layout.file_dialog_main);
+
+		this.setTitle(String.format("%s: %s",
+				getResources().getText(R.string.app_name),
+				getIntent().getStringExtra(TITLE)));
+
 		myPath = (TextView) findViewById(R.id.path);
 		mFileName = (EditText) findViewById(R.id.fdEditTextFile);
 
