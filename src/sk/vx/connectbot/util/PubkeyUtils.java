@@ -346,10 +346,10 @@ public class PubkeyUtils {
 		return null;
 	}
 
-	public static String getPrivkeyString(PubkeyBean pubkey) {
+	public static String getPrivkeyString(PubkeyBean pubkey, String passphrase) {
 		String data = null;
 		boolean imported = PubkeyDatabase.KEY_TYPE_IMPORTED.equals(pubkey.getType());
-		if (imported || pubkey.isEncrypted())
+		if (imported)
 			try {
 				data = new String(pubkey.getPrivateKey());
 			} catch (Exception e) {
@@ -357,8 +357,12 @@ public class PubkeyUtils {
 			}
 		else {
 			try {
-				PrivateKey pk = decodePrivate(pubkey.getPrivateKey(), pubkey.getType());
-				data = exportPEM(pk, null);
+				PrivateKey pk = null;
+				if (passphrase == null)
+					pk = decodePrivate(pubkey.getPrivateKey(), pubkey.getType());
+				else
+					pk = decodePrivate(pubkey.getPrivateKey(), pubkey.getType(), passphrase);
+				data = exportPEM(pk, passphrase);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

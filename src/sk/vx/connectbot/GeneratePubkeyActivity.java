@@ -53,7 +53,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 public class GeneratePubkeyActivity extends Activity implements OnEntropyGatheredListener {
 	public final static String TAG = "ConnectBot.GeneratePubkeyActivity";
 
-	final static int DEFAULT_BITS = 1024;
+	final static int DEFAULT_BITS = 2048;
 
 	private LayoutInflater inflater = null;
 

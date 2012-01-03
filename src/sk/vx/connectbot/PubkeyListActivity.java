@@ -399,7 +399,7 @@ public class PubkeyListActivity extends ListActivity implements EventListener, F
 		copyPrivateToClipboard.setVisible(!pubkey.isEncrypted() || imported);
 		copyPrivateToClipboard.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 			public boolean onMenuItemClick(MenuItem item) {
-				String keyString = PubkeyUtils.getPrivkeyString(pubkey);
+				String keyString = PubkeyUtils.getPrivkeyString(pubkey, null);
 				if (keyString != null)
 					clipboard.setText(keyString);
 				return true;
@@ -410,9 +410,25 @@ public class PubkeyListActivity extends ListActivity implements EventListener, F
 		exportPrivate.setVisible(!pubkey.isEncrypted() || imported);
 		exportPrivate.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 			public boolean onMenuItemClick(MenuItem item) {
-				String keyString = PubkeyUtils.getPrivkeyString(pubkey);
-				if (keyString != null)
-					saveKeyToFile(keyString, pubkey.getNickname(), KEYTYPE_PRIVATE);
+/*				if (pubkey.isEncrypted()) {
+					final View view = inflater.inflate(R.layout.dia_password, null);
+					final EditText passwordField = (EditText)view.findViewById(android.R.id.text1);
+
+					new AlertDialog.Builder(PubkeyListActivity.this)
+						.setView(view)
+						.setPositiveButton(R.string.pubkey_unlock, new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int which) {
+								String keyString = PubkeyUtils.getPrivkeyString(pubkey, passwordField.getText().toString());
+								if (keyString != null)
+									saveKeyToFile(keyString, pubkey.getNickname(), KEYTYPE_PRIVATE);
+							}
+						})
+						.setNegativeButton(android.R.string.cancel, null).create().show();
+				} else { */
+					String keyString = PubkeyUtils.getPrivkeyString(pubkey, null);
+					if (keyString != null)
+						saveKeyToFile(keyString, pubkey.getNickname(), KEYTYPE_PRIVATE);
+//				}
 				return true;
 			}
 		});
