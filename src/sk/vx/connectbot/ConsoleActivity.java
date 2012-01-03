@@ -828,7 +828,7 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 
 		urlscan = menu.add(R.string.console_menu_urlscan);
 		if (hardKeyboard)
-			urlscan.setAlphabeticShortcut('u');
+			urlscan.setAlphabeticShortcut('l');
 		urlscan.setIcon(android.R.drawable.ic_menu_search);
 		urlscan.setEnabled(activeTerminal);
 		urlscan.setOnMenuItemClickListener(new OnMenuItemClickListener() {
@@ -880,7 +880,7 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 		});
 
 		upload = menu.add(R.string.console_menu_upload);
-		upload.setAlphabeticShortcut('p');
+		upload.setAlphabeticShortcut('u');
 		upload.setEnabled(sessionOpen && canTransferFiles);
 		upload.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 			public boolean onMenuItemClick(MenuItem item) {
