@@ -10,6 +10,7 @@ VX ConnectBot is an enhanced version of the popular open-source telnet and secur
 ## Features and enhancements
 
  - based on ConnectBot 1.7.1
+ - background file transfer (SCP protocol)
  - screen capture (save a PNG screenshot of the console)
  - character picker dialog (on-screen and hardware SYM keys)
  - customizable default font size
@@ -71,3 +72,7 @@ Also based in part on [JZlib](http://www.jcraft.com) provided under a BSD-style 
 This software includes modifications from [Irssiconnectbot](https://github.com/irssiconnectbot/irssiconnectbot) developed by Iiro Uusitalo and Ville Kerminen.
 
 This software includes the [ssh-agent](https://github.com/rtyley) service developed by Roberto Tyley.
+
+SCP file transfer support is badsed on [modifications](https://github.com/staktrace/connectbot/commits/filetransfer) by Kartikaya Gupta.
+
+Internal file selection dialog is based on [Android File Dialog](http://code.google.com/p/android-file-dialog/) by Alexander Ponomarev, provided under a BSD-style license.
