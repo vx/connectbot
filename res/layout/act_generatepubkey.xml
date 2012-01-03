@@ -88,7 +88,7 @@
 				android:id="@+id/bits"
 				android:inputType="number"
 				android:layout_height="wrap_content"
-				android:text="1024"
+				android:text="2048"
 				android:singleLine="true"
 				android:layout_weight="1" />
 		</TableRow>
