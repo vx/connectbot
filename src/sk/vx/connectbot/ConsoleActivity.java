@@ -886,7 +886,7 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 			public boolean onMenuItemClick(MenuItem item) {
 				FileChooser.selectFile(ConsoleActivity.this, ConsoleActivity.this,
 						FileChooser.REQUEST_CODE_SELECT_FILE,
-						getString(R.string.file_chooser_select_file, getString(R.string.for_upload)));
+						getString(R.string.file_chooser_select_file, getString(R.string.select_for_upload)));
 				return true;
 			}
 		});
