@@ -294,9 +294,9 @@
   <string name="pubkey_export_private">"Exportovať súkromný kľúč"</string>
   <string name="pubkey_export_public">"Exportovať verejný kľúč"</string>	
   <string name="pubkey_public_save_as">Uložiť verejný kľúč</string>
-  <string name="pubkey_public_save_as_desc">Názov súboru (alebo celá cesta) pre uloženie verejného kľúča</string>
+  <string name="pubkey_public_save_as_desc">Názov súboru (s cestou) pre uloženie verejného kľúča</string>
   <string name="pubkey_private_save_as">Uložiť súkromný kľúč</string>
-  <string name="pubkey_private_save_as_desc">Názov súboru (alebo celá cesta) pre uloženie súkromného kľúča</string>
+  <string name="pubkey_private_save_as_desc">Názov súboru (s cestou) pre uloženie súkromného kľúča</string>
   <string name="pubkey_public_export_success">Verejný kľúč bol uložený ako %1$s</string>
   <string name="pubkey_public_export_problem">Chyba pri exporte verejného kľúča</string>
   <string name="pubkey_private_export_success">Súkromný kľúč bol uložený ako %1$s</string>
