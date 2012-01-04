@@ -17,8 +17,8 @@
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	package="sk.vx.connectbot"
-	android:versionName="1.7.1-7"
-	android:versionCode="7"
+	android:versionName="1.7.1-8"
+	android:versionCode="8"
 	android:installLocation="auto">
 
 	<uses-sdk android:targetSdkVersion="11" android:minSdkVersion="3" />
@@ -82,13 +82,7 @@
 		<activity android:name=".HelpActivity" android:configChanges="keyboardHidden|orientation" />
 		<activity android:name=".HelpTopicActivity" android:configChanges="keyboardHidden|orientation" />
 		<activity android:name=".ColorsActivity" android:configChanges="keyboardHidden|orientation" />
-
-		<activity android:name="com.lamerman.FileDialog">
-		    <intent-filter>
-		        <action android:name="android.intent.action.MAIN" />
-		        <category android:name="android.intent.category.LAUNCHER" />
-		    </intent-filter>
-		</activity>
+		<activity android:name="com.lamerman.FileDialog" android:configChanges="keyboardHidden|orientation" />
 
 		<service android:name="sk.vx.connectbot.service.TerminalManager"
 			android:configChanges="keyboardHidden|orientation"
