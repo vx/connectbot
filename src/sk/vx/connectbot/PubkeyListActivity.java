@@ -203,7 +203,7 @@ public class PubkeyListActivity extends ListActivity implements EventListener, F
 			public boolean onMenuItemClick(MenuItem item) {
 				FileChooser.selectFile(PubkeyListActivity.this, PubkeyListActivity.this,
 						FileChooser.REQUEST_CODE_SELECT_FILE,
-						getString(R.string.file_chooser_select_file,getString(R.string.for_key_import)));
+						getString(R.string.file_chooser_select_file,getString(R.string.select_for_key_import)));
 				return true;
 			}
 		});
