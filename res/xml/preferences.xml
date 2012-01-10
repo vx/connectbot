@@ -217,44 +217,44 @@
 	<PreferenceCategory
 		android:title="@string/pref_file_transfer_category">
 
-	<ListPreference
-		android:key="file_dialog"
-		android:title="@string/pref_file_dialog_title"
-		android:summary="@string/pref_file_dialog_summary"
-		android:entries="@array/file_dialog"
-		android:entryValues="@array/file_dialog_values"
-		android:defaultValue="built-in"
-		/>
+		<ListPreference
+			android:key="file_dialog"
+			android:title="@string/pref_file_dialog_title"
+			android:summary="@string/pref_file_dialog_summary"
+			android:entries="@array/file_dialog"
+			android:entryValues="@array/file_dialog_values"
+			android:defaultValue="built-in"
+			/>
 
-	<EditTextPreference
-		android:key="download_folder"
-		android:title="@string/pref_download_folder"
-		android:summary="@string/pref_download_folder_summary"
-		android:inputType="text"
-		android:singleLine="true"
-		/>
+		<EditTextPreference
+			android:key="download_folder"
+			android:title="@string/pref_download_folder"
+			android:summary="@string/pref_download_folder_summary"
+			android:inputType="text"
+			android:singleLine="true"
+			/>
 
-	<EditTextPreference
-		android:key="remote_upload_folder"
-		android:title="@string/pref_remote_upload_folder"
-		android:summary="@string/pref_remote_upload_folder_summary"
-		android:inputType="text"
-		android:singleLine="true"
-		android:defaultValue=""
-		/>
+		<EditTextPreference
+			android:key="remote_upload_folder"
+			android:title="@string/pref_remote_upload_folder"
+			android:summary="@string/pref_remote_upload_folder_summary"
+			android:inputType="text"
+			android:singleLine="true"
+			android:defaultValue=""
+			/>
 
-	<CheckBoxPreference
-		android:key="upload_dest_prompt"
-		android:title="@string/pref_upload_dest_prompt"
-		android:summary="@string/pref_upload_dest_prompt_summary"
-		android:defaultValue="true"
-		/>
+		<CheckBoxPreference
+			android:key="upload_dest_prompt"
+			android:title="@string/pref_upload_dest_prompt"
+			android:summary="@string/pref_upload_dest_prompt_summary"
+			android:defaultValue="true"
+			/>
 
-	<CheckBoxPreference
-		android:key="background_file_transfer"
-		android:title="@string/pref_background_file_transfer"
-		android:summary="@string/pref_background_file_transfer_summary"
-		android:defaultValue="true"
-		/>
+		<CheckBoxPreference
+			android:key="background_file_transfer"
+			android:title="@string/pref_background_file_transfer"
+			android:summary="@string/pref_background_file_transfer_summary"
+			android:defaultValue="true"
+			/>
 	</PreferenceCategory>
 </PreferenceScreen>
