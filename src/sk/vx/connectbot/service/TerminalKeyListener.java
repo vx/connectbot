@@ -660,7 +660,7 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 				v, content, getPickerString(), true) {
 			private void writeCharAndClose(CharSequence result) {
 				try {
-					bridge.transport.write(result.toString().getBytes());
+					bridge.transport.write(result.toString().getBytes(encoding));
 				} catch (IOException e) {
 					Log.e(TAG, "Problem with the CharacterPickerDialog", e);
 				}
