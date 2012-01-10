@@ -591,4 +591,10 @@
 	<string name="pubkey_public_export_problem">Error exporting public key</string>
 	<string name="pubkey_private_export_success">Private key saved as %1$s</string>
 	<string name="pubkey_private_export_problem">Error exporting private key</string>
+
+	<!--  Debug -->
+	<string name="pref_debug_category">Debug settings</string>
+	<string name="pref_debug_keycodes">Print keycodes</string>
+	<string name="pref_debug_keycodes_summary">Print codes of keys pressed in terminal window</string>
+	<string name="keycode_pressed">Code of pressed key</string>
 </resources>

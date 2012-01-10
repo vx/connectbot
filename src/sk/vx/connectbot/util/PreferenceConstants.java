@@ -95,4 +95,7 @@ public class PreferenceConstants {
 	public static final String REMOTE_UPLOAD_FOLDER = "remote_upload_folder";
 	public static final String BACKGROUND_FILE_TRANSFER = "background_file_transfer";
 	public static final String UPLOAD_DESTINATION_PROMPT = "upload_dest_prompt";
+
+	/* Debug */
+	public static final String DEBUG_KEYCODES = "debug_keycodes";
 }

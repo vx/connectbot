@@ -18,6 +18,7 @@ package sk.vx.connectbot.service;
 
 import java.io.IOException;
 
+import sk.vx.connectbot.R;
 import sk.vx.connectbot.TerminalView;
 import sk.vx.connectbot.bean.SelectionArea;
 import sk.vx.connectbot.util.PreferenceConstants;
@@ -35,6 +36,7 @@ import android.view.View;
 import android.view.View.OnKeyListener;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.Toast;
 import de.mud.terminal.VDUBuffer;
 import de.mud.terminal.vt320;
 
@@ -119,6 +121,16 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 
 			// Ignore all key-up events except for the special keys
 			if (event.getAction() == KeyEvent.ACTION_UP) {
+
+				// for if debugging enabled, log and print the pressed key
+				if (prefs.getBoolean(PreferenceConstants.DEBUG_KEYCODES, false)) {
+					String keyCodeString = String.format("%d", keyCode);
+					Log.d(TAG, "Code of pressed key: " + keyCodeString);
+					Toast.makeText(bridge.manager.getBaseContext(),
+						bridge.manager.getString(R.string.keycode_pressed) + ": " + keyCodeString,
+							Toast.LENGTH_LONG).show();
+				}
+
 				// There's nothing here for virtual keyboard users.
 				if (!hardKeyboard || (hardKeyboard && hardKeyboardHidden))
 					return false;

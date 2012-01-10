@@ -299,4 +299,8 @@
   <string name="pubkey_public_export_problem">Fehler beim Export des öffentlichen Schlüssels</string>
   <string name="pubkey_private_export_success">Privater Schlüssel gespeichert als %1$s</string>
   <string name="pubkey_private_export_problem">Fehler beim Export des privaten Schlüssels</string>  
+  <string name="pref_debug_category">Entwickler-Einstellungen</string>
+  <string name="pref_debug_keycodes">Tastencodes anzeigen</string>
+  <string name="pref_debug_keycodes_summary">Codes der im Terminal gedrückten Tasten anzeigen</string>
+  <string name="keycode_presesed">Code der gedrückten Taste</string>
 </resources>

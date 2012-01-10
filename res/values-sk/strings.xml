@@ -300,5 +300,9 @@
   <string name="pubkey_public_export_success">Verejný kľúč bol uložený ako %1$s</string>
   <string name="pubkey_public_export_problem">Chyba pri exporte verejného kľúča</string>
   <string name="pubkey_private_export_success">Súkromný kľúč bol uložený ako %1$s</string>
-  <string name="pubkey_private_export_problem">Chyba pri exporte súkromného kľúča</string>    
+  <string name="pubkey_private_export_problem">Chyba pri exporte súkromného kľúča</string>
+  <string name="pref_debug_category">Nastavenia pre vývoj</string>
+  <string name="pref_debug_keycodes">Zobraziť kódy kláves</string>
+  <string name="pref_debug_keycodes_summary">Zobraziť kódy stlačených kláves v termináli</string>
+  <string name="keycode_pressed">Kód stlačenej klávesy</string>
 </resources>
