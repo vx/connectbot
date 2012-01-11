@@ -567,9 +567,8 @@
 	<string name="pref_background_file_transfer_summary">Perform file downloads and uploads in background</string>
 	<string name="transfer_downloading">Downloading files...</string>
 	<string name="transfer_downloading_file">Downloading file: %1$s</string>
-	<string name="transfer_download_complete">Download complete: %1$s</string>
-	<string name="transfer_download_failed">Error downloading file: %1$s</string>
-	<string name="transfer_downloads_failed">Error downloading files:%1$s</string>
+	<string name="transfer_download_complete">Download complete</string>
+	<string name="transfer_download_failed">Error downloading file(s):%1$s</string>
 	<string name="transfer_select_remote_download_title">Download file(s)</string>
 	<string name="transfer_select_remote_download_desc">Enter paths of the remote files to download (one per line)</string>
 	<string name="transfer_select_remote_upload_dest_title">Upload destination</string>
@@ -578,9 +577,8 @@
 	<string name="transfer_button_upload">Upload</string>
 	<string name="transfer_uploading">Uploading file...</string>
 	<string name="transfer_uploading_file">Uploading file: %1$s</string>
-	<string name="transfer_upload_complete">Upload complete: %1$s</string>
-	<string name="transfer_upload_failed">Error uploading file: %1$s</string>
-	<string name="transfer_uploads_failed">Error uploading files:%1$s</string>
+	<string name="transfer_upload_complete">Upload complete</string>
+	<string name="transfer_upload_failed">Error uploading file(s):%1$s</string>
 
 	<!-- Key export -->
 	<string name="pubkey_export_private">"Export private key"</string>

@@ -40,6 +40,7 @@ public class TransferThread extends Thread {
 	private String files, destName, destFolder;
 	private ProgressDialog progress = null;
 	private boolean upload;
+	private Toast progressToast = null;
 
 	public TransferThread(Activity activity, Handler handler) {
 		this.activity = activity;
@@ -78,20 +79,20 @@ public class TransferThread extends Thread {
 
 		Log.d(TAG, "Requested " + (upload ? "upload" : "download") + " of [" + files + "]" );
 		Resources res = activity.getResources();
-		String failed = "";
+		String fail = "";
 		try {
 			StringTokenizer fileSet = new StringTokenizer(files, "\n");
 			while (fileSet.hasMoreTokens()) {
 				String file = fileSet.nextToken();
 				final String newMessage = res.getString(upload ? R.string.transfer_uploading_file : R.string.transfer_downloading_file, file);
-				final String successMessage = res.getString(upload ? R.string.transfer_upload_complete : R.string.transfer_download_complete, file);
-				final String errorMessage = res.getString(upload ? R.string.transfer_upload_failed : R.string.transfer_download_failed, file);
 				handler.post(new Runnable() {
 					public void run() {
 						if (prefs.getBoolean(PreferenceConstants.BACKGROUND_FILE_TRANSFER,true)) {
-							Toast.makeText(activity,
-								newMessage,
-								Toast.LENGTH_LONG).show();
+							if (progressToast == null)
+								progressToast = Toast.makeText(activity, newMessage, Toast.LENGTH_LONG);
+							else
+								progressToast.setText(newMessage);
+							progressToast.show();
 						} else if (progress != null) {
 							progress.setMessage(newMessage);
 						}
@@ -99,25 +100,22 @@ public class TransferThread extends Thread {
 				});
 				boolean success = (upload ? bridge.uploadFile(file, destName, destFolder, null) : bridge.downloadFile(file, destFolder));
 				if (! success)
-					failed += " " + file;
-				if (prefs.getBoolean(PreferenceConstants.BACKGROUND_FILE_TRANSFER,true)) {
-					final boolean suc = success;
-					handler.post(new Runnable() {
-						public void run() {
-							Toast.makeText(activity,
-								suc ? successMessage : errorMessage,
-								Toast.LENGTH_LONG).show();
-							}
-					});
-				}
+					fail += " " + file;
 			}
 		} finally {
-			final String failMessage = (failed.length() == 0 ? null : res.getString(upload ? R.string.transfer_uploads_failed : R.string.transfer_downloads_failed, failed));
+			final String failMessage = (fail.length() == 0 ? null : res.getString(upload ? R.string.transfer_upload_failed : R.string.transfer_download_failed, fail));
+			final String sucMessage = (res.getString(upload ? R.string.transfer_upload_complete : R.string.transfer_download_complete));
 			handler.post(new Runnable() {
 				public void run() {
 					if (progress != null)
 						progress.dismiss();
-					if (failMessage != null && !prefs.getBoolean(PreferenceConstants.BACKGROUND_FILE_TRANSFER,true)) {
+
+					if (prefs.getBoolean(PreferenceConstants.BACKGROUND_FILE_TRANSFER,true)) {
+							Toast.makeText(activity,
+								failMessage != null ? failMessage : sucMessage,
+								Toast.LENGTH_LONG)
+								.show();
+					} else if (failMessage != null) {
 						new AlertDialog.Builder(activity)
 							.setMessage(failMessage)
 							.setNegativeButton(android.R.string.ok, null).create().show();
