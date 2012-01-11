@@ -126,6 +126,10 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 				if (!hardKeyboard || (hardKeyboard && hardKeyboardHidden))
 					return false;
 
+				// skip keys if we aren't connected yet or have been disconnected
+				if (bridge.isDisconnected() || bridge.transport == null)
+					return false;
+
 				// if keycode debugging enabled, log and print the pressed key
 				if (prefs.getBoolean(PreferenceConstants.DEBUG_KEYCODES, false)) {
 					String keyCodeString = String.format("%d", keyCode);
@@ -134,10 +138,6 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 							v.getContext().getString(R.string.keycode_pressed) + ": " + keyCodeString,
 							Toast.LENGTH_LONG).show();
 				}
-
-				// skip keys if we aren't connected yet or have been disconnected
-				if (bridge.isDisconnected() || bridge.transport == null)
-					return false;
 
 				if (PreferenceConstants.KEYMODE_RIGHT.equals(keymode)) {
 					if (keyCode == KeyEvent.KEYCODE_ALT_RIGHT
