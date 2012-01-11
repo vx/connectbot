@@ -91,6 +91,8 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 
 	private final SharedPreferences prefs;
 
+	private Toast debugToast = null;
+
 	public TerminalKeyListener(TerminalManager manager,
 			TerminalBridge bridge,
 			VDUBuffer buffer,
@@ -132,11 +134,13 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 
 				// if keycode debugging enabled, log and print the pressed key
 				if (prefs.getBoolean(PreferenceConstants.DEBUG_KEYCODES, false)) {
-					String keyCodeString = String.format("%d", keyCode);
-					Log.d(TAG, "Pressed keycode: " + keyCodeString);
-					Toast.makeText(v.getContext(),
-							v.getContext().getString(R.string.keycode_pressed) + ": " + keyCodeString,
-							Toast.LENGTH_LONG).show();
+					String keyCodeString = String.format(": %d", keyCode);
+					String toastText = v.getContext().getString(R.string.keycode_pressed) + keyCodeString;
+					if (debugToast == null)
+						debugToast = Toast.makeText(v.getContext(), toastText, Toast.LENGTH_LONG);
+					else
+						debugToast.setText(toastText);
+					debugToast.show();
 				}
 
 				if (PreferenceConstants.KEYMODE_RIGHT.equals(keymode)) {
