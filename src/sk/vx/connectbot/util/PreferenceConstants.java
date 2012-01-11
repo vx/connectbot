@@ -85,6 +85,7 @@ public class PreferenceConstants {
 	public static final String BACKUP_PREF_KEY = "prefs";
 
 	public static final String PICKER_STRING = "picker_string";
+	public static final String PICKER_KEEP_OPEN = "picker_keep_open";
 	public static final String SCREEN_CAPTURE_POPUP = "screen_capture_popup";
 	public static final String SCREEN_CAPTURE_FOLDER = "screen_capture_folder";
 	public static final String DEFAULT_FONT_SIZE_HEIGHT = "default_fsize_height";

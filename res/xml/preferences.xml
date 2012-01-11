@@ -130,6 +130,13 @@
 			android:defaultValue="~\\^()[]{}&lt;&gt;|/:_;,.!@#$%&amp;*?\&quot;&apos;-+="
 			android:singleLine="true"
 			/>
+
+		<CheckBoxPreference
+			android:key="picker_keep_open"
+			android:title="@string/pref_picker_keep_open"
+			android:summary="@string/pref_picker_keep_open_summary"
+			android:defaultValue="false"
+			/>
 	</PreferenceCategory>
 
 	<PreferenceCategory

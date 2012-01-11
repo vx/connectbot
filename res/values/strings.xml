@@ -530,6 +530,8 @@
 	<!--  Character picker (SYM) dialog  -->
 	<string name="pref_picker_string">SYM window contents</string>
 	<string name="pref_picker_string_summary">String of characters for the character picker dialog</string>
+	<string name="pref_picker_keep_open">Leave SYM window open</string>
+	<string name="pref_picker_keep_open_summary">Only the cancel button closes the picker dialog</string>
 
 	<!-- File Dialog -->
 	<string name="pref_file_transfer_category">File Transfer</string>

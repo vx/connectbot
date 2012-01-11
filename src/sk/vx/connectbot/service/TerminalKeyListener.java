@@ -670,28 +670,31 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 
 		CharacterPickerDialog cpd = new CharacterPickerDialog(v.getContext(),
 				v, content, getPickerString(), true) {
-			private void writeCharAndClose(CharSequence result) {
+			private void writeChar(CharSequence result) {
 				try {
 					bridge.transport.write(result.toString().getBytes(encoding));
 				} catch (IOException e) {
 					Log.e(TAG, "Problem with the CharacterPickerDialog", e);
 				}
-				dismiss();
+				if (!prefs.getBoolean(PreferenceConstants.PICKER_KEEP_OPEN,false))
+						dismiss();
 			}
 
 			@Override
 			public void onItemClick(AdapterView p, View v, int pos, long id) {
 				String result = String.valueOf(getPickerString().charAt(pos));
-				writeCharAndClose(result);
+				writeChar(result);
 			}
 
 			@Override
 			public void onClick(View v) {
 				if (v instanceof Button) {
 					CharSequence result = ((Button) v).getText();
-					writeCharAndClose(result);
+					if (result.equals(""))
+						dismiss();
+					else
+						writeChar(result);
 				}
-				dismiss(); //Closes the picker
 			}
 
 			@Override
