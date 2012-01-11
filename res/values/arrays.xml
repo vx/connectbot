@@ -152,4 +152,14 @@
 		<item>OI</item>
 		<item>AE</item>
 	</string-array>
+
+	<string-array name="list_custom_keymap" translatable="false">
+		<item>Sony Ericsson Xperia (mini) Pro</item>
+		<item>@string/pref_custom_keymap_disabled</item>
+	</string-array>
+
+	<string-array name="list_custom_keymap_values" translatable="false">
+		<item>se_xppro</item>
+		<item>none</item>
+	</string-array>
 </resources>

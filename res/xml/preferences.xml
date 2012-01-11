@@ -137,6 +137,15 @@
 			android:summary="@string/pref_picker_keep_open_summary"
 			android:defaultValue="false"
 			/>
+
+		<ListPreference
+			android:key="list_custom_keymap"
+			android:title="@string/pref_custom_keymap_title"
+			android:summary="@string/pref_custom_keymap_summary"
+			android:entries="@array/list_custom_keymap"
+			android:entryValues="@array/list_custom_keymap_values"
+			android:defaultValue="none"
+			/>
 	</PreferenceCategory>
 
 	<PreferenceCategory
@@ -163,13 +172,6 @@
 			android:key="bellNotification"
 			android:title="@string/pref_bell_notification_title"
 			android:summary="@string/pref_bell_notification_summary"
-			android:defaultValue="false"
-			/>
-
-		<CheckBoxPreference
-			android:key="xperiaProFix"
-			android:title="@string/pref_xperiapro_title"
-			android:summary="@string/pref_xperiapro_summary"
 			android:defaultValue="false"
 			/>
 	</PreferenceCategory>

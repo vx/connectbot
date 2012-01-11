@@ -224,8 +224,9 @@
   <string name="color_blue">modrá</string>
   <string name="color_gray">sivá</string>
   <string name="button_close">Zavrieť</string>
-  <string name="pref_xperiapro_title">Sony Ericsson Xperia (mini) pro klávesnica</string>
-  <string name="pref_xperiapro_summary">Presmerovať klávesy pre hardvérovú klávesnicu Xperia (mini) pro</string>
+  <string name="pref_custom_keymap_title">Prispôsobená klávesnica</string>
+  <string name="pref_custom_keymap_summary">Presmerovanie vybraných kláves na podporovaných zariadeniach</string>
+  <string name="pref_custom_keymap_disabled">vypnuté</string>
   <string name="pref_default_size_category">Prednastavenia veľkosti</string>
   <string name="pref_default_font_size">Prednastavená veľkosť písma</string>
   <string name="pref_default_font_size_summary">Veľkosť písma pri spustení (0 = Automaticky)</string>

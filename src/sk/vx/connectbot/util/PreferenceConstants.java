@@ -99,4 +99,9 @@ public class PreferenceConstants {
 
 	/* Debug */
 	public static final String DEBUG_KEYCODES = "debug_keycodes";
+
+	/* Device keyboard mapping */
+	public static final String CUSTOM_KEYMAP = "list_custom_keymap";
+	public static final String CUSTOM_KEYMAP_DISABLED = "none";
+	public static final String CUSTOM_KEYMAP_SE_XPPRO = "se_xppro";
 }

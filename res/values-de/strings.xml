@@ -224,8 +224,9 @@
   <string name="color_blue">blau</string>
   <string name="color_gray">grau</string>
   <string name="button_close">Schließen</string>
-  <string name="pref_xperiapro_title">Sony Ericsson Xperia (mini) pro Tastaturmapping</string>
-  <string name="pref_xperiapro_summary">Tasten der Xperia (mini) pro Hardwaretastatur umleiten</string>
+  <string name="pref_custom_keymap_title">Angepasstes Tastaturlayout</string>
+  <string name="pref_custom_keymap_summary">Umleitung von bestimmten Tasten auf unterstützten Geräten</string>
+  <string name="pref_custom_keymap_disabled">deaktiviert</string>
   <string name="pref_default_size_category">Voreinstellungen für Fenstergröße</string>
   <string name="pref_default_font_size">Standard-Schriftgröße</string>
   <string name="pref_default_font_size_summary">Standardgröße der Schrift (0 = Automatisch)</string>
