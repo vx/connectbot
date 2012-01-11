@@ -17,8 +17,8 @@
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	package="sk.vx.connectbot"
-	android:versionName="1.7.1-8"
-	android:versionCode="8"
+	android:versionName="1.7.1-9"
+	android:versionCode="9"
 	android:installLocation="auto">
 
 	<uses-sdk android:targetSdkVersion="11" android:minSdkVersion="3" />
