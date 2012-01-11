@@ -122,18 +122,18 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 			// Ignore all key-up events except for the special keys
 			if (event.getAction() == KeyEvent.ACTION_UP) {
 
-				// for if debugging enabled, log and print the pressed key
-				if (prefs.getBoolean(PreferenceConstants.DEBUG_KEYCODES, false)) {
-					String keyCodeString = String.format("%d", keyCode);
-					Log.d(TAG, "Code of pressed key: " + keyCodeString);
-					Toast.makeText(bridge.manager.getBaseContext(),
-						bridge.manager.getString(R.string.keycode_pressed) + ": " + keyCodeString,
-							Toast.LENGTH_LONG).show();
-				}
-
 				// There's nothing here for virtual keyboard users.
 				if (!hardKeyboard || (hardKeyboard && hardKeyboardHidden))
 					return false;
+
+				// if keycode debugging enabled, log and print the pressed key
+				if (prefs.getBoolean(PreferenceConstants.DEBUG_KEYCODES, false)) {
+					String keyCodeString = String.format("%d", keyCode);
+					Log.d(TAG, "Pressed keycode: " + keyCodeString);
+					Toast.makeText(v.getContext(),
+							v.getContext().getString(R.string.keycode_pressed) + ": " + keyCodeString,
+							Toast.LENGTH_LONG).show();
+				}
 
 				// skip keys if we aren't connected yet or have been disconnected
 				if (bridge.isDisconnected() || bridge.transport == null)
