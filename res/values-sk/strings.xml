@@ -224,7 +224,7 @@
   <string name="color_blue">modrá</string>
   <string name="color_gray">sivá</string>
   <string name="button_close">Zavrieť</string>
-  <string name="pref_custom_keymap_title">Prispôsobená klávesnica</string>
+  <string name="pref_custom_keymap_title">Prispôsobenie klávesnice</string>
   <string name="pref_custom_keymap_summary">Presmerovanie vybraných kláves na podporovaných zariadeniach</string>
   <string name="pref_custom_keymap_disabled">vypnuté</string>
   <string name="pref_default_size_category">Prednastavenia veľkosti</string>
