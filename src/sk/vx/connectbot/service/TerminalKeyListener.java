@@ -401,7 +401,7 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 
 			case KeyEvent.KEYCODE_DEL:
 				if ((metaState & META_ALT_MASK) != 0) {
-					((vt320) buffer).keyPressed(vt320.KEY_DELETE, ' ',
+					((vt320) buffer).keyPressed(vt320.KEY_INSERT, ' ',
 						getStateForBuffer());
 				} else {
 					((vt320) buffer).keyPressed(vt320.KEY_BACK_SPACE, ' ',
