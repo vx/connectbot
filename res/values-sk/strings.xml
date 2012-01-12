@@ -250,7 +250,7 @@
   <string name="pref_picker_string_summary">Sada znakov do dialógového okna na výber znaku</string>
   <string name="pref_picker_keep_open">Ponechať okno SYM otvorené</string>
   <string name="pref_picker_keep_open_summary">Iba tlačidlo zrušiť zavrie dialógové okno na výber znaku</string>
-  <string name="pref_file_transfer_category">Prenos súborov]</string>
+  <string name="pref_file_transfer_category">Prenos súborov</string>
   <string name="pref_file_dialog_title">Výber súbora</string>
   <string name="pref_file_dialog_summary">Formulár na výber súborov a priečinkov</string>
   <string name="pref_file_dialog_builtin">zabudovaný</string>
