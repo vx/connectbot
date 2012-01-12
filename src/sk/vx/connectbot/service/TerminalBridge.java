@@ -23,8 +23,10 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -974,7 +976,7 @@ public class TerminalBridge implements VDUDisplay {
 	 * @return
 	 */
 	public List<String> scanForURLs() {
-		List<String> urls = new LinkedList<String>();
+		Set<String> urls = new LinkedHashSet<String>();
 
 		if (urlPattern == null) {
 			// based on http://www.ietf.org/rfc/rfc2396.txt
@@ -1016,7 +1018,7 @@ public class TerminalBridge implements VDUDisplay {
 		while (urlMatcher.find())
 			urls.add(urlMatcher.group());
 
-		return urls;
+		return (new LinkedList<String>(urls));
 	}
 
 	/**
