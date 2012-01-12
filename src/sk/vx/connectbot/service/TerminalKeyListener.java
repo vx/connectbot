@@ -155,32 +155,29 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 					debugToast.show();
 				}
 
-				if (customKeyboard.equals(PreferenceConstants.CUSTOM_KEYMAP_DISABLED)) {
-					// Not applicable for customized keyboards
-					if (PreferenceConstants.KEYMODE_RIGHT.equals(keymode)) {
-						if (keyCode == KeyEvent.KEYCODE_ALT_RIGHT
-								&& (metaState & META_SLASH) != 0) {
-							metaState &= ~(META_SLASH | META_TRANSIENT);
-							bridge.transport.write('/');
-							return true;
-						} else if (keyCode == KeyEvent.KEYCODE_SHIFT_RIGHT
-								&& (metaState & META_TAB) != 0) {
-							metaState &= ~(META_TAB | META_TRANSIENT);
-							bridge.transport.write(0x09);
-							return true;
-						}
-					} else if (PreferenceConstants.KEYMODE_LEFT.equals(keymode)) {
-						if (keyCode == KeyEvent.KEYCODE_ALT_LEFT
-								&& (metaState & META_SLASH) != 0) {
-							metaState &= ~(META_SLASH | META_TRANSIENT);
-							bridge.transport.write('/');
-							return true;
-						} else if (keyCode == KeyEvent.KEYCODE_SHIFT_LEFT
-								&& (metaState & META_TAB) != 0) {
-							metaState &= ~(META_TAB | META_TRANSIENT);
-							bridge.transport.write(0x09);
-							return true;
-						}
+				if (PreferenceConstants.KEYMODE_RIGHT.equals(keymode)) {
+					if (keyCode == KeyEvent.KEYCODE_ALT_RIGHT
+							&& (metaState & META_SLASH) != 0) {
+						metaState &= ~(META_SLASH | META_TRANSIENT);
+						bridge.transport.write('/');
+						return true;
+					} else if (keyCode == KeyEvent.KEYCODE_SHIFT_RIGHT
+							&& (metaState & META_TAB) != 0) {
+						metaState &= ~(META_TAB | META_TRANSIENT);
+						bridge.transport.write(0x09);
+						return true;
+					}
+				} else if (PreferenceConstants.KEYMODE_LEFT.equals(keymode)) {
+					if (keyCode == KeyEvent.KEYCODE_ALT_LEFT
+							&& (metaState & META_SLASH) != 0) {
+						metaState &= ~(META_SLASH | META_TRANSIENT);
+						bridge.transport.write('/');
+						return true;
+					} else if (keyCode == KeyEvent.KEYCODE_SHIFT_LEFT
+							&& (metaState & META_TAB) != 0) {
+						metaState &= ~(META_TAB | META_TRANSIENT);
+						bridge.transport.write(0x09);
+						return true;
 					}
 				}
 
@@ -256,6 +253,10 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 				}
 			}
 
+			// handle customized keymaps
+			if (customKeymapAction(keyCode))
+				return true;
+
 			// otherwise pass through to existing session
 			// print normal keys
 			if (printing) {
@@ -324,73 +325,47 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 			// try handling keymode shortcuts
 			if (hardKeyboard && !hardKeyboardHidden &&
 					event.getRepeatCount() == 0) {
-				if (customKeyboard.equals(PreferenceConstants.CUSTOM_KEYMAP_DISABLED)) {
-					// No keyboard customization
-					if (PreferenceConstants.KEYMODE_RIGHT.equals(keymode)) {
-						switch (keyCode) {
-						case KeyEvent.KEYCODE_ALT_RIGHT:
-							metaState |= META_SLASH;
-							return true;
-						case KeyEvent.KEYCODE_SHIFT_RIGHT:
-							metaState |= META_TAB;
-							return true;
-						case KeyEvent.KEYCODE_SHIFT_LEFT:
-							metaPress(META_SHIFT_ON);
-							return true;
-						case KeyEvent.KEYCODE_ALT_LEFT:
-							metaPress(META_ALT_ON);
-							return true;
-						}
-					} else if (PreferenceConstants.KEYMODE_LEFT.equals(keymode)) {
-						switch (keyCode) {
-						case KeyEvent.KEYCODE_ALT_LEFT:
-							metaState |= META_SLASH;
-							return true;
-						case KeyEvent.KEYCODE_SHIFT_LEFT:
-							metaState |= META_TAB;
-							return true;
-						case KeyEvent.KEYCODE_SHIFT_RIGHT:
-							metaPress(META_SHIFT_ON);
-							return true;
-						case KeyEvent.KEYCODE_ALT_RIGHT:
-							metaPress(META_ALT_ON);
-							return true;
-						}
+				if (PreferenceConstants.KEYMODE_RIGHT.equals(keymode)) {
+					switch (keyCode) {
+					case KeyEvent.KEYCODE_ALT_RIGHT:
+						metaState |= META_SLASH;
+						return true;
+					case KeyEvent.KEYCODE_SHIFT_RIGHT:
+						metaState |= META_TAB;
+						return true;
+					case KeyEvent.KEYCODE_SHIFT_LEFT:
+						metaPress(META_SHIFT_ON);
+						return true;
+					case KeyEvent.KEYCODE_ALT_LEFT:
+						metaPress(META_ALT_ON);
+						return true;
+					}
+				} else if (PreferenceConstants.KEYMODE_LEFT.equals(keymode)) {
+					switch (keyCode) {
+					case KeyEvent.KEYCODE_ALT_LEFT:
+						metaState |= META_SLASH;
+						return true;
+					case KeyEvent.KEYCODE_SHIFT_LEFT:
+						metaState |= META_TAB;
+						return true;
+					case KeyEvent.KEYCODE_SHIFT_RIGHT:
+						metaPress(META_SHIFT_ON);
+						return true;
+					case KeyEvent.KEYCODE_ALT_RIGHT:
+						metaPress(META_ALT_ON);
+						return true;
 					}
 				} else {
-					// Keyboard Customization
 					switch (keyCode) {
-					case KeyEvent.KEYCODE_SWITCH_CHARSET:
-						if (customKeyboard.equals(PreferenceConstants.CUSTOM_KEYMAP_SE_XPPRO)) {
-							ctrlKeySpecial();
-							return true;
-						}
-					case KeyEvent.KEYCODE_S:
-						if (customKeyboard.equals(PreferenceConstants.CUSTOM_KEYMAP_SE_XPPRO)) {
-							bridge.transport.write(0x7C);
-							metaState &= ~META_TRANSIENT;
-							bridge.redraw();
-							return true;
-						}
-					case KeyEvent.KEYCODE_Z:
-						if (customKeyboard.equals(PreferenceConstants.CUSTOM_KEYMAP_SE_XPPRO)) {
-							bridge.transport.write(0x5C);
-							metaState &= ~META_TRANSIENT;
-							bridge.redraw();
-							return true;
-						}
+					case KeyEvent.KEYCODE_ALT_RIGHT:
+					case KeyEvent.KEYCODE_ALT_LEFT:
+						metaPress(META_ALT_ON);
+						return true;
+					case KeyEvent.KEYCODE_SHIFT_LEFT:
+					case KeyEvent.KEYCODE_SHIFT_RIGHT:
+						metaPress(META_SHIFT_ON);
+						return true;
 					}
-				}
-
-				switch (keyCode) {
-				case KeyEvent.KEYCODE_ALT_RIGHT:
-				case KeyEvent.KEYCODE_ALT_LEFT:
-					metaPress(META_ALT_ON);
-					return true;
-				case KeyEvent.KEYCODE_SHIFT_LEFT:
-				case KeyEvent.KEYCODE_SHIFT_RIGHT:
-					metaPress(META_SHIFT_ON);
-					return true;
 				}
 			}
 
@@ -744,6 +719,84 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 		}
 
 		bridge.redraw();
+	}
+
+	private boolean customKeymapAction(int keyCode) {
+
+		if (bridge == null || customKeyboard.equals(PreferenceConstants.CUSTOM_KEYMAP_DISABLED))
+			return false;
+
+		byte c = 0x00;
+
+		// Sony Ericsson Xperia (mini) pro
+		if (customKeyboard.equals(PreferenceConstants.CUSTOM_KEYMAP_SE_XPPRO)) {
+			// Language key acts as CTRL
+			if (keyCode == KeyEvent.KEYCODE_SWITCH_CHARSET) {
+				ctrlKeySpecial();
+				return true;
+			}
+			if ((metaState & META_ALT_MASK) != 0) {
+				if ((metaState & META_SHIFT_MASK) != 0) {
+					// ALT + shift + key
+					switch (keyCode) {
+					case KeyEvent.KEYCODE_U:
+						c = 0x5B;
+						break;
+					case KeyEvent.KEYCODE_I:
+						c = 0x5D;
+						break;
+					case KeyEvent.KEYCODE_O:
+						c = 0x7B;
+						break;
+					case KeyEvent.KEYCODE_P:
+						c = 0x7D;
+						break;
+					}
+				} else {
+					// ALT + key
+					switch (keyCode) {
+					case KeyEvent.KEYCODE_S:
+						c = 0x7c;
+						break;
+					case KeyEvent.KEYCODE_Z:
+						c = 0x5c;
+						break;
+					}
+				}
+			} else if ((metaState & META_SHIFT_MASK) != 0) {
+				// shift + key
+				switch (keyCode) {
+				case KeyEvent.KEYCODE_AT:
+					c = 0x3c;
+					break;
+				case KeyEvent.KEYCODE_COMMA:
+					c = 0x3e;
+					break;
+				case KeyEvent.KEYCODE_PERIOD:
+					c = 0x5e;
+					break;
+				case KeyEvent.KEYCODE_GRAVE:
+					c = 0x60;
+					break;
+				case KeyEvent.KEYCODE_APOSTROPHE:
+					c = 0x7e;
+					break;
+				}
+			}
+		}
+
+		if (c != 0x00) {
+			try {
+				bridge.transport.write(c);
+			} catch (IOException e) {
+				Log.e(TAG, "Problem while trying to handle a custom onKey() event", e);
+			}
+			metaState &= ~(META_SHIFT_ON | META_ALT_ON);
+			bridge.redraw();
+			return true;
+		}
+
+		return false;
 	}
 
 	public void urlScan(View v) {

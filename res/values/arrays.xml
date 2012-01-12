@@ -154,7 +154,7 @@
 	</string-array>
 
 	<string-array name="list_custom_keymap" translatable="false">
-		<item>Sony Ericsson Xperia (mini) Pro</item>
+		<item>Sony Ericsson Xperia (mini) pro</item>
 		<item>@string/pref_custom_keymap_disabled</item>
 	</string-array>
 
