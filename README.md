@@ -25,7 +25,8 @@ VX ConnectBot is an enhanced version of the popular open-source telnet and secur
  - ALT + Down Arrow maps to Page Down
  - ALT + Left Arrow maps to Home
  - ALT + Right Arrow maps to End
- - ALT + Backspace maps to Del
+ - ALT + Backspace maps to Insert
+ - Search key maps to URL scan
 
 ## Device Customization
 
@@ -40,10 +41,19 @@ Currently, there are customizations for the following smartphones:
 Option must be activated in settings menu:
 
  - Language key (globe): CTRL (pressed 2x = ESC)
- - ALT (blue rectangle) + S: pipe
- - ALT (blue rectangle) + Z: backslash
  - CTRL + CTRL + number: F1 to F10
  - Example for pressing F1: Language (globe) + Language (globe) + ALT (blue rectangle) + Q 
+ - ALT (blue rectangle) + S: pipe (|)
+ - ALT (blue rectangle) + Z: backslash (\)
+ - Shift + ' = tilde (~)
+ - Shift + ? = grave accent (`)
+ - Shift + . = caret (^)
+ - Shift + , = greater than sign (>)
+ - Shift + @ = less than sign (<)
+ - ALT (blue rectangle) + Shift + U = opening square bracket ([)
+ - ALT (blue rectangle) + Shift + I = closing square bracket (])
+ - ALT (blue rectangle) + Shift + O = opening curly bracket ({)
+ - ALT (blue rectangle) + Shift + P = closing curly bracket ({)
 
 ## License
 
