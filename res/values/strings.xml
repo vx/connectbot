@@ -502,7 +502,7 @@
 
 	<!--  Keyboard customization -->
 	<string name="pref_custom_keymap_title">Custom Keymap</string>
-	<string name="pref_custom_keymap_summary">Remapping of special keys on supported devices</string>
+	<string name="pref_custom_keymap_summary">Remapping of certain keys on supported devices</string>
 	<string name="pref_custom_keymap_disabled">disabled</string>
 
 	<!--  Force screen size -->
