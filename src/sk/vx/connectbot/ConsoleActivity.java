@@ -824,20 +824,6 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 		urlscan.setEnabled(activeTerminal);
 		urlscan.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 			public boolean onMenuItemClick(MenuItem item) {
-				/*final TerminalView terminalView = (TerminalView) findCurrentView(R.id.console_flip);
-
-				List<String> urls = terminalView.bridge.scanForURLs();
-
-				Dialog urlDialog = new Dialog(ConsoleActivity.this);
-				urlDialog.setTitle(R.string.console_menu_urlscan);
-
-				ListView urlListView = new ListView(ConsoleActivity.this);
-				URLItemListener urlListener = new URLItemListener(ConsoleActivity.this);
-				urlListView.setOnItemClickListener(urlListener);
-
-				urlListView.setAdapter(new ArrayAdapter<String>(ConsoleActivity.this, android.R.layout.simple_list_item_1, urls));
-				urlDialog.setContentView(urlListView);
-				urlDialog.show();*/
 				View flip = findCurrentView(R.id.console_flip);
 				if (flip == null) return true;
 

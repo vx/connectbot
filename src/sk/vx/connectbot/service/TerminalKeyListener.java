@@ -239,17 +239,21 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 
 			final boolean printing = (key != 0 && keyCode != KeyEvent.KEYCODE_ENTER);
 
-			//Show up the CharacterPickerDialog when the SYM key is pressed
-			if( (keyCode == KeyEvent.KEYCODE_SYM || keyCode == KeyEvent.KEYCODE_PICTSYMBOLS ||
-					key == KeyCharacterMap.PICKER_DIALOG_INPUT) && v != null) {
-				showCharPickerDialog(v);
-				if(metaState == 4) { // reset fn-key state
-					metaState = 0;
-					bridge.redraw();
+			if (v != null) {
+				//Show up the CharacterPickerDialog when the SYM key is pressed
+				if( (keyCode == KeyEvent.KEYCODE_SYM || keyCode == KeyEvent.KEYCODE_PICTSYMBOLS ||
+						key == KeyCharacterMap.PICKER_DIALOG_INPUT)) {
+					showCharPickerDialog(v);
+					if(metaState == 4) { // reset fn-key state
+						metaState = 0;
+						bridge.redraw();
+					}
+					return true;
+				} else if(keyCode == KeyEvent.KEYCODE_SEARCH) {
+					//Show up the URL scan dialog when the search key is pressed
+					urlScan(v);
+					return true;
 				}
-				return true;
-			}else if(keyCode == KeyEvent.KEYCODE_SEARCH) {
-				urlScan(v);
 			}
 
 			// otherwise pass through to existing session
