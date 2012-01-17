@@ -304,4 +304,7 @@
   <string name="pref_debug_keycodes">Tastencodes anzeigen</string>
   <string name="pref_debug_keycodes_summary">Codes der im Terminal gedrückten Tasten anzeigen</string>
   <string name="keycode_presesed">Code der gedrückten Taste</string>
+  <string name="longpress_select_action">Aktion auswählen</string>
+  <string name="longpress_show_actionbar">Aktionsleiste anzeigen</string>
+  <string name="longpress_hide_actionbar">Aktionsleiste verstecken</string>
 </resources>

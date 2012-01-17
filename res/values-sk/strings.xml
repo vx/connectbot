@@ -306,4 +306,7 @@
   <string name="pref_debug_keycodes">Zobrazovať kódy kláves</string>
   <string name="pref_debug_keycodes_summary">Zobrazovať kódy stlačených kláves v termináli</string>
   <string name="keycode_pressed">Kód stlačenej klávesy</string>
+  <string name="longpress_select_action">Vybrať akciu</string>
+  <string name="longpress_show_actionbar">Zobraziť akciovú lištu</string>
+  <string name="longpress_hide_actionbar">Skryť akciovú lištu</string>
 </resources>

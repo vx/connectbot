@@ -19,6 +19,8 @@ package sk.vx.connectbot;
 
 import java.io.File;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 import sk.vx.connectbot.bean.SelectionArea;
 import sk.vx.connectbot.service.PromptHelper;
@@ -29,6 +31,7 @@ import sk.vx.connectbot.util.FileChooser;
 import sk.vx.connectbot.util.FileChooserCallback;
 import sk.vx.connectbot.util.PreferenceConstants;
 import sk.vx.connectbot.util.TransferThread;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ComponentName;
@@ -129,7 +132,6 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 	private Handler handler = new Handler();
 
 	private ImageView mKeyboardButton;
-	private ImageView mInputButton;
 
 	private ServiceConnection connection = new ServiceConnection() {
 		public void onServiceConnected(ComponentName className, IBinder service) {
@@ -526,6 +528,51 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 				return false;
 			}
 
+			/*
+			 * Enables longpress and popups menu
+			 *
+			 * @see
+			 * android.view.GestureDetector.SimpleOnGestureListener#
+			 * onLongPress(android.view.MotionEvent)
+			 *
+			 * @return void
+			 */
+			@Override
+			public void onLongPress(MotionEvent e) {
+				final ActionBar actionBar;
+				List<String> itemList = new ArrayList<String>();
+
+				if (android.os.Build.VERSION.SDK_INT >= 11)
+					actionBar = ConsoleActivity.this.getActionBar();
+				else
+					actionBar = null;
+
+				if (actionBar != null)
+					if (actionBar.isShowing())
+						itemList.add(ConsoleActivity.this
+								.getResources().getString(R.string.longpress_hide_actionbar));
+					else
+						itemList.add(ConsoleActivity.this
+								.getResources().getString(R.string.longpress_show_actionbar));
+
+				if (itemList.size() > 0) {
+					AlertDialog.Builder builder = new AlertDialog.Builder(ConsoleActivity.this);
+					builder.setTitle(R.string.longpress_select_action);
+					builder.setItems(itemList.toArray(new CharSequence[itemList.size()]),
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int item) {
+								if (actionBar != null && item == 0) {
+									if (actionBar.isShowing())
+										actionBar.hide();
+									else
+										actionBar.show();
+								}
+							}
+						});
+					AlertDialog alert = builder.create();
+					alert.show();
+				}
+			}
 
 		});
 

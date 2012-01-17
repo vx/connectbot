@@ -598,4 +598,9 @@
 	<string name="pref_debug_keycodes">Print keycodes</string>
 	<string name="pref_debug_keycodes_summary">Print codes of keys pressed in terminal window</string>
 	<string name="keycode_pressed">Code of pressed key</string>
+
+	<!--  Long Press Menu -->
+	<string name="longpress_select_action">Select Action</string>
+	<string name="longpress_show_actionbar">Show Action Bar</string>
+	<string name="longpress_hide_actionbar">Hide Action Bar</string>
 </resources>
