@@ -285,6 +285,10 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 		if (prefs.getBoolean(PreferenceConstants.FULLSCREEN, false)) {
 			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 					WindowManager.LayoutParams.FLAG_FULLSCREEN);
+			if (android.os.Build.VERSION.SDK_INT >= 11) {
+				if (this.getActionBar() != null)
+					this.getActionBar().hide();
+			}
 		}
 
 		// TODO find proper way to disable volume key beep if it exists.
