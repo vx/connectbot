@@ -66,6 +66,7 @@
 	</PreferenceCategory>
 
 	<PreferenceCategory
+		android:key="category_ui"
 		android:title="@string/pref_ui_category">
 
 		<ListPreference
@@ -81,6 +82,13 @@
 			android:key="fullscreen"
 			android:title="@string/pref_fullscreen_title"
 			android:summary="@string/pref_fullscreen_summary"
+			android:defaultValue="false"
+			/>
+
+		<CheckBoxPreference
+			android:key="hide_actionbar"
+			android:title="@string/pref_hide_actionbar_title"
+			android:summary="@string/pref_hide_actionbar_summary"
 			android:defaultValue="false"
 			/>
 

@@ -31,7 +31,6 @@ import sk.vx.connectbot.util.FileChooser;
 import sk.vx.connectbot.util.FileChooserCallback;
 import sk.vx.connectbot.util.PreferenceConstants;
 import sk.vx.connectbot.util.TransferThread;
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ComponentName;
@@ -102,6 +101,12 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 	// otherwise they collide with an external keyboard's CTRL-char
 	private boolean hardKeyboard = false;
 
+	// determines whether we are in the fullscreen mode
+	private static final int FULLSCREEN_ON = 1;
+	private static final int FULLSCREEN_OFF = 2;
+
+	private int fullScreen;
+
 	protected Uri requested;
 
 	protected ClipboardManager clipboard;
@@ -143,6 +148,15 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 			Log.d(TAG, String.format("Connected to TerminalManager and found bridges.size=%d", bound.bridges.size()));
 
 			bound.setResizeAllowed(true);
+
+			// set fullscreen value
+			if (bound.getFullScreen() == 0) {
+				if (prefs.getBoolean(PreferenceConstants.FULLSCREEN, false))
+					setFullScreen(FULLSCREEN_ON);
+				else
+					setFullScreen(FULLSCREEN_OFF);
+			} else if (fullScreen != bound.getFullScreen())
+				setFullScreen(bound.getFullScreen());
 
 			// clear out any existing bridges and record requested index
 			flip.removeAllViews();
@@ -283,15 +297,9 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 		clipboard = (ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-		// hide status bar if requested by user
-		if (prefs.getBoolean(PreferenceConstants.FULLSCREEN, false)) {
-			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-					WindowManager.LayoutParams.FLAG_FULLSCREEN);
-			if (android.os.Build.VERSION.SDK_INT >= 11) {
-				if (this.getActionBar() != null)
-					this.getActionBar().hide();
-			}
-		}
+		// hide action bar if requested by user
+		if (!PreferenceConstants.PRE_HONEYCOMB && prefs.getBoolean(PreferenceConstants.HIDE_ACTIONBAR, false))
+			this.getActionBar().hide();
 
 		// TODO find proper way to disable volume key beep if it exists.
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
@@ -539,21 +547,22 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 			 */
 			@Override
 			public void onLongPress(MotionEvent e) {
-				final ActionBar actionBar;
 				List<String> itemList = new ArrayList<String>();
 
-				if (android.os.Build.VERSION.SDK_INT >= 11)
-					actionBar = ConsoleActivity.this.getActionBar();
-				else
-					actionBar = null;
+				final TerminalView terminalView = (TerminalView) findCurrentView(R.id.console_flip);
+				if (terminalView == null)
+						return;
+				final TerminalBridge bridge = terminalView.bridge;
 
-				if (actionBar != null)
-					if (actionBar.isShowing())
-						itemList.add(ConsoleActivity.this
-								.getResources().getString(R.string.longpress_hide_actionbar));
-					else
-						itemList.add(ConsoleActivity.this
-								.getResources().getString(R.string.longpress_show_actionbar));
+				if (fullScreen == FULLSCREEN_ON)
+					itemList.add(ConsoleActivity.this
+							.getResources().getString(R.string.longpress_disable_full_screen_mode));
+				else
+					itemList.add(ConsoleActivity.this
+							.getResources().getString(R.string.longpress_enable_full_screen_mode));
+
+				itemList.add(ConsoleActivity.this
+						.getResources().getString(R.string.longpress_change_font_size));
 
 				if (itemList.size() > 0) {
 					AlertDialog.Builder builder = new AlertDialog.Builder(ConsoleActivity.this);
@@ -561,12 +570,13 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 					builder.setItems(itemList.toArray(new CharSequence[itemList.size()]),
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int item) {
-								if (actionBar != null && item == 0) {
-									if (actionBar.isShowing())
-										actionBar.hide();
-									else
-										actionBar.show();
-								}
+								if (item == 0) {
+									if (fullScreen == FULLSCREEN_ON) {
+										setFullScreen(FULLSCREEN_OFF);
+									} else
+										setFullScreen(FULLSCREEN_ON);
+								} else if (item == 1)
+									bridge.showFontSizeDialog();
 							}
 						});
 					AlertDialog alert = builder.create();
@@ -1344,6 +1354,28 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 
 			updatePromptVisible();
 			updateEmptyVisible();
+		}
+	}
+
+	private void setFullScreen(int fullScreen) {
+		if (fullScreen != this.fullScreen) {
+			if (fullScreen == FULLSCREEN_ON) {
+				getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+						WindowManager.LayoutParams.FLAG_FULLSCREEN);
+				if (!PreferenceConstants.PRE_HONEYCOMB) {
+					if (this.getActionBar() != null)
+						this.getActionBar().hide();
+				}
+			} else {
+				getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+				if (!PreferenceConstants.PRE_HONEYCOMB && !prefs.getBoolean(PreferenceConstants.HIDE_ACTIONBAR, false)) {
+					if (this.getActionBar() != null && !prefs.getBoolean(PreferenceConstants.HIDE_ACTIONBAR, false))
+						this.getActionBar().show();
+				}
+			}
+			this.fullScreen = fullScreen;
+			if (bound != null)
+				bound.setFullScreen(this.fullScreen);
 		}
 	}
 }

@@ -50,7 +50,13 @@ import android.graphics.Paint.FontMetrics;
 import android.graphics.Typeface;
 import android.os.Environment;
 import android.text.ClipboardManager;
+import android.text.Editable;
+import android.text.method.CharacterPickerDialog;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
 import de.mud.terminal.VDUBuffer;
 import de.mud.terminal.VDUDisplay;
 import de.mud.terminal.vt320;
@@ -1120,5 +1126,60 @@ public class TerminalBridge implements VDUDisplay {
 			}
 
 			return;
+	}
+
+	/**
+	 * Show change font size dialog
+	 */
+	public boolean showFontSizeDialog() {
+
+		final String pickerString = "+-";
+		CharSequence str = "";
+		Editable content = Editable.Factory.getInstance().newEditable(str);
+
+		if (parent == null)
+			return false;
+
+		CharacterPickerDialog cpd = new CharacterPickerDialog(parent.getContext(),
+				parent, content, pickerString, true) {
+			private void changeFontSize(CharSequence result) {
+				if (result.equals("+"))
+					increaseFontSize();
+				else if (result.equals("-"))
+					decreaseFontSize();
+			}
+
+			@Override
+			public void onItemClick(AdapterView p, View v, int pos, long id) {
+				final String result = String.valueOf(pickerString.charAt(pos));
+				changeFontSize(result);
+			}
+
+			@Override
+			public void onClick(View v) {
+				if (v instanceof Button) {
+					final CharSequence result = ((Button) v).getText();
+					if (result.equals(""))
+						dismiss();
+					else
+						changeFontSize(result);
+				}
+			}
+
+			@Override
+			public boolean onKeyDown(int keyCode, KeyEvent event) {
+				if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
+					increaseFontSize();
+					return true;
+				} else if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
+					decreaseFontSize();
+					return true;
+				}
+				return super.onKeyDown(keyCode, event);
+			}
+		};
+
+		cpd.show();
+		return true;
 	}
 }

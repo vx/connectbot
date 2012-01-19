@@ -108,6 +108,8 @@ public class TerminalManager extends Service implements BridgeDisconnectedListen
 
 	private boolean resizeAllowed = true;
 
+	private int fullScreen = 0;
+
 	private boolean savingKeys;
 
 	protected List<WeakReference<TerminalBridge>> mPendingReconnect
@@ -639,6 +641,14 @@ public class TerminalManager extends Service implements BridgeDisconnectedListen
 
 	public boolean isResizeAllowed() {
 		return resizeAllowed;
+	}
+
+	public void setFullScreen(int fullScreen) {
+		this.fullScreen = fullScreen;
+	}
+
+	public int getFullScreen() {
+		return this.fullScreen;
 	}
 
 	public static class KeyHolder {

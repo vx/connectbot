@@ -81,7 +81,9 @@
   <string name="pref_rotation_title">Rotationsmodus</string>
   <string name="pref_rotation_summary">Wie soll die Rotation beim Ein-/Ausklappen der Tastatur verändert werden</string>
   <string name="pref_fullscreen_title">Vollbild</string>
-  <string name="pref_fullscreen_summary">Statuszeile in der Konsole verbergen</string>
+  <string name="pref_fullscreen_summary">Konsole im Vollbildmodus ausführen</string>
+  <string name="pref_actionbar_title">Aktionsleiste verstecken</string>
+  <string name="pref_actionbar_summary">Die Aktionsleiste in der Konsole nicht anzeigen</string>
   <string name="pref_memkeys_title">Schlüssel im Speicher behalten</string>
   <string name="pref_memkeys_summary">Entsperrte Schlüssel im Speicher halten, bis der Hintergrunddienst beendet wurde</string>
   <string name="pref_update_title">Aktualisierungen suchen</string>
@@ -305,6 +307,7 @@
   <string name="pref_debug_keycodes_summary">Codes der im Terminal gedrückten Tasten anzeigen</string>
   <string name="keycode_presesed">Code der gedrückten Taste</string>
   <string name="longpress_select_action">Aktion auswählen</string>
-  <string name="longpress_show_actionbar">Aktionsleiste anzeigen</string>
-  <string name="longpress_hide_actionbar">Aktionsleiste verstecken</string>
+  <string name="longpress_enable_full_screen_mode">Vollbildmodus aktivieren</string>
+  <string name="longpress_disable_full_screen_mode">Vollbildmodus deaktivieren</string>
+  <string name="longpress_change_font_size">Fontgröße ändern</string>
 </resources>

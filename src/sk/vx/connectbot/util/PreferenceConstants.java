@@ -24,9 +24,14 @@ import android.os.Build;
  *
  */
 public class PreferenceConstants {
-	public static final boolean PRE_ECLAIR = (Integer.parseInt(Build.VERSION.SDK) <= 4);
+	public static final boolean PRE_ECLAIR = (Integer.parseInt(Build.VERSION.SDK) <=
+			android.os.Build.VERSION_CODES.ECLAIR);
 	public static final boolean PRE_FROYO = PRE_ECLAIR ? true :
-		(Integer.parseInt(Build.VERSION.SDK) <= 7);
+		(Integer.parseInt(Build.VERSION.SDK) <= android.os.Build.VERSION_CODES.FROYO);
+	public static final boolean PRE_HONEYCOMB = PRE_FROYO ? true :
+		(Integer.parseInt(Build.VERSION.SDK) <= android.os.Build.VERSION_CODES.HONEYCOMB);
+
+	public static final String CATEGORY_UI = "category_ui";
 
 	public static final String MEMKEYS = "memkeys";
 	public static final String UPDATE = "update";
@@ -49,6 +54,7 @@ public class PreferenceConstants {
 	public static final String ROTATION_AUTOMATIC = "Automatic";
 
 	public static final String FULLSCREEN = "fullscreen";
+	public static final String HIDE_ACTIONBAR = "hide_actionbar";
 
 	public static final String KEYMODE = "keymode";
 

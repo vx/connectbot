@@ -81,7 +81,9 @@
   <string name="pref_rotation_title">Mód otáčania</string>
   <string name="pref_rotation_summary">Ako zmeniť rotáciu, keď sa zobrazí / skryje klávesnica</string>
   <string name="pref_fullscreen_title">Celá obrazovka</string>
-  <string name="pref_fullscreen_summary">Skryť stavový riadok, keď je zobrazená konzola</string>
+  <string name="pref_fullscreen_summary">Spúšťať konzolu v režime celej obrazovky</string>
+  <string name="pref_actionbar_title">Skryť akciovú lištu</string>
+  <string name="pref_actionbar_summary">Nezobrazovať akciovú lištu v konzole</string>  
   <string name="pref_memkeys_title">Zapamätať kľúče v pamäti</string>
   <string name="pref_memkeys_summary">Ponechať odomknuté kľúče v pamäti pokiaľ nie je ukončená služba na pozadí.</string>
   <string name="pref_update_title">Kontrolovať aktualizácie</string>
@@ -307,6 +309,7 @@
   <string name="pref_debug_keycodes_summary">Zobrazovať kódy stlačených kláves v termináli</string>
   <string name="keycode_pressed">Kód stlačenej klávesy</string>
   <string name="longpress_select_action">Vybrať akciu</string>
-  <string name="longpress_show_actionbar">Zobraziť akciovú lištu</string>
-  <string name="longpress_hide_actionbar">Skryť akciovú lištu</string>
+  <string name="longpress_enable_full_screen_mode">Zapnúť režim celej obrazovky</string>
+  <string name="longpress_disable_full_screen_mode">Vypnúť režim celej obrazovky</string>
+  <string name="longpress_change_font_size">Zmeniť veľkosť písma</string>
 </resources>
