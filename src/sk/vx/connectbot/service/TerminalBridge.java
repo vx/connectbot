@@ -1167,6 +1167,13 @@ public class TerminalBridge implements VDUDisplay {
 			}
 
 			@Override
+			public boolean onKeyUp(int keyCode, KeyEvent event) {
+				if (keyCode == KeyEvent.KEYCODE_VOLUME_UP || keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)
+					return true;
+				return false;
+			}
+
+			@Override
 			public boolean onKeyDown(int keyCode, KeyEvent event) {
 				if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
 					increaseFontSize();
@@ -1175,7 +1182,7 @@ public class TerminalBridge implements VDUDisplay {
 					decreaseFontSize();
 					return true;
 				}
-				return super.onKeyDown(keyCode, event);
+				return false;
 			}
 		};
 
