@@ -13,10 +13,8 @@ VX ConnectBot is an enhanced version of the popular open-source telnet and secur
  - background file transfer (SCP protocol)
  - screen capture (save a PNG screenshot of the console)
  - character picker dialog (on-screen and hardware SYM keys)
- - customizable default font size
- - customizable values for force size
- - reset screen to default size
  - single line input (on-screen key)
+ - long press menu to toggle full screen mode or change font size
  - ssh-agent from Roberto Tyley
   
 ### New key mappings:
