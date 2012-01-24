@@ -54,38 +54,33 @@ public class FileChooser {
 			title = source.getString(R.string.file_chooser_select_file);
 		int mode = SelectionMode.MODE_OPEN;
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(source);
-		Intent intent;
+		Intent intent = null;
 		String filedialog;
+		String appString = null;
 
 		if (prefs == null)
 			return;
 		filedialog = prefs.getString(PreferenceConstants.FILE_DIALOG, "built-in");
 
 		if (filedialog.equals("OI")) {
+			appString = "OpenIntents File Manager";
 			intent = new Intent(FileManagerIntents.ACTION_PICK_FILE);
 			intent.setData(Uri.fromFile(sdcard));
 			intent.putExtra(FileManagerIntents.EXTRA_TITLE, title);
 			intent.putExtra(FileManagerIntents.EXTRA_BUTTON_TEXT, source.getString(android.R.string.ok));
-
-			try {
-				source.startActivityForResult(intent, requestcode);
-				return;
-			} catch (ActivityNotFoundException e1) {
-				Toast.makeText(source,
-						source.getString(R.string.error_starting_app,"OpenIntents File Manager"),
-						Toast.LENGTH_LONG).show();
-			}
 		} else if (filedialog.equals("AE")) {
+			appString = "AndExplorer";
 			intent = new Intent(Intent.ACTION_PICK);
 			intent.setDataAndType(Uri.fromFile(sdcard), MIME_TYPE_ANDEXPLORER_FILE);
 			intent.putExtra(ANDEXPLORER_TITLE, title);
-
+		}
+		if (intent != null && appString != null) {
 			try {
 				source.startActivityForResult(intent, requestcode);
 				return;
 			} catch (ActivityNotFoundException e1) {
 				Toast.makeText(source,
-						source.getString(R.string.error_starting_app,"AndExplorer"),
+						source.getString(R.string.error_starting_app, appString),
 						Toast.LENGTH_LONG).show();
 			}
 		}
