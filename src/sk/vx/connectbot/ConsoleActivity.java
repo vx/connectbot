@@ -162,7 +162,7 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 			flip.removeAllViews();
 
 			final String requestedNickname = (requested != null) ? requested.getFragment() : null;
-			int requestedIndex = 0;
+			int requestedIndex = -1;
 
 			TerminalBridge requestedBridge = bound.getConnectedBridge(requestedNickname);
 
@@ -182,8 +182,18 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 				final int currentIndex = addNewTerminalView(bridge);
 
 				// check to see if this bridge was requested
-				if (bridge == requestedBridge)
+				if (bridge == requestedBridge) {
 					requestedIndex = currentIndex;
+					// store this bridge as default bridge
+					bound.defaultBridge = bridge;
+				}
+			}
+
+			// if no bridge was requested, try using default bridge
+			if (requestedIndex < 0) {
+				requestedIndex = getFlipIndex(bound.defaultBridge);
+				if (requestedIndex < 0)
+					requestedIndex = 0;
 			}
 
 			setDisplayedTerminal(requestedIndex);
