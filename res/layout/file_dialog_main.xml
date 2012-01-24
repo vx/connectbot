@@ -11,7 +11,7 @@
 		<LinearLayout android:id="@+id/fdLinearLayoutSelect"
 			android:orientation="vertical" android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
-			android:layout_alignParentBottom="true" android:paddingLeft="10dp"
+			android:paddingLeft="10dp"
 			android:paddingRight="10dp" android:paddingBottom="5dp">
 
 			<LinearLayout android:orientation="horizontal"
@@ -31,11 +31,11 @@
 		<LinearLayout android:id="@+id/fdLinearLayoutCreate"
 			android:orientation="vertical" android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
-			android:layout_alignParentBottom="true" android:paddingLeft="10dp"
+			android:paddingLeft="10dp"
 			android:paddingRight="10dp" android:paddingBottom="5dp">
 			<TextView android:id="@+id/textViewFilename" android:text="@string/file_name"
 				android:layout_width="fill_parent" android:layout_height="wrap_content" />
-			<EditText android:text="" android:id="@+id/fdEditTextFile"
+			<EditText android:text="" android:id="@+id/fdEditTextFile" android:inputType="text"
 				android:layout_width="fill_parent" android:layout_height="wrap_content"></EditText>
 
 			<LinearLayout android:orientation="horizontal"

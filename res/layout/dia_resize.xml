@@ -32,12 +32,13 @@
 		android:layout_height="wrap_content"
 		android:singleLine="true"
 		android:numeric="integer"
-		android:text="80"/>
+		android:inputType="number"
+		/>
 
 	<TextView
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:text="x"
+		android:text="@string/dia_resize_x"
 		android:paddingLeft="10dip"
 		android:paddingRight="10dip"
 		android:gravity="right|bottom"
@@ -51,5 +52,6 @@
 		android:layout_height="wrap_content"
 		android:singleLine="true"
 		android:numeric="integer"
-		android:text="25"/>
+		android:inputType="number"
+		/>
 </LinearLayout>

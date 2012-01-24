@@ -64,7 +64,7 @@
   <string name="button_generate">生成密鑰</string>
   <string name="button_resize">調整大小</string>
   <string name="alert_disconnect_msg">連接中斷</string>
-  <string name="msg_copyright">版權所有2007-2008 Kenny Root http://the-b.org/ , Jeffrey Sharkey http://jsharkey.org/</string>
+  <string name="msg_copyright">版權所有2007&#8211;2008 Kenny Root http://the-b.org/ , Jeffrey Sharkey http://jsharkey.org/</string>
   <string name="pref_emulation_category">模擬終端</string>
   <string name="pref_emulation_title">終端機類型</string>
   <string name="pref_emulation_summary">設置使用PTY連接時的終端模式</string>

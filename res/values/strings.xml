@@ -59,7 +59,7 @@
 	<string name="pubkey_gather_entropy">"Gathering Entropy"</string>
 	<string name="pubkey_touch_prompt">"Touch this box to gather randomness: %1$d%% done"</string>
 	<string name="pubkey_touch_hint">"In order to assure randomness during the key generation, move your finger randomly over the box below."</string>
-	<string name="pubkey_generating">"Generating key pair..."</string>
+	<string name="pubkey_generating">"Generating key pair&#8230;"</string>
 	<string name="pubkey_copy_private">"Copy private key"</string>
 	<string name="pubkey_copy_public">"Copy public key"</string>
 	<!-- Note that the '\n' just splits lines, so it's actually "create or import" -->
@@ -137,7 +137,7 @@
 
 	<string name="alert_disconnect_msg">"Connection Lost"</string>
 
-	<string name="msg_copyright">"Copyright &#169; 2007-2008 Kenny Root http://the-b.org/, Jeffrey Sharkey http://jsharkey.org/"</string>
+	<string name="msg_copyright">"Copyright &#169; 2007&#8211;2008 Kenny Root http://the-b.org/, Jeffrey Sharkey http://jsharkey.org/"</string>
 
 	<!-- The category title for terminal emulation preferences. -->
 	<string name="pref_emulation_category">"Terminal emulation"</string>
@@ -503,6 +503,14 @@
 	     purposes. -->
 	<string name="image_description_show_keyboard">Show keyboard.</string>
 
+	<!-- Describes the icon of the "line input" button in the terminal view for accessibility
+	     purposes -->
+	<string name="image_description_line_input">Single line input</string>
+
+	<!-- Describes the icon of the "sym" button in the terminal view for accessibility
+	     purposes -->
+	<string name="image_description_sym">Character picker window</string>
+	
 	<string name="button_close">Close</string>
 
 	<!--  Keyboard customization -->
@@ -520,7 +528,8 @@
 	<string name="pref_default_fsize_height_summary">Default screen height in rows for force resize</string>
 	<string name="resize_error_title">Error resizing screen</string>
 	<string name="resize_error_width_height">Width and height must be higher than 0</string>
-
+	<string name="dia_resize_x">x</string>
+	
 	<!--  Screen capture -->
 	<string name="pref_screen_capture_category">Screen Capture</string>
 	<string name="pref_screen_capture_folder">Screen capture path</string>
@@ -571,7 +580,7 @@
 	<string name="pref_upload_dest_prompt_summary">Prompt for remote destination of file uploads</string>
 	<string name="pref_background_file_transfer">Background file transfer</string>
 	<string name="pref_background_file_transfer_summary">Perform file downloads and uploads in background</string>
-	<string name="transfer_downloading">Downloading files...</string>
+	<string name="transfer_downloading">"Downloading file&#8230;"</string>
 	<string name="transfer_downloading_file">Downloading file: %1$s</string>
 	<string name="transfer_download_complete">Download complete</string>
 	<string name="transfer_download_failed">Error downloading file(s):%1$s</string>
@@ -581,7 +590,7 @@
 	<string name="transfer_select_remote_upload_dest_desc">Enter remote file name for:</string>
 	<string name="transfer_button_download">Download</string>
 	<string name="transfer_button_upload">Upload</string>
-	<string name="transfer_uploading">Uploading file...</string>
+	<string name="transfer_uploading">"Uploading file&#8230;"</string>
 	<string name="transfer_uploading_file">Uploading file: %1$s</string>
 	<string name="transfer_upload_complete">Upload complete</string>
 	<string name="transfer_upload_failed">Error uploading file(s):%1$s</string>

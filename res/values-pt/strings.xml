@@ -66,7 +66,7 @@
   <string name="button_generate">Gerar Chave</string>
   <string name="button_resize">Redimensionar</string>
   <string name="alert_disconnect_msg">Ligação Perdida</string>
-  <string name="msg_copyright">Direitos de Autor © 2007-2008 Kenny Root http://the-b.org/, Jeffrey Sharkey http://jsharkey.org/</string>
+  <string name="msg_copyright">Direitos de Autor © 2007&#8211;2008 Kenny Root http://the-b.org/, Jeffrey Sharkey http://jsharkey.org/</string>
   <string name="pref_emulation_category">Terminal de emulação</string>
   <string name="pref_emulation_title">Modo de emulação</string>
   <string name="pref_emulation_summary">Terminal de emulação para usar conecções PTY</string>

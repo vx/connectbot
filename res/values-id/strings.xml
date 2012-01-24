@@ -60,7 +60,7 @@
   <string name="button_generate">Buat Kunci</string>
   <string name="button_resize">Ubah ukuran</string>
   <string name="alert_disconnect_msg">Koneksi Hilang</string>
-  <string name="msg_copyright">Hak Cipta © 2007-2008 Kenny Root http://the-b.org/, Jeffrey Sharkey http://jsharkey.org/</string>
+  <string name="msg_copyright">Hak Cipta © 2007&#8211;2008 Kenny Root http://the-b.org/, Jeffrey Sharkey http://jsharkey.org/</string>
   <string name="pref_emulation_category">Terminal Emulasi</string>
   <string name="pref_emulation_title">Mode Emulasi</string>
   <string name="pref_emulation_summary">Mode emulasi terminal yang digunakan untuk koneksi PTY</string>

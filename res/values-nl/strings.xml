@@ -22,7 +22,7 @@
   <string name="pubkey_gather_entropy">Bezig met het verzamelen van Entropie</string>
   <string name="pubkey_touch_prompt">Raak dit vierkant aan om willekeurigheid te verzamelen: %1$d%% gedaan</string>
   <string name="pubkey_touch_hint">Beweeg je vinger in willekeurige volgorde over het vak beneden om er voor te zorgen dat de invoer willekeurig blijft.</string>
-  <string name="pubkey_generating">Genereren van een sleutel paar...</string>
+  <string name="pubkey_generating">"Genereren van een sleutel paar&#8230;"</string>
   <string name="pubkey_copy_private">Kopieer privé sleutel</string>
   <string name="pubkey_copy_public">Kopieer publieke sleutel</string>
   <string name="pubkey_list_empty">Tik op Menu om te maken\nof importeer sleutel paren.</string>
@@ -66,7 +66,7 @@
   <string name="button_generate">Genereer sleutel</string>
   <string name="button_resize">Verander formaat</string>
   <string name="alert_disconnect_msg">Verbinding verloren</string>
-  <string name="msg_copyright">Copyright © 2007-2008 Kenny Root http://the-b.org/, Jeffrey Sharkey http://jsharkey.org/</string>
+  <string name="msg_copyright">Copyright © 2007&#8211;2008 Kenny Root http://the-b.org/, Jeffrey Sharkey http://jsharkey.org/</string>
   <string name="pref_emulation_category">Terminal emulatie</string>
   <string name="pref_emulation_title">Emulatie mode</string>
   <string name="pref_emulation_summary">Terminal emulatie mode voor gebruik in PTY verbindingen</string>

@@ -66,7 +66,7 @@
   <string name="button_generate">Ustvari ključ</string>
   <string name="button_resize">Spremeni velikost</string>
   <string name="alert_disconnect_msg">Povezava prekinjena</string>
-  <string name="msg_copyright">Avtorske pravice © 2007-2008 Kenny Root http://the-b.org/, Jeffrey Sharkey http://jsharkey.org/</string>
+  <string name="msg_copyright">Avtorske pravice © 2007&#8211;2008 Kenny Root http://the-b.org/, Jeffrey Sharkey http://jsharkey.org/</string>
   <string name="pref_emulation_category">Posnemanje terminala</string>
   <string name="pref_emulation_title">Način posnemanja</string>
   <string name="pref_emulation_summary">Način posnemanja terminala za uporabo za PTY povezave</string>

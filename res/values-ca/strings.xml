@@ -22,7 +22,7 @@
   <string name="pubkey_gather_entropy">Recull Entropia</string>
   <string name="pubkey_touch_prompt">Toca aquesta caixa per obtenir aleatorietat: %1$d%% completat</string>
   <string name="pubkey_touch_hint">Per assegurar l\'aleatorietat durant la generació de la clau, mou el dit aleatoriament per sobre la caixa de sota.</string>
-  <string name="pubkey_generating">Generant parell de claus...</string>
+  <string name="pubkey_generating">"Generant parell de claus&#8230;"</string>
   <string name="pubkey_copy_private">Còpia la clau privada</string>
   <string name="pubkey_copy_public">Còpia la clau pública</string>
   <string name="pubkey_list_empty">Pulsa Menu per crear\no importar parells de claus.</string>
@@ -66,7 +66,7 @@
   <string name="button_generate">Genera clau</string>
   <string name="button_resize">Redimensiona</string>
   <string name="alert_disconnect_msg">Connexió perduda</string>
-  <string name="msg_copyright">Copyright © 2007-2008 Kenny Root http://the-b.org/, Jeffrey Sharkey http://jsharkey.org/</string>
+  <string name="msg_copyright">Copyright © 2007&#8211;2008 Kenny Root http://the-b.org/, Jeffrey Sharkey http://jsharkey.org/</string>
   <string name="pref_emulation_category">Emulador del terminal</string>
   <string name="pref_emulation_title">Mode d\'emulació</string>
   <string name="pref_emulation_summary">Mode d\'emulació de terminal per l\'ús de connexions PTY</string>

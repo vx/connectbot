@@ -26,7 +26,7 @@
   <string name="pubkey_gather_entropy">Získavanie entropie</string>
   <string name="pubkey_touch_prompt">Dotknite sa plochy pre získanie náhodnosti: %1$d%% hotovo</string>
   <string name="pubkey_touch_hint">Pre zabezpečenie náhodnosti počas generovania kľúča pohybujte prstom náhodne po ploche nižšie.</string>
-  <string name="pubkey_generating">Generujem kľúčový pár...</string>
+  <string name="pubkey_generating">"Generujem kľúčový pár&#8230;"</string>
   <string name="pubkey_copy_private">Kopírovať súkromný kľúč</string>
   <string name="pubkey_copy_public">Kopírovať verejný kľúč</string>
   <string name="pubkey_list_empty">Ťukni na Menu pre vytvorenie\nalebo importovanie páru kľúčov.</string>
@@ -71,7 +71,7 @@
   <string name="button_resize">Zmeniť veľkosť</string>
   <string name="button_resize_reset">Prednastavená veľkosť</string>
   <string name="alert_disconnect_msg">Spojenie stratené</string>
-  <string name="msg_copyright">Copyright © 2007-2008 Kenny Root http://the-b.org/, Jeffrey Sharkey http://jsharkey.org/</string>
+  <string name="msg_copyright">Copyright © 2007&#8211;2008 Kenny Root http://the-b.org/, Jeffrey Sharkey http://jsharkey.org/</string>
   <string name="pref_emulation_category">Emulácia terminálu</string>
   <string name="pref_emulation_title">Mód emulácie</string>
   <string name="pref_emulation_summary">Použiť mód emulácie terminálu pri PTY spojeniach</string>
@@ -278,7 +278,7 @@
   <string name="pref_upload_dest_prompt_summary">Zadávať vzdialený nazov alebo cestu pre odosielaný súbor</string>    
   <string name="pref_background_file_transfer">Prenos súborov na pozadí</string>
   <string name="pref_background_file_transfer_summary">Odosielanie a preberanie súborov uskutočniť na pozadí.</string>	
-  <string name="transfer_downloading">Preberanie súborov...</string>
+  <string name="transfer_downloading">"Preberanie súborov&#8230;"</string>
   <string name="transfer_downloading_file">Preberanie súbora: %1$s</string>
   <string name="transfer_download_complete">Preberanie ukončené</string>
   <string name="transfer_download_failed">Chyba pri preberaní:%1$s</string>
@@ -290,7 +290,7 @@
   <string name="transfer_select_remote_upload_dest_desc">Vzdialené umiestnenie pre:</string>  
   <string name="transfer_button_download">Prevziať</string>
   <string name="transfer_button_upload">Odoslať</string>
-  <string name="transfer_uploading">Odosielanie súborov...</string>
+  <string name="transfer_uploading">"Odosielanie súborov&#8230;"</string>
   <string name="transfer_uploading_file">Odosielanie súbora: %1$s</string>
   <string name="transfer_upload_complete">Odosielanie ukončené</string>
   <string name="transfer_upload_failed">Chyba pri odosielaní:%1$s</string>

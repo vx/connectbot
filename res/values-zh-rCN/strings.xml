@@ -66,7 +66,7 @@
   <string name="button_generate">生成密钥</string>
   <string name="button_resize">缩放</string>
   <string name="alert_disconnect_msg">连接中断</string>
-  <string name="msg_copyright">版权所有2007-2008 Kenny Root http://the-b.org/, Jeffrey Sharkey http://jsharkey.org/</string>
+  <string name="msg_copyright">版权所有2007&#8211;2008 Kenny Root http://the-b.org/, Jeffrey Sharkey http://jsharkey.org/</string>
   <string name="pref_emulation_category">模拟终端</string>
   <string name="pref_emulation_title">仿真模式</string>
   <string name="pref_emulation_summary">设置使用PTY连接时的终端模式</string>

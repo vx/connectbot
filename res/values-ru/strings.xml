@@ -66,7 +66,7 @@
   <string name="button_generate">Генерировать ключ</string>
   <string name="button_resize">Изменить размер</string>
   <string name="alert_disconnect_msg">Соединение потеряно</string>
-  <string name="msg_copyright">Copyright © 2007-2008 Kenny Root http://the-b.org/, Jeffrey Sharkey http://jsharkey.org/</string>
+  <string name="msg_copyright">Copyright © 2007&#8211;2008 Kenny Root http://the-b.org/, Jeffrey Sharkey http://jsharkey.org/</string>
   <string name="pref_emulation_category">Эмулятор терминала</string>
   <string name="pref_emulation_title">Режим эмуляции</string>
   <string name="pref_emulation_summary">Режим эмуляции терминала для использования PTY соединений</string>

@@ -21,7 +21,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
-	android:background="#ff000000"
 	>
 
 	<TextView
@@ -65,6 +64,7 @@
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
 			android:password="true"
+			android:inputType="textPassword"
 			android:singleLine="true"
 			android:layout_below="@+id/console_password_instructions"
 			/>
@@ -135,6 +135,7 @@
 			android:layout_toRightOf="@+id/button_sym"
 			android:layout_alignParentBottom="true"
 			android:src="@+drawable/button_input"
+			android:contentDescription="@string/image_description_line_input"
 			/>
 
 		<ImageView
@@ -177,6 +178,7 @@
 			android:layout_alignParentBottom="true"
 			android:layout_toRightOf="@+id/button_esc"		
 			android:src="@+drawable/button_sym"
+			android:contentDescription="@string/image_description_sym"
 			/>
 
 	</RelativeLayout>

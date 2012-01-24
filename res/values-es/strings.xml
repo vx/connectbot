@@ -66,7 +66,7 @@
   <string name="button_generate">Generar clave</string>
   <string name="button_resize">Redimensionar</string>
   <string name="alert_disconnect_msg">Conexión perdida</string>
-  <string name="msg_copyright">Todos los derechos reservados © 2007-2008 Kenny Root http://the-b.org/, Jeffrey Sharkey http://jsharkey.org/</string>
+  <string name="msg_copyright">Todos los derechos reservados © 2007&#8211;2008 Kenny Root http://the-b.org/, Jeffrey Sharkey http://jsharkey.org/</string>
   <string name="pref_emulation_category">Emulación del terminal</string>
   <string name="pref_emulation_title">Modo emulación</string>
   <string name="pref_emulation_summary">Modo emulación para usar en conexiones PTY</string>
