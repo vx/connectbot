@@ -750,8 +750,8 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 
 		byte c = 0x00;
 
-		// Sony Ericsson Xperia (mini) pro
 		if (customKeyboard.equals(PreferenceConstants.CUSTOM_KEYMAP_SE_XPPRO)) {
+			// Sony Ericsson Xperia pro (MK16i) and Xperia mini Pro (SK17i)
 			// Language key acts as CTRL
 			if (keyCode == KeyEvent.KEYCODE_SWITCH_CHARSET) {
 				ctrlKeySpecial();
@@ -802,6 +802,32 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 					break;
 				case KeyEvent.KEYCODE_APOSTROPHE:
 					c = 0x7e;
+					break;
+				}
+			}
+		} else if (customKeyboard.equals(PreferenceConstants.CUSTOM_KEYMAP_SGH_I927)) {
+			// Samsung Captivate Glide (SGH-i927)
+			if (keyCode == 115) {
+				// .com key = ESC
+				sendEscape();
+				return true;
+			}
+			if (keyCode == 116) {
+				// Microphone key = TAB
+				c = 0x09;
+			} else if ((metaState & META_ALT_MASK) != 0 && (metaState & META_SHIFT_MASK) != 0) {
+				switch (keyCode) {
+				case KeyEvent.KEYCODE_O:
+					c = 0x5B;
+					break;
+				case KeyEvent.KEYCODE_P:
+					c = 0x5D;
+					break;
+				case KeyEvent.KEYCODE_A:
+					c = 0x3C;
+					break;
+				case KeyEvent.KEYCODE_D:
+					c = 0x3E;
 					break;
 				}
 			}
