@@ -248,9 +248,9 @@
   <string name="screenshot_saved_as">Snímka obrazovky bola uložená do</string>
   <string name="screenshot_error_title">Chyba pri snímke obrazvky</string>
   <string name="screenshot_not_saved_as">Snímka obrazovky nemohla byť uložená do</string>
-  <string name="pref_picker_string">Obsah okna SYM</string>
+  <string name="pref_picker_string">Obsah okna Sym</string>
   <string name="pref_picker_string_summary">Sada znakov do dialógového okna na výber znaku</string>
-  <string name="pref_picker_keep_open">Ponechať okno SYM otvorené</string>
+  <string name="pref_picker_keep_open">Ponechať okno Sym otvorené</string>
   <string name="pref_picker_keep_open_summary">Iba tlačidlo zrušiť zavrie dialógové okno na výber znaku</string>
   <string name="pref_file_transfer_category">Prenos súborov</string>
   <string name="pref_file_dialog_title">Výber súbora</string>

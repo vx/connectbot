@@ -248,9 +248,9 @@
   <string name="screenshot_saved_as">Screenshot wurde gespeichert als</string>
   <string name="screenshot_error_title">Fehler beim Screenshot</string>
   <string name="screenshot_not_saved_as">Screenshot konnte nicht gespeichert werden als</string>
-  <string name="pref_picker_string">Inhalt des SYM-Fensters</string>
+  <string name="pref_picker_string">Inhalt des Sym-Fensters</string>
   <string name="pref_picker_string_summary">Zeichenkette für das Zeichenwahl-Dialogfenster</string>
-  <string name="pref_picker_keep_open">SYM-Fenster offen halten</string>
+  <string name="pref_picker_keep_open">Sym-Fenster offen halten</string>
   <string name="pref_picker_keep_open_summary">Nur der Abbrechen-Knopf schließt das Zeichenwahl-Dialogfenster</string>  
   <string name="pref_file_transfer_category">Übertragung von Dateien</string>
   <string name="pref_file_dialog_title">Dateiauswahl</string>
