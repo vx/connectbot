@@ -309,7 +309,7 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 
 		// hide action bar if requested by user
 		if (!PreferenceConstants.PRE_HONEYCOMB && prefs.getBoolean(PreferenceConstants.HIDE_ACTIONBAR, false))
-			this.getActionBar().hide();
+			this.hideActionBar();
 
 		// TODO find proper way to disable volume key beep if it exists.
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
@@ -1373,19 +1373,36 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 				getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 						WindowManager.LayoutParams.FLAG_FULLSCREEN);
 				if (!PreferenceConstants.PRE_HONEYCOMB) {
-					if (this.getActionBar() != null)
-						this.getActionBar().hide();
+					this.hideActionBar();
 				}
 			} else {
 				getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-				if (!PreferenceConstants.PRE_HONEYCOMB && !prefs.getBoolean(PreferenceConstants.HIDE_ACTIONBAR, false)) {
-					if (this.getActionBar() != null && !prefs.getBoolean(PreferenceConstants.HIDE_ACTIONBAR, false))
-						this.getActionBar().show();
+				if (!PreferenceConstants.PRE_HONEYCOMB) {
+					if (!prefs.getBoolean(PreferenceConstants.HIDE_ACTIONBAR, false))
+						this.showActionBar();
 				}
 			}
 			this.fullScreen = fullScreen;
 			if (bound != null)
 				bound.setFullScreen(this.fullScreen);
+		}
+	}
+
+	private void showActionBar() {
+		try {
+			if (this.getActionBar() != null)
+				this.getActionBar().show();
+		} catch (Exception e) {
+			Log.e(TAG, "Error showing ActionBar", e);
+		}
+	}
+
+	private void hideActionBar() {
+		try {
+			if (this.getActionBar() != null)
+				this.getActionBar().hide();
+		} catch (Exception e) {
+			Log.e(TAG, "Error hiding ActionBar", e);
 		}
 	}
 }
