@@ -308,10 +308,16 @@
   <string name="pref_debug_keycodes">Zobrazovať kódy kláves</string>
   <string name="pref_debug_keycodes_summary">Zobrazovať kódy stlačených kláves v termináli</string>
   <string name="keycode_pressed">Kód stlačenej klávesy</string>
+  <string name="pref_extended_longpress">Rozšírené menu dlhého stlačenia</string>
+  <string name="pref_extended_longpress_summary">Zobraziť možnosti vstupu v menu dlhého stlačenia</string>
   <string name="longpress_select_action">Vybrať akciu</string>
   <string name="longpress_enable_full_screen_mode">Zapnúť režim celej obrazovky</string>
   <string name="longpress_disable_full_screen_mode">Vypnúť režim celej obrazovky</string>
   <string name="longpress_change_font_size">Zmeniť veľkosť písma</string>
+  <string name="longpress_arrows_dialog">Šípky</string>
+  <string name="longpress_ctrl_dialog">CTRL+?</string>
+  <string name="longpress_fkeys_dialog">Funkčné klávesy</string>
+  <string name="longpress_sym_dialog">Výber znaku</string>
   <string name="pref_ctrl_string">Obsah okna Ctrl</string>
   <string name="pref_ctrl_string_summary">Sada znakov na výber kombinácie CTRL+?</string>  
 </resources>

@@ -614,10 +614,16 @@
 	<string name="keycode_pressed">Code of pressed key</string>
 
 	<!--  Long Press Menu -->
+	<string name="pref_extended_longpress">Extended longpress menu</string>
+	<string name="pref_extended_longpress_summary">Show input dialogs in tap-and-hold menu</string>
 	<string name="longpress_select_action">Select Action</string>
 	<string name="longpress_enable_full_screen_mode">Enable full screen mode</string>
 	<string name="longpress_disable_full_screen_mode">Disable full screen mode</string>
 	<string name="longpress_change_font_size">Change font size</string>
+	<string name="longpress_arrows_dialog">Arrow keys</string>
+	<string name="longpress_fkeys_dialog">Function keys</string>
+	<string name="longpress_ctrl_dialog">CTRL+?</string>
+	<string name="longpress_sym_dialog">Character picker</string>
 
 	<!-- Ctrl picker dialog -->
 	<string name="pref_ctrl_string">Ctrl window contents</string>

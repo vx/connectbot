@@ -93,6 +93,7 @@ public class PreferenceConstants {
 	public static final String CTRL_STRING = "ctrl_string";
 	public static final String PICKER_STRING = "picker_string";
 	public static final String PICKER_KEEP_OPEN = "picker_keep_open";
+	public static final String EXTENDED_LONGPRESS = "extended_longpress_dialog";
 	public static final String SCREEN_CAPTURE_POPUP = "screen_capture_popup";
 	public static final String SCREEN_CAPTURE_FOLDER = "screen_capture_folder";
 	public static final String DEFAULT_FONT_SIZE_HEIGHT = "default_fsize_height";

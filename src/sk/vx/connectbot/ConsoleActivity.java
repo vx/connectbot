@@ -602,19 +602,45 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 				itemList.add(ConsoleActivity.this
 						.getResources().getString(R.string.longpress_change_font_size));
 
+				if (prefs.getBoolean(PreferenceConstants.EXTENDED_LONGPRESS,true)) {
+					itemList.add(ConsoleActivity.this
+							.getResources().getString(R.string.longpress_arrows_dialog));
+					itemList.add(ConsoleActivity.this
+							.getResources().getString(R.string.longpress_fkeys_dialog));
+					itemList.add(ConsoleActivity.this
+							.getResources().getString(R.string.longpress_ctrl_dialog));
+					itemList.add(ConsoleActivity.this
+							.getResources().getString(R.string.longpress_sym_dialog));
+				}
+
 				if (itemList.size() > 0) {
 					AlertDialog.Builder builder = new AlertDialog.Builder(ConsoleActivity.this);
 					builder.setTitle(R.string.longpress_select_action);
 					builder.setItems(itemList.toArray(new CharSequence[itemList.size()]),
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int item) {
-								if (item == 0) {
+								switch (item) {
+								case 0:
 									if (fullScreen == FULLSCREEN_ON) {
 										setFullScreen(FULLSCREEN_OFF);
 									} else
 										setFullScreen(FULLSCREEN_ON);
-								} else if (item == 1)
+								break;
+								case 1:
 									bridge.showFontSizeDialog();
+									break;
+								case 2:
+									bridge.showArrowsDialog();
+									break;
+								case 3:
+									bridge.showFKeysDialog();
+									break;
+								case 4:
+									bridge.showCtrlDialog();
+									break;
+								case 5:
+									bridge.showCharPickerDialog();
+								}
 							}
 						});
 					AlertDialog alert = builder.create();

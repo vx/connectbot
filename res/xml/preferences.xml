@@ -131,11 +131,18 @@
 			android:defaultValue="true"
 			/>
 
+		<CheckBoxPreference
+			android:key="extended_longpress"
+			android:title="@string/pref_extended_longpress"
+			android:summary="@string/pref_extended_longpress_summary"
+			android:defaultValue="true"
+			/>
+
 		<EditTextPreference
 			android:key="ctrl_string"
 			android:title="@string/pref_ctrl_string"
 			android:summary="@string/pref_ctrl_string_summary"
-			android:defaultValue="ABCOQSXZ"
+			android:defaultValue="ABCDEKLOQRWSTUXZ"
 			android:singleLine="true"
 			/>
 

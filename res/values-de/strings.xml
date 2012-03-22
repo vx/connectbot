@@ -306,10 +306,16 @@
   <string name="pref_debug_keycodes">Tastencodes anzeigen</string>
   <string name="pref_debug_keycodes_summary">Codes der im Terminal gedrückten Tasten anzeigen</string>
   <string name="keycode_presesed">Code der gedrückten Taste</string>
+  <string name="pref_extended_longpress">Erweitertes Longpress-Menu</string>
+  <string name="pref_extended_longpress_summary">Eingabeoptionen im Tap-And-Hold-Menü anzeigen</string>
   <string name="longpress_select_action">Aktion auswählen</string>
   <string name="longpress_enable_full_screen_mode">Vollbildmodus aktivieren</string>
   <string name="longpress_disable_full_screen_mode">Vollbildmodus deaktivieren</string>
   <string name="longpress_change_font_size">Fontgröße ändern</string>
+  <string name="longpress_arrows_dialog">Pfeiltaste</string>
+  <string name="longpress_fkeys_dialog">Funktionstasten</string>
+  <string name="longpress_ctrl_dialog">CTRL+?</string>
+  <string name="longpress_sym_dialog">Zeichenwahl</string>
   <string name="pref_ctrl_string">Inhalt des Ctrl-Fensters</string>
   <string name="pref_ctrl_string_summary">Zeichenkette für die CTRL+? kombination</string>
 </resources>
