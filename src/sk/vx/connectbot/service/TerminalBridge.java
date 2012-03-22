@@ -1273,7 +1273,7 @@ public class TerminalBridge implements VDUDisplay {
 
 	public boolean showCtrlDialog() {
 
-		final String pickerString = "←→↑↓TIBE";
+		final String pickerString = "â†�â†’â†‘â†“TIBE";
 		CharSequence str = "";
 		Editable content = Editable.Factory.getInstance().newEditable(str);
 
@@ -1291,6 +1291,7 @@ public class TerminalBridge implements VDUDisplay {
 							Log.d(TAG, "Error writing CTRL+" + result.toString().toUpperCase().charAt(0));
 						}
 					}
+					dismiss();
 			}
 
 			@Override
