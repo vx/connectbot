@@ -407,7 +407,7 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 				TerminalView terminal = (TerminalView)flip;
 
 				TerminalKeyListener handler = terminal.bridge.getKeyHandler();
-				handler.showCharPickerDialog(terminal);
+				terminal.bridge.showCharPickerDialog();
 				keyboardGroup.setVisibility(View.GONE);
 			}
 		});

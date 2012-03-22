@@ -33,8 +33,6 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.text.ClipboardManager;
-import android.text.Editable;
-import android.text.method.CharacterPickerDialog;
 import android.util.Log;
 import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
@@ -43,7 +41,6 @@ import android.view.View.OnKeyListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -242,7 +239,7 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 				//Show up the CharacterPickerDialog when the SYM key is pressed
 				if( (keyCode == KeyEvent.KEYCODE_SYM || keyCode == KeyEvent.KEYCODE_PICTSYMBOLS ||
 						key == KeyCharacterMap.PICKER_DIALOG_INPUT)) {
-					showCharPickerDialog(v);
+					bridge.showCharPickerDialog();
 					if(metaState == 4) { // reset fn-key state
 						metaState = 0;
 						bridge.redraw();
@@ -657,61 +654,7 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 		this.encoding = encoding;
 	}
 
-	private String getPickerString() {
-		final String defaultSet = "~\\^()[]{}<>|/:_;,.!@#$%&*?\"'-+=";
-		String set = prefs.getString(PreferenceConstants.PICKER_STRING,defaultSet);
-		if (set == null || set.equals("")) {
-			set = defaultSet;
-		}
-		return set;
-	}
 
-	public boolean showCharPickerDialog(View v) {
-		CharSequence str = "";
-		Editable content = Editable.Factory.getInstance().newEditable(str);
-
-		CharacterPickerDialog cpd = new CharacterPickerDialog(v.getContext(),
-				v, content, getPickerString(), true) {
-			private void writeChar(CharSequence result) {
-				try {
-					bridge.transport.write(result.toString().getBytes(encoding));
-				} catch (IOException e) {
-					Log.e(TAG, "Problem with the CharacterPickerDialog", e);
-				}
-				if (!prefs.getBoolean(PreferenceConstants.PICKER_KEEP_OPEN,false))
-						dismiss();
-			}
-
-			@Override
-			public void onItemClick(AdapterView p, View v, int pos, long id) {
-				String result = String.valueOf(getPickerString().charAt(pos));
-				writeChar(result);
-			}
-
-			@Override
-			public void onClick(View v) {
-				if (v instanceof Button) {
-					CharSequence result = ((Button) v).getText();
-					if (result.equals(""))
-						dismiss();
-					else
-						writeChar(result);
-				}
-			}
-
-			@Override
-			public boolean onKeyDown(int keyCode, KeyEvent event) {
-				if (keyCode == KeyEvent.KEYCODE_SYM || keyCode == KeyEvent.KEYCODE_PICTSYMBOLS) {
-					dismiss();
-					return true;
-				}
-				return super.onKeyDown(keyCode, event);
-			}
-		};
-
-		cpd.show();
-		return true;
-	}
 
 	private void ctrlKeySpecial() {
 		if (selectingForCopy) {

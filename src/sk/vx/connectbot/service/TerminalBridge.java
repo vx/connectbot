@@ -1393,4 +1393,63 @@ public class TerminalBridge implements VDUDisplay {
 		cpd.show();
 		return true;
 	}
+
+	private String getPickerString() {
+		final String defaultSet = "~\\^()[]{}<>|/:_;,.!@#$%&*?\"'-+=";
+		String set = manager.prefs.getString(PreferenceConstants.PICKER_STRING,defaultSet);
+		if (set == null || set.equals("")) {
+			set = defaultSet;
+		}
+		return set;
+	}
+
+	public boolean showCharPickerDialog() {
+		CharSequence str = "";
+		Editable content = Editable.Factory.getInstance().newEditable(str);
+
+		if (parent == null)
+			return false;
+
+		CharacterPickerDialog cpd = new CharacterPickerDialog(parent.getContext(),
+				parent, content, getPickerString(), true) {
+			private void writeChar(CharSequence result) {
+				try {
+					transport.write(result.toString().getBytes(getCharset()));
+				} catch (IOException e) {
+					Log.e(TAG, "Problem with the CharacterPickerDialog", e);
+				}
+				if (!manager.prefs.getBoolean(PreferenceConstants.PICKER_KEEP_OPEN,false))
+						dismiss();
+			}
+
+			@Override
+			public void onItemClick(AdapterView p, View v, int pos, long id) {
+				String result = String.valueOf(getPickerString().charAt(pos));
+				writeChar(result);
+			}
+
+			@Override
+			public void onClick(View v) {
+				if (v instanceof Button) {
+					CharSequence result = ((Button) v).getText();
+					if (result.equals(""))
+						dismiss();
+					else
+						writeChar(result);
+				}
+			}
+
+			@Override
+			public boolean onKeyDown(int keyCode, KeyEvent event) {
+				if (keyCode == KeyEvent.KEYCODE_SYM || keyCode == KeyEvent.KEYCODE_PICTSYMBOLS) {
+					dismiss();
+					return true;
+				}
+				return super.onKeyDown(keyCode, event);
+			}
+		};
+
+		cpd.show();
+		return true;
+	}
 }
