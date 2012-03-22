@@ -1263,7 +1263,7 @@ public class TerminalBridge implements VDUDisplay {
 	 * CTRL dialog
 	 */
 	private String getCtrlString() {
-		final String defaultSet = "ABCOQSXZ";
+		final String defaultSet = "ABCDEKLOQRWSTUXZ";
 		String set = manager.prefs.getString(PreferenceConstants.CTRL_STRING,defaultSet);
 		if (set == null || set.equals("")) {
 			set = defaultSet;
@@ -1273,7 +1273,6 @@ public class TerminalBridge implements VDUDisplay {
 
 	public boolean showCtrlDialog() {
 
-		final String pickerString = "â†�â†’â†‘â†“TIBE";
 		CharSequence str = "";
 		Editable content = Editable.Factory.getInstance().newEditable(str);
 
