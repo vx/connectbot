@@ -1,7 +1,7 @@
 ﻿VX ConnectBot
 =========
 
-Copyright (c) 2011 Martin Matuška <martin at matuska dot vx dot sk>
+Copyright (c) 2012 Martin Matuška <martin at matuska dot vx dot sk>
 
 ## Description
 
