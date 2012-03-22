@@ -135,7 +135,7 @@
 			android:key="extended_longpress"
 			android:title="@string/pref_extended_longpress"
 			android:summary="@string/pref_extended_longpress_summary"
-			android:defaultValue="true"
+			android:defaultValue="false"
 			/>
 
 		<EditTextPreference

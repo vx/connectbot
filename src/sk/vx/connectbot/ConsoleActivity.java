@@ -602,7 +602,7 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 				itemList.add(ConsoleActivity.this
 						.getResources().getString(R.string.longpress_change_font_size));
 
-				if (prefs.getBoolean(PreferenceConstants.EXTENDED_LONGPRESS,true)) {
+				if (prefs.getBoolean(PreferenceConstants.EXTENDED_LONGPRESS,false)) {
 					itemList.add(ConsoleActivity.this
 							.getResources().getString(R.string.longpress_arrows_dialog));
 					itemList.add(ConsoleActivity.this
