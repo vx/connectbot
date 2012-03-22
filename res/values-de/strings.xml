@@ -310,4 +310,6 @@
   <string name="longpress_enable_full_screen_mode">Vollbildmodus aktivieren</string>
   <string name="longpress_disable_full_screen_mode">Vollbildmodus deaktivieren</string>
   <string name="longpress_change_font_size">Fontgröße ändern</string>
+  <string name="pref_ctrl_string">Inhalt des Ctrl-Fensters</string>
+  <string name="pref_ctrl_string_summary">Zeichenkette für die CTRL+? kombination</string>
 </resources>

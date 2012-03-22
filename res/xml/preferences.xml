@@ -132,6 +132,14 @@
 			/>
 
 		<EditTextPreference
+			android:key="ctrl_string"
+			android:title="@string/pref_ctrl_string"
+			android:summary="@string/pref_ctrl_string_summary"
+			android:defaultValue="ABCOQSXZ"
+			android:singleLine="true"
+			/>
+
+		<EditTextPreference
 			android:key="picker_string"
 			android:title="@string/pref_picker_string"
 			android:summary="@string/pref_picker_string_summary"

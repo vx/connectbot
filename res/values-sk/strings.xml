@@ -312,4 +312,6 @@
   <string name="longpress_enable_full_screen_mode">Zapnúť režim celej obrazovky</string>
   <string name="longpress_disable_full_screen_mode">Vypnúť režim celej obrazovky</string>
   <string name="longpress_change_font_size">Zmeniť veľkosť písma</string>
+  <string name="pref_ctrl_string">Obsah okna Ctrl</string>
+  <string name="pref_ctrl_string_summary">Sada znakov na výber kombinácie CTRL+?</string>  
 </resources>

@@ -63,6 +63,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
+import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewConfiguration;
 import android.view.WindowManager;
@@ -410,6 +411,15 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 				keyboardGroup.setVisibility(View.GONE);
 			}
 		});
+		symButton.setOnLongClickListener(new OnLongClickListener() {
+			public boolean onLongClick(View view) {
+				View flip = findCurrentView(R.id.console_flip);
+				if (flip == null) return false;
+				TerminalView terminal = (TerminalView)flip;
+				terminal.bridge.showArrowsDialog();
+				return true;
+			}
+		});
 
 		final ImageView mInputButton = (ImageView) findViewById(R.id.button_input);
 		mInputButton.setOnClickListener(new OnClickListener() {
@@ -445,6 +455,15 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 				keyboardGroup.setVisibility(View.GONE);
 			}
 		});
+		ctrlButton.setOnLongClickListener(new OnLongClickListener() {
+			public boolean onLongClick(View view) {
+				View flip = findCurrentView(R.id.console_flip);
+				if (flip == null) return false;
+				TerminalView terminal = (TerminalView)flip;
+				terminal.bridge.showCtrlDialog();
+				return true;
+			}
+		});
 
 		final ImageView escButton = (ImageView) findViewById(R.id.button_esc);
 		escButton.setOnClickListener(new OnClickListener() {
@@ -457,6 +476,15 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 				handler.sendEscape();
 
 				keyboardGroup.setVisibility(View.GONE);
+			}
+		});
+		escButton.setOnLongClickListener(new OnLongClickListener() {
+			public boolean onLongClick(View view) {
+				View flip = findCurrentView(R.id.console_flip);
+				if (flip == null) return false;
+				TerminalView terminal = (TerminalView)flip;
+				terminal.bridge.showFKeysDialog();
+				return true;
 			}
 		});
 

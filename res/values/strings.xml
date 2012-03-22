@@ -618,4 +618,8 @@
 	<string name="longpress_enable_full_screen_mode">Enable full screen mode</string>
 	<string name="longpress_disable_full_screen_mode">Disable full screen mode</string>
 	<string name="longpress_change_font_size">Change font size</string>
+
+	<!-- Ctrl picker dialog -->
+	<string name="pref_ctrl_string">Ctrl window contents</string>
+	<string name="pref_ctrl_string_summary">String of characters for the CTRL+? combination</string>
 </resources>

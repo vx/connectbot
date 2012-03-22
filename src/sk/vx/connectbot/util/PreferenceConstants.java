@@ -90,6 +90,7 @@ public class PreferenceConstants {
 	/* Backup identifiers */
 	public static final String BACKUP_PREF_KEY = "prefs";
 
+	public static final String CTRL_STRING = "ctrl_string";
 	public static final String PICKER_STRING = "picker_string";
 	public static final String PICKER_KEEP_OPEN = "picker_keep_open";
 	public static final String SCREEN_CAPTURE_POPUP = "screen_capture_popup";

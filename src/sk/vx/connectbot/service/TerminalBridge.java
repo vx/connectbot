@@ -1189,4 +1189,208 @@ public class TerminalBridge implements VDUDisplay {
 		cpd.show();
 		return true;
 	}
+
+	/**
+	 * Show arrows dialog
+	 */
+	public boolean showArrowsDialog() {
+
+		final String pickerString = "←→↑↓TIBE";
+		CharSequence str = "";
+		Editable content = Editable.Factory.getInstance().newEditable(str);
+
+		if (parent == null)
+			return false;
+
+		CharacterPickerDialog cpd = new CharacterPickerDialog(parent.getContext(),
+				parent, content, pickerString, true) {
+			private void buttonPressed(CharSequence result) {
+				if (result.equals("←"))
+					((vt320)buffer).keyPressed(vt320.KEY_LEFT, ' ', 0);
+				else if (result.equals("→"))
+					((vt320)buffer).keyPressed(vt320.KEY_RIGHT, ' ', 0);
+				else if (result.equals("↑"))
+					((vt320)buffer).keyPressed(vt320.KEY_UP, ' ', 0);
+				else if (result.equals("↓"))
+					((vt320)buffer).keyPressed(vt320.KEY_DOWN, ' ', 0);
+				else if (result.equals("I"))
+					((vt320)buffer).keyPressed(vt320.KEY_INSERT, ' ', 0);
+				else if (result.equals("B"))
+					((vt320)buffer).keyPressed(vt320.KEY_BACK_SPACE, ' ', 0);
+				else if (result.equals("E"))
+					((vt320)buffer).keyTyped(vt320.KEY_ENTER, ' ', 0);
+				else if (result.equals("T")) {
+					try {
+						transport.write(0x09);
+					} catch (IOException e) {
+						Log.e(TAG, "Problem with the arrowsDialog", e);
+					}
+				}
+			}
+
+			@Override
+			public void onItemClick(AdapterView p, View v, int pos, long id) {
+				final String result = String.valueOf(pickerString.charAt(pos));
+				buttonPressed(result);
+			}
+
+			@Override
+			public void onClick(View v) {
+				if (v instanceof Button) {
+					final CharSequence result = ((Button) v).getText();
+					if (result.equals(""))
+						dismiss();
+					else
+						buttonPressed(result);
+				}
+			}
+
+			@Override
+			public boolean dispatchKeyEvent(KeyEvent event) {
+				if (event.getAction() == KeyEvent.ACTION_DOWN) {
+					return keyListener.onKey(parent, event.getKeyCode(), event);
+				}
+				return true;
+			}
+		};
+
+		cpd.show();
+		return true;
+	}
+
+
+	/**
+	 * CTRL dialog
+	 */
+	private String getCtrlString() {
+		final String defaultSet = "ABCOQSXZ";
+		String set = manager.prefs.getString(PreferenceConstants.CTRL_STRING,defaultSet);
+		if (set == null || set.equals("")) {
+			set = defaultSet;
+		}
+		return set;
+	}
+
+	public boolean showCtrlDialog() {
+
+		final String pickerString = "←→↑↓TIBE";
+		CharSequence str = "";
+		Editable content = Editable.Factory.getInstance().newEditable(str);
+
+		if (parent == null)
+			return false;
+
+		CharacterPickerDialog cpd = new CharacterPickerDialog(parent.getContext(),
+				parent, content, getCtrlString(), true) {
+			private void buttonPressed(CharSequence result) {
+					int code = result.toString().toUpperCase().charAt(0) - 64;
+					if (code > 0 && code < 80) {
+						try {
+							transport.write(code);
+						} catch (IOException e) {
+							Log.d(TAG, "Error writing CTRL+" + result.toString().toUpperCase().charAt(0));
+						}
+					}
+			}
+
+			@Override
+			public void onItemClick(AdapterView p, View v, int pos, long id) {
+				final String result = String.valueOf(getCtrlString().charAt(pos));
+				buttonPressed(result);
+			}
+
+			@Override
+			public void onClick(View v) {
+				if (v instanceof Button) {
+					final CharSequence result = ((Button) v).getText();
+					if (result.equals(""))
+						dismiss();
+					else
+						buttonPressed(result);
+				}
+			}
+
+			@Override
+			public boolean dispatchKeyEvent(KeyEvent event) {
+				if (event.getAction() == KeyEvent.ACTION_DOWN) {
+					return keyListener.onKey(parent, event.getKeyCode(), event);
+				}
+				return true;
+			}
+		};
+
+		cpd.show();
+		return true;
+	}
+
+	/**
+	 * Function keys dialog
+	 */
+	public boolean showFKeysDialog() {
+
+		final String pickerString = "1234567890";
+		CharSequence str = "";
+		Editable content = Editable.Factory.getInstance().newEditable(str);
+
+		if (parent == null)
+			return false;
+
+		CharacterPickerDialog cpd = new CharacterPickerDialog(parent.getContext(),
+				parent, content, pickerString, true) {
+			private void buttonPressed(CharSequence result) {
+				int key = 0;
+				if (result.equals("1"))
+					key = vt320.KEY_F1;
+				else if (result.equals("2"))
+					key = vt320.KEY_F2;
+				else if (result.equals("3"))
+					key = vt320.KEY_F3;
+				else if (result.equals("4"))
+					key = vt320.KEY_F4;
+				else if (result.equals("5"))
+					key = vt320.KEY_F5;
+				else if (result.equals("6"))
+					key = vt320.KEY_F6;
+				else if (result.equals("7"))
+					key = vt320.KEY_F7;
+				else if (result.equals("8"))
+					key = vt320.KEY_F8;
+				else if (result.equals("9"))
+					key = vt320.KEY_F9;
+				else if (result.equals("0"))
+					key = vt320.KEY_F10;
+				if (key != 0)
+					((vt320) buffer).keyPressed(key, ' ', 0);
+				dismiss();
+			}
+
+			@Override
+			public void onItemClick(AdapterView p, View v, int pos, long id) {
+				final String result = String.valueOf(pickerString.charAt(pos));
+				buttonPressed(result);
+			}
+
+			@Override
+			public void onClick(View v) {
+				if (v instanceof Button) {
+					final CharSequence result = ((Button) v).getText();
+					if (result.equals(""))
+						dismiss();
+					else
+						buttonPressed(result);
+				}
+			}
+
+			@Override
+			public boolean dispatchKeyEvent(KeyEvent event) {
+				if (event.getAction() == KeyEvent.ACTION_DOWN) {
+					return keyListener.onKey(parent, event.getKeyCode(), event);
+				}
+				return true;
+			}
+		};
+
+		cpd.show();
+		return true;
+	}
 }
