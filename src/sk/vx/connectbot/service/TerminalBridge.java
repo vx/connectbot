@@ -1195,7 +1195,7 @@ public class TerminalBridge implements VDUDisplay {
 	 */
 	public boolean showArrowsDialog() {
 
-		final String pickerString = "←→↑↓TIBE";
+		final String pickerString = "←→↑↓TIDE";
 		CharSequence str = "";
 		Editable content = Editable.Factory.getInstance().newEditable(str);
 
@@ -1215,8 +1215,8 @@ public class TerminalBridge implements VDUDisplay {
 					((vt320)buffer).keyPressed(vt320.KEY_DOWN, ' ', 0);
 				else if (result.equals("I"))
 					((vt320)buffer).keyPressed(vt320.KEY_INSERT, ' ', 0);
-				else if (result.equals("B"))
-					((vt320)buffer).keyPressed(vt320.KEY_BACK_SPACE, ' ', 0);
+				else if (result.equals("D"))
+					((vt320)buffer).keyPressed(vt320.KEY_DELETE, ' ', 0);
 				else if (result.equals("E"))
 					((vt320)buffer).keyTyped(vt320.KEY_ENTER, ' ', 0);
 				else if (result.equals("T")) {
