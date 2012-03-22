@@ -1167,22 +1167,11 @@ public class TerminalBridge implements VDUDisplay {
 			}
 
 			@Override
-			public boolean onKeyUp(int keyCode, KeyEvent event) {
-				if (keyCode == KeyEvent.KEYCODE_VOLUME_UP || keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)
-					return true;
-				return false;
-			}
-
-			@Override
-			public boolean onKeyDown(int keyCode, KeyEvent event) {
-				if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
-					increaseFontSize();
-					return true;
-				} else if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
-					decreaseFontSize();
-					return true;
+			public boolean dispatchKeyEvent(KeyEvent event) {
+				if (event.getAction() == KeyEvent.ACTION_DOWN) {
+					return keyListener.onKey(parent, event.getKeyCode(), event);
 				}
-				return false;
+				return true;
 			}
 		};
 
@@ -1440,12 +1429,16 @@ public class TerminalBridge implements VDUDisplay {
 			}
 
 			@Override
-			public boolean onKeyDown(int keyCode, KeyEvent event) {
-				if (keyCode == KeyEvent.KEYCODE_SYM || keyCode == KeyEvent.KEYCODE_PICTSYMBOLS) {
-					dismiss();
-					return true;
+			public boolean dispatchKeyEvent(KeyEvent event) {
+				int keyCode = event.getKeyCode();
+				if (event.getAction() == KeyEvent.ACTION_DOWN) {
+					if (keyCode == KeyEvent.KEYCODE_SYM || keyCode == KeyEvent.KEYCODE_PICTSYMBOLS) {
+						dismiss();
+						return true;
+					}
+					return keyListener.onKey(parent, event.getKeyCode(), event);
 				}
-				return super.onKeyDown(keyCode, event);
+				return true;
 			}
 		};
 
