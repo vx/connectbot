@@ -1169,6 +1169,8 @@ public class TerminalBridge implements VDUDisplay {
 			@Override
 			public boolean dispatchKeyEvent(KeyEvent event) {
 				if (event.getAction() == KeyEvent.ACTION_DOWN) {
+					if (event.getKeyCode() == KeyEvent.KEYCODE_BACK)
+						dismiss();
 					return keyListener.onKey(parent, event.getKeyCode(), event);
 				}
 				return true;
@@ -1237,6 +1239,8 @@ public class TerminalBridge implements VDUDisplay {
 			@Override
 			public boolean dispatchKeyEvent(KeyEvent event) {
 				if (event.getAction() == KeyEvent.ACTION_DOWN) {
+					if (event.getKeyCode() == KeyEvent.KEYCODE_BACK)
+						dismiss();
 					return keyListener.onKey(parent, event.getKeyCode(), event);
 				}
 				return true;
@@ -1302,6 +1306,8 @@ public class TerminalBridge implements VDUDisplay {
 			@Override
 			public boolean dispatchKeyEvent(KeyEvent event) {
 				if (event.getAction() == KeyEvent.ACTION_DOWN) {
+					if (event.getKeyCode() == KeyEvent.KEYCODE_BACK)
+						dismiss();
 					return keyListener.onKey(parent, event.getKeyCode(), event);
 				}
 				return true;
@@ -1373,6 +1379,8 @@ public class TerminalBridge implements VDUDisplay {
 			@Override
 			public boolean dispatchKeyEvent(KeyEvent event) {
 				if (event.getAction() == KeyEvent.ACTION_DOWN) {
+					if (event.getKeyCode() == KeyEvent.KEYCODE_BACK)
+						dismiss();
 					return keyListener.onKey(parent, event.getKeyCode(), event);
 				}
 				return true;
@@ -1432,7 +1440,9 @@ public class TerminalBridge implements VDUDisplay {
 			public boolean dispatchKeyEvent(KeyEvent event) {
 				int keyCode = event.getKeyCode();
 				if (event.getAction() == KeyEvent.ACTION_DOWN) {
-					if (keyCode == KeyEvent.KEYCODE_SYM || keyCode == KeyEvent.KEYCODE_PICTSYMBOLS) {
+					if (keyCode == KeyEvent.KEYCODE_SYM ||
+							keyCode == KeyEvent.KEYCODE_PICTSYMBOLS ||
+							keyCode == KeyEvent.KEYCODE_BACK) {
 						dismiss();
 						return true;
 					}
