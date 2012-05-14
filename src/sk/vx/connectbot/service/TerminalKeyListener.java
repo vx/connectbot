@@ -367,6 +367,13 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 						return true;
 					}
 				}
+
+				// Handle hardware CTRL keys
+				if (keyCode == KeyEvent.KEYCODE_CTRL_LEFT ||
+					keyCode == KeyEvent.KEYCODE_CTRL_RIGHT) {
+						ctrlKeySpecial();
+						return true;
+				}
 			}
 
 			// look for special chars
