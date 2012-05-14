@@ -160,7 +160,7 @@
 	</string-array>
 
 	<string-array name="list_custom_keymap_values" translatable="false">
-		<item >sgh_i927</item>
+		<item>sgh_i927</item>
 		<item>se_xppro</item>
 		<item>none</item>
 	</string-array>
