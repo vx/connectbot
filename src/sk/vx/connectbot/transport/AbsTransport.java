@@ -240,6 +240,7 @@ public abstract class AbsTransport {
 
 	public abstract boolean isConnected();
 	public abstract boolean isSessionOpen();
+	public abstract boolean isAuthenticated();
 
 	/**
 	 * @return int default port for protocol

@@ -173,6 +173,11 @@ public class Telnet extends AbsTransport {
 	}
 
 	@Override
+	public boolean isAuthenticated() {
+		return isConnected();
+	}
+
+	@Override
 	public int read(byte[] buffer, int start, int len) throws IOException {
 		/* process all already read bytes */
 		int n = 0;

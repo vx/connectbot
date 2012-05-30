@@ -566,6 +566,11 @@ public class SSH extends AbsTransport implements ConnectionMonitor, InteractiveC
 		return connected;
 	}
 
+	@Override
+	public boolean isAuthenticated() {
+		return authenticated;
+	}
+
 	public void connectionLost(Throwable reason) {
 		onDisconnect();
 	}

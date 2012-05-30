@@ -1404,14 +1404,15 @@ public class TerminalBridge implements VDUDisplay {
 		CharSequence str = "";
 		Editable content = Editable.Factory.getInstance().newEditable(str);
 
-		if (parent == null)
+		if (parent == null || !transport.isAuthenticated())
 			return false;
 
 		CharacterPickerDialog cpd = new CharacterPickerDialog(parent.getContext(),
 				parent, content, getPickerString(), true) {
 			private void writeChar(CharSequence result) {
 				try {
-					transport.write(result.toString().getBytes(getCharset()));
+					if (transport.isAuthenticated())
+						transport.write(result.toString().getBytes(getCharset()));
 				} catch (IOException e) {
 					Log.e(TAG, "Problem with the CharacterPickerDialog", e);
 				}

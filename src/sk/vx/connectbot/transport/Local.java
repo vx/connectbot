@@ -142,6 +142,11 @@ public class Local extends AbsTransport {
 	}
 
 	@Override
+	public boolean isAuthenticated() {
+		return isConnected();
+	}
+
+	@Override
 	public int read(byte[] buffer, int start, int len) throws IOException {
 		if (is == null) {
 			bridge.dispatchDisconnect(false);
