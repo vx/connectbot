@@ -192,18 +192,22 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 				return true;
 			}
 
+			// return on modifier key only - just for easier debugging
+			switch (keyCode) {
+			case KeyEvent.KEYCODE_SHIFT_LEFT:
+			case KeyEvent.KEYCODE_SHIFT_RIGHT:
+			case KeyEvent.KEYCODE_CTRL_LEFT:
+			case KeyEvent.KEYCODE_CTRL_RIGHT:
+			case KeyEvent.KEYCODE_ALT_LEFT:
+			case KeyEvent.KEYCODE_ALT_RIGHT:
+				return false;
+			}
+
 			// skip keys if we aren't connected yet or have been disconnected
 			if (bridge.isDisconnected() || bridge.transport == null)
 				return false;
 
 			bridge.resetScrollPosition();
-
-			if (keyCode == KeyEvent.KEYCODE_UNKNOWN &&
-					event.getAction() == KeyEvent.ACTION_MULTIPLE) {
-				byte[] input = event.getCharacters().getBytes(encoding);
-				bridge.transport.write(input);
-				return true;
-			}
 
 			int curMetaState = event.getMetaState();
 			final int orgMetaState = curMetaState;
@@ -217,6 +221,18 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 			}
 
 			int key = event.getUnicodeChar(curMetaState);
+
+			// handle customized keymaps
+			if (customKeymapAction(keyCode, curMetaState, event))
+				return true;
+
+			if (keyCode == KeyEvent.KEYCODE_UNKNOWN &&
+							event.getAction() == KeyEvent.ACTION_MULTIPLE) {
+					byte[] input = event.getCharacters().getBytes(encoding);
+					bridge.transport.write(input);
+					return true;
+			}
+
 			// no hard keyboard?  ALT-k should pass through to below
 			if ((orgMetaState & KeyEvent.META_ALT_ON) != 0 &&
 					(!hardKeyboard || hardKeyboardHidden)) {
@@ -251,10 +267,6 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 					return true;
 				}
 			}
-
-			// handle customized keymaps
-			if (customKeymapAction(keyCode))
-				return true;
 
 			// otherwise pass through to existing session
 			// print normal keys
@@ -693,12 +705,78 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 		bridge.redraw();
 	}
 
-	private boolean customKeymapAction(int keyCode) {
+	private boolean customKeymapAction(int keyCode, int curMetaState, KeyEvent event) {
 
 		if (bridge == null || customKeyboard.equals(PreferenceConstants.CUSTOM_KEYMAP_DISABLED))
 			return false;
 
-		byte c = 0x00;
+		int c = -1;
+
+		if (customKeyboard.equals(PreferenceConstants.CUSTOM_KEYMAP_ASUS_TFP_FIN)) {
+
+			// Bunch of Asus Transformer Prime keyboard hacks
+			// These are for Finnish keyboard layout, where these settings make sense.
+			// With different kb layout the ball game will most likely be very different.
+			// On TFP some keys do not generate any events, either alone or
+			// with some modifier keys, or they may report only some of the
+			// modifiers or something else.
+
+			// The upper left corner (below back): alone -> ESC  SHIFT -> ~  CTRL -> ^
+			// SHIFT SPACE -> CTRL SPACE
+			// CTRL + number key -> Function key F1 .. F10
+			// CTRL + ALT [ ] or \ -> control char
+			// CTRL + char -> CTRL char
+
+			if ((curMetaState & KeyEvent.META_SHIFT_ON) != 0 && (keyCode == KeyEvent.KEYCODE_SPACE)) {
+				// SHIFT SPACE -> CTRL SPACE, Asus TFP does not produce anything for CTRL SPACE key combo
+				c = 0;
+			}
+
+			if ((curMetaState & KeyEvent.META_CTRL_ON) != 0 && (curMetaState & KeyEvent.META_ALT_ON) != 0) {
+				// ASUS control [ \ ] keys, ALT(Gr / Right) used to generate the keys + CTRL down
+				switch (keyCode) {
+				case KeyEvent.KEYCODE_8: c = keyAsControl('['); break;
+				case KeyEvent.KEYCODE_MINUS: c = keyAsControl('\\');  break;
+				case KeyEvent.KEYCODE_9: c = keyAsControl(']'); break;
+				}
+			}
+
+			if (c == -1 && (curMetaState & KeyEvent.META_CTRL_ON) != 0) {
+				switch (keyCode) {
+				case KeyEvent.KEYCODE_GRAVE:
+					c = '^';
+					break;
+				case KeyEvent.KEYCODE_0:
+				case KeyEvent.KEYCODE_1:
+				case KeyEvent.KEYCODE_2:
+				case KeyEvent.KEYCODE_3:
+				case KeyEvent.KEYCODE_4:
+				case KeyEvent.KEYCODE_5:
+				case KeyEvent.KEYCODE_6:
+				case KeyEvent.KEYCODE_7:
+				case KeyEvent.KEYCODE_8:
+				case KeyEvent.KEYCODE_9:
+					if (sendFunctionKey(keyCode)) return true;
+					break;
+				default:
+					c = keyAsControl(event.getUnicodeChar(0));
+				}
+			}
+
+			if (keyCode == KeyEvent.KEYCODE_UNKNOWN &&
+					event.getAction() == KeyEvent.ACTION_MULTIPLE) {
+				String chars = event.getCharacters();
+				// make the § ½ key return more useful keys
+				if (chars.equals("§")) {
+					// no modifiers -> ESC
+					c = 0x1b;
+				}
+				if (chars.equals("½")) {
+					// SHIFT -> tilde, Asus TFP does not report SHIFT modifier for this
+					c = '~';
+				}
+			}
+		}
 
 		if (customKeyboard.equals(PreferenceConstants.CUSTOM_KEYMAP_SE_XPPRO)) {
 			// Sony Ericsson Xperia pro (MK16i) and Xperia mini Pro (SK17i)
@@ -783,7 +861,7 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 			}
 		}
 
-		if (c != 0x00) {
+		if (c != -1) {
 			try {
 				bridge.transport.write(c);
 			} catch (IOException e) {
