@@ -150,6 +150,9 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 
 			bound.setResizeAllowed(true);
 
+			bound.hardKeyboardHidden = (getResources().getConfiguration().hardKeyboardHidden ==
+					Configuration.HARDKEYBOARDHIDDEN_YES);
+
 			// set fullscreen value
 			if (bound.getFullScreen() == 0) {
 				if (prefs.getBoolean(PreferenceConstants.FULLSCREEN, false))
