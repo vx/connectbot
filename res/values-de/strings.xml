@@ -82,8 +82,8 @@
   <string name="pref_rotation_summary">Wie soll die Rotation beim Ein-/Ausklappen der Tastatur verändert werden</string>
   <string name="pref_fullscreen_title">Vollbild</string>
   <string name="pref_fullscreen_summary">Konsole im Vollbildmodus ausführen</string>
-  <string name="pref_actionbar_title">Aktionsleiste verstecken</string>
-  <string name="pref_actionbar_summary">Die Aktionsleiste in der Konsole nicht anzeigen</string>
+  <string name="pref_hide_actionbar_title">Aktionsleiste verstecken</string>
+  <string name="pref_hide_actionbar_summary">Die Aktionsleiste in der Konsole nicht anzeigen</string>
   <string name="pref_memkeys_title">Schlüssel im Speicher behalten</string>
   <string name="pref_memkeys_summary">Entsperrte Schlüssel im Speicher halten, bis der Hintergrunddienst beendet wurde</string>
   <string name="pref_update_title">Aktualisierungen suchen</string>
