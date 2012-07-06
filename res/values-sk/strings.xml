@@ -169,7 +169,7 @@
   <string name="list_menu_sortname">Usporiadať podľa názvu</string>
   <string name="list_menu_settings">Nastavenia</string>
   <string name="list_host_disconnect">Odpojiť</string>
-  <string name="list_host_edit">Zmeniť hostiteľa</string>
+  <string name="list_host_edit">Upraviť nastavenia hostiteľa</string>
   <string name="list_host_portforwards">Upraviť presmerovanie portov</string>
   <string name="list_host_delete">Zmazať hostiteľa</string>
   <string name="list_host_empty">Použite pole rýchleho pripojenia\nnižšie pre pripojenie k hostiteľovi.</string>
