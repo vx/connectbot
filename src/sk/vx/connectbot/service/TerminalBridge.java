@@ -201,7 +201,7 @@ public class TerminalBridge implements VDUDisplay {
 		Integer defaultFontSize = Integer.parseInt(manager.prefs.getString(PreferenceConstants.DEFAULT_FONT_SIZE, "-1"));
 		Log.d(TAG, "fontSize: " + this.fontSize + ", defaultFontSize: " + defaultFontSize);
 		if (this.fontSize == -1) {
-			if (defaultFontSize > 0)
+			if (defaultFontSize > 0 && host.getFontSize() == -1)
 				hostFontSize = defaultFontSize;
 			else
 				hostFontSize = host.getFontSize();
