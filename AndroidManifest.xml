@@ -17,11 +17,11 @@
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	package="sk.vx.connectbot"
-	android:versionName="1.7.1-19"
-	android:versionCode="19"
+	android:versionName="1.7.1-20"
+	android:versionCode="20"
 	android:installLocation="auto">
 
-	<uses-sdk android:targetSdkVersion="15" android:minSdkVersion="3" />
+	<uses-sdk android:targetSdkVersion="11" android:minSdkVersion="3" />
 
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.VIBRATE" />
