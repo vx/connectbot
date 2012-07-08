@@ -32,7 +32,7 @@ import com.trilead.ssh2.transport.TransportManager;
  * ChannelManager. Please read the comments in Channel.java.
  * <p>
  * Besides the crypto part, this is the core of the library.
- * 
+ *
  * @author Christian Plattner, plattner@trilead.com
  * @version $Id: ChannelManager.java,v 1.2 2008/03/03 07:01:36 cplattne Exp $
  */
@@ -456,7 +456,7 @@ public class ChannelManager implements MessageHandler
 
 		synchronized (remoteForwardings)
 		{
-			Integer key = new Integer(bindPort);
+			Integer key = Integer.valueOf(bindPort);
 
 			if (remoteForwardings.get(key) != null)
 			{
@@ -500,7 +500,7 @@ public class ChannelManager implements MessageHandler
 
 		synchronized (remoteForwardings)
 		{
-			rfd = (RemoteForwardingData) remoteForwardings.get(new Integer(bindPort));
+			rfd = (RemoteForwardingData) remoteForwardings.get(Integer.valueOf(bindPort));
 
 			if (rfd == null)
 				throw new IOException("Sorry, there is no known remote forwarding for remote port " + bindPort);
@@ -712,8 +712,8 @@ public class ChannelManager implements MessageHandler
 			throw (IOException) new IOException("PTY request failed").initCause(e);
 		}
 	}
-	
-	
+
+
 	public void resizePTY(Channel c, int term_width_characters, int term_height_characters,
 			int term_width_pixels, int term_height_pixels) throws IOException {
 		PacketSessionPtyResize spr;
@@ -735,7 +735,7 @@ public class ChannelManager implements MessageHandler
 			tm.sendMessage(spr.getPayload());
 		}
 	}
-	
+
 
 	public void requestX11(Channel c, boolean singleConnection, String x11AuthenticationProtocol,
 			String x11AuthenticationCookie, int x11ScreenNumber) throws IOException
@@ -920,7 +920,7 @@ public class ChannelManager implements MessageHandler
 
 	/**
 	 * Wait until for a condition.
-	 * 
+	 *
 	 * @param c
 	 *            Channel
 	 * @param timeout
@@ -928,7 +928,7 @@ public class ChannelManager implements MessageHandler
 	 * @param condition_mask
 	 *            minimum event mask
 	 * @return all current events
-	 * 
+	 *
 	 */
 	public int waitForCondition(Channel c, long timeout, int condition_mask)
 	{
@@ -1268,7 +1268,7 @@ public class ChannelManager implements MessageHandler
 
 			synchronized (remoteForwardings)
 			{
-				rfd = (RemoteForwardingData) remoteForwardings.get(new Integer(remoteConnectedPort));
+				rfd = (RemoteForwardingData) remoteForwardings.get(Integer.valueOf(remoteConnectedPort));
 			}
 
 			if (rfd == null)
@@ -1370,7 +1370,7 @@ public class ChannelManager implements MessageHandler
 
 			synchronized (c)
 			{
-				c.exit_status = new Integer(exit_status);
+				c.exit_status = Integer.valueOf(exit_status);
 				c.notifyAll();
 			}
 
