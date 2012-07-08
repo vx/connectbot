@@ -63,7 +63,6 @@
 			android:id="@+id/console_password"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
-			android:password="true"
 			android:inputType="textPassword"
 			android:singleLine="true"
 			android:layout_below="@+id/console_password_instructions"

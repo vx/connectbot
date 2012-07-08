@@ -120,7 +120,6 @@
 				android:id="@+id/password1"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:password="true"
 				android:inputType="textPassword"
 				android:singleLine="true"
 				android:layout_weight="1" />
@@ -151,7 +150,6 @@
 				android:id="@+id/password2"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:password="true"
 				android:inputType="textPassword"
 				android:singleLine="true"
 				android:layout_weight="1" />

@@ -31,7 +31,6 @@
 		android:layout_width="100dip"
 		android:layout_height="wrap_content"
 		android:singleLine="true"
-		android:numeric="integer"
 		android:inputType="number"
 		/>
 
@@ -51,7 +50,6 @@
 		android:layout_width="100dip"
 		android:layout_height="wrap_content"
 		android:singleLine="true"
-		android:numeric="integer"
 		android:inputType="number"
 		/>
 </LinearLayout>
