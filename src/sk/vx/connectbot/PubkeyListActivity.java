@@ -237,7 +237,7 @@ public class PubkeyListActivity extends ListActivity implements EventListener, F
 			} catch(Exception e) {
 				String message = getResources().getString(R.string.pubkey_failed_add, pubkey.getNickname());
 				Log.e(TAG, message, e);
-				Toast.makeText(PubkeyListActivity.this, message, Toast.LENGTH_LONG);
+				Toast.makeText(PubkeyListActivity.this, message, Toast.LENGTH_LONG).show();
 			}
 
 		} else {
@@ -250,7 +250,7 @@ public class PubkeyListActivity extends ListActivity implements EventListener, F
 			} catch (Exception e) {
 				String message = getResources().getString(R.string.pubkey_failed_add, pubkey.getNickname());
 				Log.e(TAG, message, e);
-				Toast.makeText(PubkeyListActivity.this, message, Toast.LENGTH_LONG);
+				Toast.makeText(PubkeyListActivity.this, message, Toast.LENGTH_LONG).show();
 				return;
 			}
 
