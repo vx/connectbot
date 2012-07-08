@@ -52,6 +52,7 @@ import android.os.Environment;
 import android.text.ClipboardManager;
 import android.text.Editable;
 import android.text.method.CharacterPickerDialog;
+import android.util.FloatMath;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -515,12 +516,12 @@ public class TerminalBridge implements VDUDisplay {
 
 		// read new metrics to get exact pixel dimensions
 		FontMetrics fm = defaultPaint.getFontMetrics();
-		charTop = (int)Math.ceil(fm.top);
+		charTop = (int)FloatMath.ceil(fm.top);
 
 		float[] widths = new float[1];
 		defaultPaint.getTextWidths("X", widths);
-		charWidth = (int)Math.ceil(widths[0]);
-		charHeight = (int)Math.ceil(fm.descent - fm.top);
+		charWidth = (int)FloatMath.ceil(widths[0]);
+		charHeight = (int)FloatMath.ceil(fm.descent - fm.top);
 
 		// refresh any bitmap with new font size
 		if(parent != null)
@@ -844,7 +845,7 @@ public class TerminalBridge implements VDUDisplay {
 		float[] widths = new float[1];
 		defaultPaint.getTextWidths("X", widths);
 		int termWidth = (int)widths[0] * cols;
-		int termHeight = (int)Math.ceil(fm.descent - fm.top) * rows;
+		int termHeight = (int)FloatMath.ceil(fm.descent - fm.top) * rows;
 
 		Log.d("fontsize", String.format("font size %f resulted in %d x %d", size, termWidth, termHeight));
 

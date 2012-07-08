@@ -52,6 +52,7 @@ import android.text.ClipboardManager;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
 import android.text.method.SingleLineTransformationMethod;
+import android.util.FloatMath;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
@@ -660,8 +661,8 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 
 				// when copying, highlight the area
 				if (copySource != null && copySource.isSelectingForCopy()) {
-					int row = (int)Math.floor(event.getY() / copySource.charHeight);
-					int col = (int)Math.floor(event.getX() / copySource.charWidth);
+					int row = (int)FloatMath.floor(event.getY() / copySource.charHeight);
+					int col = (int)FloatMath.floor(event.getX() / copySource.charWidth);
 
 					SelectionArea area = copySource.getSelectionArea();
 
