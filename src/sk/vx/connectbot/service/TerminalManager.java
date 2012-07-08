@@ -92,6 +92,7 @@ public class TerminalManager extends Service implements BridgeDisconnectedListen
 	final private IBinder binder = new TerminalBinder();
 
 	private ConnectivityReceiver connectivityManager;
+	private ConnectionNotifier connectionNotifier = new ConnectionNotifier();
 
 	private MediaPlayer mediaPlayer;
 
@@ -191,7 +192,7 @@ public class TerminalManager extends Service implements BridgeDisconnectedListen
 
 		connectivityManager.cleanup();
 
-		ConnectionNotifier.getInstance().hideRunningNotification(this);
+		connectionNotifier.hideRunningNotification(this);
 
 		disableMediaPlayer();
 	}
@@ -244,7 +245,7 @@ public class TerminalManager extends Service implements BridgeDisconnectedListen
 		}
 
 		if (prefs.getBoolean(PreferenceConstants.CONNECTION_PERSIST, true)) {
-			ConnectionNotifier.getInstance().showRunningNotification(this);
+			connectionNotifier.showRunningNotification(this);
 		}
 
 		// also update database with new connected time
@@ -348,7 +349,7 @@ public class TerminalManager extends Service implements BridgeDisconnectedListen
 		}
 
 		if (shouldHideRunningNotification) {
-			ConnectionNotifier.getInstance().hideRunningNotification(this);
+			connectionNotifier.hideRunningNotification(this);
 		}
 
 		// pass notification back up to gui
@@ -595,7 +596,7 @@ public class TerminalManager extends Service implements BridgeDisconnectedListen
 		if (!prefs.getBoolean(PreferenceConstants.BELL_NOTIFICATION, false))
 			return;
 
-		ConnectionNotifier.getInstance().showActivityNotification(this, host);
+		connectionNotifier.showActivityNotification(this, host);
 	}
 
 	/* (non-Javadoc)

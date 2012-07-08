@@ -21,7 +21,7 @@
 	android:versionCode="20"
 	android:installLocation="auto">
 
-	<uses-sdk android:targetSdkVersion="13" android:minSdkVersion="3" />
+	<uses-sdk android:targetSdkVersion="13" android:minSdkVersion="8" />
 
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.VIBRATE" />

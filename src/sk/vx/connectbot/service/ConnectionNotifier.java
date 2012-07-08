@@ -17,14 +17,10 @@
 
 package sk.vx.connectbot.service;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
 import sk.vx.connectbot.ConsoleActivity;
 import sk.vx.connectbot.R;
 import sk.vx.connectbot.bean.HostBean;
 import sk.vx.connectbot.util.HostDatabase;
-import sk.vx.connectbot.util.PreferenceConstants;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -39,16 +35,9 @@ import android.graphics.Color;
  *
  * Based on the concept from jasta's blog post.
  */
-public abstract class ConnectionNotifier {
+public class ConnectionNotifier {
 	private static final int ONLINE_NOTIFICATION = 1;
 	private static final int ACTIVITY_NOTIFICATION = 2;
-
-	public static ConnectionNotifier getInstance() {
-		if (PreferenceConstants.PRE_ECLAIR)
-			return PreEclair.Holder.sInstance;
-		else
-			return EclairAndBeyond.Holder.sInstance;
-	}
 
 	protected NotificationManager getNotificationManager(Context context) {
 		return (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -126,66 +115,11 @@ public abstract class ConnectionNotifier {
 		getNotificationManager(context).cancel(ACTIVITY_NOTIFICATION);
 	}
 
-	public abstract void showRunningNotification(Service context);
-	public abstract void hideRunningNotification(Service context);
-
-	private static class PreEclair extends ConnectionNotifier {
-		private static final Class<?>[] setForegroundSignature = new Class[] {boolean.class};
-		private Method setForeground = null;
-
-		private static class Holder {
-			private static final PreEclair sInstance = new PreEclair();
-		}
-
-		public PreEclair() {
-			try {
-				setForeground = Service.class.getMethod("setForeground", setForegroundSignature);
-			} catch (Exception e) {
-			}
-		}
-
-		@Override
-		public void showRunningNotification(Service context) {
-			if (setForeground != null) {
-				Object[] setForegroundArgs = new Object[1];
-				setForegroundArgs[0] = Boolean.TRUE;
-				try {
-					setForeground.invoke(context, setForegroundArgs);
-				} catch (InvocationTargetException e) {
-				} catch (IllegalAccessException e) {
-				}
-				getNotificationManager(context).notify(ONLINE_NOTIFICATION, newRunningNotification(context));
-			}
-		}
-
-		@Override
-		public void hideRunningNotification(Service context) {
-			if (setForeground != null) {
-				Object[] setForegroundArgs = new Object[1];
-				setForegroundArgs[0] = Boolean.FALSE;
-				try {
-					setForeground.invoke(context, setForegroundArgs);
-				} catch (InvocationTargetException e) {
-				} catch (IllegalAccessException e) {
-				}
-				getNotificationManager(context).cancel(ONLINE_NOTIFICATION);
-			}
-		}
+	public void showRunningNotification(Service context) {
+		context.startForeground(ONLINE_NOTIFICATION, newRunningNotification(context));
 	}
 
-	private static class EclairAndBeyond extends ConnectionNotifier {
-		private static class Holder {
-			private static final EclairAndBeyond sInstance = new EclairAndBeyond();
-		}
-
-		@Override
-		public void showRunningNotification(Service context) {
-			context.startForeground(ONLINE_NOTIFICATION, newRunningNotification(context));
-		}
-
-		@Override
-		public void hideRunningNotification(Service context) {
-			context.stopForeground(true);
-		}
+	public void hideRunningNotification(Service context) {
+		context.stopForeground(true);
 	}
 }

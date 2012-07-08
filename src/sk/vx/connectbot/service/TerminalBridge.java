@@ -1413,7 +1413,7 @@ public class TerminalBridge implements VDUDisplay {
 			private void writeChar(CharSequence result) {
 				try {
 					if (transport.isAuthenticated())
-						transport.write(result.toString().getBytes(getCharset()));
+						transport.write(result.toString().getBytes(getCharset().name()));
 				} catch (IOException e) {
 					Log.e(TAG, "Problem with the CharacterPickerDialog", e);
 				}

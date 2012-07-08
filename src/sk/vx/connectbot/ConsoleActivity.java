@@ -31,6 +31,7 @@ import sk.vx.connectbot.util.FileChooser;
 import sk.vx.connectbot.util.FileChooserCallback;
 import sk.vx.connectbot.util.PreferenceConstants;
 import sk.vx.connectbot.util.TransferThread;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ComponentName;
@@ -1446,6 +1447,7 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 		}
 	}
 
+	@TargetApi(11)
 	private void showActionBar() {
 		try {
 			if (this.getActionBar() != null)
@@ -1455,6 +1457,7 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 		}
 	}
 
+	@TargetApi(11)
 	private void hideActionBar() {
 		try {
 			if (this.getActionBar() != null)

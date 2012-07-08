@@ -24,12 +24,8 @@ import android.os.Build;
  *
  */
 public class PreferenceConstants {
-	public static final boolean PRE_ECLAIR = (Integer.parseInt(Build.VERSION.SDK) <=
-			android.os.Build.VERSION_CODES.ECLAIR);
-	public static final boolean PRE_FROYO = PRE_ECLAIR ? true :
-		(Integer.parseInt(Build.VERSION.SDK) <= android.os.Build.VERSION_CODES.FROYO);
-	public static final boolean PRE_HONEYCOMB = PRE_FROYO ? true :
-		(Integer.parseInt(Build.VERSION.SDK) <= android.os.Build.VERSION_CODES.HONEYCOMB);
+	public static final boolean PRE_HONEYCOMB =
+		(Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.HONEYCOMB);
 
 	public static final String CATEGORY_UI = "category_ui";
 

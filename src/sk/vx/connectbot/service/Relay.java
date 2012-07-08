@@ -28,7 +28,8 @@ import java.nio.charset.CodingErrorAction;
 import org.apache.harmony.niochar.charset.additional.IBM437;
 
 import sk.vx.connectbot.transport.AbsTransport;
-import sk.vx.connectbot.util.EastAsianWidth;
+import android.graphics.Paint;
+import android.text.AndroidCharacter;
 import android.util.Log;
 import de.mud.terminal.vt320;
 
@@ -54,6 +55,11 @@ public class Relay implements Runnable {
 
 	private byte[] byteArray;
 	private char[] charArray;
+
+	private void eastAsianWidthMeasure(char[] charArray, int start, int end,
+			byte[] wideAttribute, Paint paint, int charWidth) {
+		AndroidCharacter.getEastAsianWidths(charArray, start, end - start, wideAttribute);
+	}
 
 	public Relay(TerminalBridge bridge, AbsTransport transport, vt320 buffer, String encoding) {
 		setCharset(encoding);
@@ -106,8 +112,6 @@ public class Relay implements Runnable {
 		int offset;
 		int charWidth;
 
-		EastAsianWidth measurer = EastAsianWidth.getInstance();
-
 		try {
 			while (true) {
 				charWidth = bridge.charWidth;
@@ -131,7 +135,7 @@ public class Relay implements Runnable {
 
 					offset = charBuffer.position();
 
-					measurer.measure(charArray, 0, offset, wideAttribute, bridge.defaultPaint, charWidth);
+					eastAsianWidthMeasure(charArray, 0, offset, wideAttribute, bridge.defaultPaint, charWidth);
 					buffer.putString(charArray, wideAttribute, 0, charBuffer.position());
 					bridge.propagateConsoleText(charArray, charBuffer.position());
 					charBuffer.clear();
