@@ -550,14 +550,26 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 					totalY += distanceY;
 					final int moved = (int)(totalY / terminal.bridge.charHeight);
 
-					// consume as scrollback only if towards right half of screen
-					if (e2.getX() > flip.getWidth() / 2) {
+					// consume as scrollback only if towards right third of screen
+					if (e2.getX() > flip.getWidth() * 2 / 3 ) {
 						if (moved != 0) {
 							int base = terminal.bridge.buffer.getWindowBase();
 							terminal.bridge.buffer.setWindowBase(base + moved);
 							totalY = 0;
 							return true;
 						}
+					} else if (e2.getX() < flip.getWidth() / 3 ){
+  					// consume as font-size change if towards the left third of screen
+						if (moved > 1) {
+							terminal.bridge.increaseFontSize();
+							totalY = 0;
+							return true;
+						} else if (moved < -1) {
+							terminal.bridge.decreaseFontSize();
+							totalY = 0;
+							return true;
+						}
+
 					} else {
 						// otherwise consume as pgup/pgdown for every 5 lines
 						if (moved > 5) {
