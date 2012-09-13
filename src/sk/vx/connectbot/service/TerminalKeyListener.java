@@ -862,5 +862,43 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 			}
 		}
 	}
+
+	public void fnScan(View v) {
+		//final TerminalView terminalView = (TerminalView) findCurrentView(R.id.console_flip);
+
+		List<String> fns = bridge.scanForFNs();
+
+		Dialog fnDialog = new Dialog(v.getContext());
+		fnDialog.setTitle(R.string.console_menu_fnscan);
+
+		ListView fnListView = new ListView(v.getContext());
+		FNItemListener fnListener = new FNItemListener(v.getContext());
+		fnListView.setOnItemClickListener(fnListener);
+
+		fnListView.setAdapter(new ArrayAdapter<String>(v.getContext(), android.R.layout.simple_list_item_1, fns));
+		fnDialog.setContentView(fnListView);
+		fnDialog.show();
+	}
+
+	private class FNItemListener implements OnItemClickListener {
+		private WeakReference<Context> contextRef;
+
+		FNItemListener(Context context) {
+			this.contextRef = new WeakReference<Context>(context);
+		}
+
+		public void onItemClick(AdapterView<?> arg0, View view, int position,
+				long id) {
+			Context context = contextRef.get();
+
+			if (context == null)
+				return;
+
+			TextView fnView = (TextView) view;
+			String fn = fnView.getText().toString() + " ";
+
+			bridge.injectString(fn);
+		}
+	}
 }
 

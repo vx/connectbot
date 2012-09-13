@@ -130,7 +130,7 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 
 	private InputMethodManager inputManager;
 
-	private MenuItem disconnect, copy, paste, portForward, resize, urlscan, screenCapture, download, upload;
+	private MenuItem disconnect, copy, paste, portForward, resize, urlscan, fnscan, screenCapture, download, upload;
 
 	protected TerminalBridge copySource = null;
 	private int lastTouchRow, lastTouchCol;
@@ -978,6 +978,25 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 			}
 		});
 
+		fnscan = menu.add(R.string.console_menu_fnscan);
+		if (hardKeyboard)
+			fnscan.setAlphabeticShortcut('f');
+		fnscan.setIcon(android.R.drawable.ic_menu_search);
+		fnscan.setEnabled(activeTerminal);
+		fnscan.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+			public boolean onMenuItemClick(MenuItem item) {
+				View flip = findCurrentView(R.id.console_flip);
+				if (flip == null) return true;
+
+				TerminalView terminal = (TerminalView)flip;
+
+				TerminalKeyListener handler = terminal.bridge.getKeyHandler();
+				handler.fnScan(terminal);
+
+				return true;
+			}
+		});
+
 		download = menu.add(R.string.console_menu_download);
 		download.setAlphabeticShortcut('d');
 		download.setEnabled(sessionOpen && canTransferFiles);
@@ -1124,6 +1143,7 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 		paste.setEnabled(clipboard.hasText() && sessionOpen);
 		portForward.setEnabled(sessionOpen && canForwardPorts);
 		urlscan.setEnabled(activeTerminal);
+		fnscan.setEnabled(activeTerminal);
 		resize.setEnabled(sessionOpen);
 		download.setEnabled(sessionOpen && canTransferFiles);
 		upload.setEnabled(sessionOpen && canTransferFiles);
