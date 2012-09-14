@@ -147,6 +147,7 @@
   <string name="console_menu_portforwards">Port-Weiterleitungen</string>
   <string name="console_menu_resize">Größe erzwingen</string>
   <string name="console_menu_urlscan">URL Scan</string>
+  <string name="console_menu_fnscan">Filename Scan</string>
   <string name="console_menu_screencapture">Bildschirmfoto</string>
   <string name="console_menu_download">"Datei herunterladen"</string>
   <string name="console_menu_upload">"Datei hochladen"</string>
