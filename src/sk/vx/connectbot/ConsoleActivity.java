@@ -1016,7 +1016,15 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 							TransferThread transfer = new TransferThread(ConsoleActivity.this, handler);
 							if (!prefs.getBoolean(PreferenceConstants.BACKGROUND_FILE_TRANSFER,true))
 								transfer.setProgressDialogMessage(getString(R.string.transfer_downloading));
-							transfer.download(bridge, textField.getText().toString(), null, downloadFolder);
+							String fns = textField.getText().toString();
+							if(fns.indexOf("\n") < 0 && fns.indexOf(" ") > 0) {
+								try {
+									fns=fns.replaceAll("(\\s+)(?=(?:[^\"]|\"[^\"]*\")*$)", "\n");
+									fns=fns.replaceFirst("\\s+$", "");
+								} catch (NullPointerException e) {
+								}
+							}
+							transfer.download(bridge, fns, null, downloadFolder);
 						}
 					}).setNegativeButton(android.R.string.cancel, null).create().show();
 
