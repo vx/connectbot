@@ -868,6 +868,8 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 
 		List<String> fns = bridge.scanForFNs();
 
+		clipboard.setText("");
+
 		Dialog fnDialog = new Dialog(v.getContext());
 		fnDialog.setTitle(R.string.console_menu_fnscan);
 
@@ -897,6 +899,7 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 			TextView fnView = (TextView) view;
 			String fn = fnView.getText().toString() + " ";
 
+			clipboard.setText(clipboard.getText() + fn);
 			bridge.injectString(fn);
 		}
 	}
