@@ -47,6 +47,7 @@ import android.view.accessibility.AccessibilityManager;
 import android.view.inputmethod.BaseInputConnection;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
+import android.view.ScaleGestureDetector;
 import android.widget.Toast;
 import de.mud.terminal.VDUBuffer;
 
@@ -90,6 +91,8 @@ public class TerminalView extends View implements FontSizeChangedListener {
 	private static final int ACCESSIBILITY_EVENT_THRESHOLD = 1000;
 	private static final String SCREENREADER_INTENT_ACTION = "android.accessibilityservice.AccessibilityService";
 	private static final String SCREENREADER_INTENT_CATEGORY = "android.accessibilityservice.category.FEEDBACK_SPOKEN";
+
+	public ScaleGestureDetector mScaleDetector;
 
 	public TerminalView(Context context, TerminalBridge bridge) {
 		super(context);
@@ -145,6 +148,8 @@ public class TerminalView extends View implements FontSizeChangedListener {
 
 		// Enable accessibility features if a screen reader is active.
 		new AccessibilityStateTester().execute((Void) null);
+
+		mScaleDetector = new ScaleGestureDetector(context, new ScaleListener());
 	}
 
 	public void destroy() {
@@ -448,4 +453,21 @@ public class TerminalView extends View implements FontSizeChangedListener {
 			}
 		}
 	}
+
+	private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
+    @Override
+    public boolean onScale(ScaleGestureDetector detector) {
+        float mScaleFactor = detector.getScaleFactor();
+        
+				if(mScaleFactor > 1.1) {
+					bridge.increaseFontSize();
+					return true;
+				} else if(mScaleFactor < 0.9) {
+					bridge.decreaseFontSize();
+					return true;
+				}
+				return(false);
+    }
+	}
+
 }
