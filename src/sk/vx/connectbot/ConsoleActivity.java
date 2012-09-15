@@ -494,7 +494,7 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 		});
 
 		// detect fling gestures to switch between terminals
-		final GestureDetector detect = new GestureDetector(new GestureDetector.SimpleOnGestureListener() {
+		final GestureDetector gestDetect = new GestureDetector(new GestureDetector.SimpleOnGestureListener() {
 			private float totalY = 0;
 
 			@Override
@@ -757,7 +757,8 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 				}
 
 				// pass any touch events back to detector
-				return detect.onTouchEvent(event);
+				TerminalView terminalView = (TerminalView) findCurrentView(R.id.console_flip);
+				return  terminalView.mScaleDetector.onTouchEvent(event) | gestDetect.onTouchEvent(event);
 			}
 
 		});
