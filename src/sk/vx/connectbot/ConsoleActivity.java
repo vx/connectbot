@@ -676,6 +676,7 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 				if (copySource != null && copySource.isSelectingForCopy()) {
 					int row = (int)FloatMath.floor(event.getY() / copySource.charHeight);
 					int col = (int)FloatMath.floor(event.getX() / copySource.charWidth);
+					if(col>0) col--;
 
 					SelectionArea area = copySource.getSelectionArea();
 

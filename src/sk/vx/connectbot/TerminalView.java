@@ -65,6 +65,7 @@ public class TerminalView extends View implements FontSizeChangedListener {
 	private final Paint paint;
 	private final Paint cursorPaint;
 	private final Paint cursorStrokePaint;
+	private final Paint markPaint;
 
 	// Cursor paints to distinguish modes
 	private Path ctrlCursor, altCursor, shiftCursor;
@@ -113,6 +114,10 @@ public class TerminalView extends View implements FontSizeChangedListener {
 		cursorStrokePaint = new Paint(cursorPaint);
 		cursorStrokePaint.setStrokeWidth(0.1f);
 		cursorStrokePaint.setStyle(Paint.Style.STROKE);
+
+		markPaint = new Paint();
+		markPaint.setColor(0xa033b5e5);
+		markPaint.setStyle(Paint.Style.FILL);
 
 		/*
 		 * Set up our cursor indicators on a 1x1 Path object which we can later
@@ -248,15 +253,33 @@ public class TerminalView extends View implements FontSizeChangedListener {
 			// draw any highlighted area
 			if (bridge.isSelectingForCopy()) {
 				SelectionArea area = bridge.getSelectionArea();
-				canvas.save(Canvas.CLIP_SAVE_FLAG);
-				canvas.clipRect(
-					area.getLeft() * bridge.charWidth,
-					area.getTop() * bridge.charHeight,
-					(area.getRight() + 1) * bridge.charWidth,
-					(area.getBottom() + 1) * bridge.charHeight
-				);
-				canvas.drawPaint(cursorPaint);
-				canvas.restore();
+				if (area.getTop() != area.getBottom() || area.getLeft() != area.getRight()) {
+					if(area.getBottom() > area.getTop()) {
+						canvas.drawRect(area.getLeft() * bridge.charWidth,
+														area.getTop() * bridge.charHeight,
+														720,
+														(area.getTop() + 1) * bridge.charHeight, markPaint
+														);
+						if(area.getBottom() - area.getTop() > 1) {
+							canvas.drawRect(0,
+															(area.getTop()+1) * bridge.charHeight,
+															720,
+															area.getBottom() * bridge.charHeight, markPaint
+															);
+						}
+						canvas.drawRect(0,
+														area.getBottom() * bridge.charHeight,
+														(area.getRight() + 1) * bridge.charWidth,
+														(area.getBottom() + 1) * bridge.charHeight, markPaint
+														);
+					} else {
+						canvas.drawRect(area.getLeft() * bridge.charWidth,
+														area.getTop() * bridge.charHeight,
+														(area.getRight() + 1) * bridge.charWidth,
+														(area.getBottom() + 1) * bridge.charHeight, markPaint
+														);
+					}
+ 				}
 			}
 		}
 	}
