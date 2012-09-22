@@ -44,7 +44,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.view.Gravity;
 import de.mud.terminal.VDUBuffer;
 import de.mud.terminal.vt320;
 
@@ -152,7 +151,6 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 						debugToast = Toast.makeText(v.getContext(), toastText, Toast.LENGTH_LONG);
 					else
 						debugToast.setText(toastText);
-					debugToast.setGravity(Gravity.TOP|Gravity.LEFT, 0, 0);
 					debugToast.show();
 				}
 
@@ -187,26 +185,10 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 
 			// check for terminal resizing keys
 			if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
-				// unless a hard keyboard is used, use volume keys as ctrl (up) and tab (dn)
-				if (!hardKeyboard || (hardKeyboard && hardKeyboardHidden)) {
-					String toastText = "CTRL";
-					if (debugToast == null)
-						debugToast = Toast.makeText(v.getContext(), toastText, Toast.LENGTH_LONG);
-					else
-						debugToast.setText(toastText);
-					debugToast.setGravity(Gravity.TOP|Gravity.LEFT, 0, 0);
-					debugToast.show();
-					metaPress(META_CTRL_ON);
-				} else {
-					bridge.increaseFontSize();
-				}
+				bridge.increaseFontSize();
 				return true;
 			} else if(keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
-				if (!hardKeyboard || (hardKeyboard && hardKeyboardHidden)) {
-					bridge.transport.write(0x09);
-				} else {
-					bridge.decreaseFontSize();
-				}
+				bridge.decreaseFontSize();
 				return true;
 			}
 
