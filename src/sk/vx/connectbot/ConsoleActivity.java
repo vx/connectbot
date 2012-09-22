@@ -609,6 +609,11 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 						return;
 				final TerminalBridge bridge = terminalView.bridge;
 
+				itemList.add(ConsoleActivity.this
+										 .getResources().getString(R.string.console_menu_copy));
+				itemList.add(ConsoleActivity.this
+										 .getResources().getString(R.string.console_menu_paste));
+
 				if (fullScreen == FULLSCREEN_ON)
 					itemList.add(ConsoleActivity.this
 							.getResources().getString(R.string.longpress_disable_full_screen_mode));
@@ -638,24 +643,30 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 							public void onClick(DialogInterface dialog, int item) {
 								switch (item) {
 								case 0:
+									startCopyText();
+									break;
+								case 1:
+									pasteClipboard();
+									break;
+								case 2:
 									if (fullScreen == FULLSCREEN_ON) {
 										setFullScreen(FULLSCREEN_OFF);
 									} else
 										setFullScreen(FULLSCREEN_ON);
 								break;
-								case 1:
+								case 3:
 									bridge.showFontSizeDialog();
 									break;
-								case 2:
+								case 4:
 									bridge.showArrowsDialog();
 									break;
-								case 3:
+								case 5:
 									bridge.showFKeysDialog();
 									break;
-								case 4:
+								case 6:
 									bridge.showCtrlDialog();
 									break;
-								case 5:
+								case 7:
 									bridge.showCharPickerDialog();
 								}
 							}
@@ -840,20 +851,7 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 		copy.setEnabled(activeTerminal);
 		copy.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 			public boolean onMenuItemClick(MenuItem item) {
-				// mark as copying and reset any previous bounds
-				TerminalView terminalView = (TerminalView) findCurrentView(R.id.console_flip);
-				copySource = terminalView.bridge;
-
-				SelectionArea area = copySource.getSelectionArea();
-				area.reset();
-				area.setBounds(copySource.buffer.getColumns(), copySource.buffer.getRows());
-
-				copySource.setSelectingForCopy(true);
-
-				// Make sure we show the initial selection
-				copySource.redraw();
-
-				Toast.makeText(ConsoleActivity.this, getString(R.string.console_copy_start), Toast.LENGTH_LONG).show();
+				startCopyText();
 				return true;
 			}
 		});
@@ -865,14 +863,7 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 		paste.setEnabled(clipboard.hasText() && sessionOpen);
 		paste.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 			public boolean onMenuItemClick(MenuItem item) {
-				// force insert of clipboard text into current console
-				TerminalView terminalView = (TerminalView) findCurrentView(R.id.console_flip);
-				TerminalBridge bridge = terminalView.bridge;
-
-				// pull string from clipboard and generate all events to force down
-				String clip = clipboard.getText().toString();
-				bridge.injectString(clip);
-
+				pasteClipboard();
 				return true;
 			}
 		});
@@ -1487,6 +1478,33 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 			if (bound != null)
 				bound.setFullScreen(this.fullScreen);
 		}
+	}
+
+	private void startCopyText() {
+		// mark as copying and reset any previous bounds
+		TerminalView terminalView = (TerminalView) findCurrentView(R.id.console_flip);
+		copySource = terminalView.bridge;
+		
+		SelectionArea area = copySource.getSelectionArea();
+		area.reset();
+		area.setBounds(copySource.buffer.getColumns(), copySource.buffer.getRows());
+		
+		copySource.setSelectingForCopy(true);
+		
+		// Make sure we show the initial selection
+		copySource.redraw();
+		
+		Toast.makeText(ConsoleActivity.this, getString(R.string.console_copy_start), Toast.LENGTH_LONG).show();
+	}
+
+	private void pasteClipboard() {
+		// force insert of clipboard text into current console
+		TerminalView terminalView = (TerminalView) findCurrentView(R.id.console_flip);
+		TerminalBridge bridge = terminalView.bridge;
+		
+		// pull string from clipboard and generate all events to force down
+		String clip = clipboard.getText().toString();
+		bridge.injectString(clip);
 	}
 
 	@TargetApi(11)
