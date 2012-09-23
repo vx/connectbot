@@ -70,8 +70,8 @@
   <string name="list_menu_settings">Paramètres</string>
   <string name="list_host_disconnect">Desconnectar</string>
   <string name="list_rotation_default">Per defaut</string>
-  <string name="list_camera_esc">Escap</string>
-  <string name="list_camera_none">Pas cap</string>
+  <string name="list_hwbutton_esc">Escap</string>
+  <string name="list_hwbutton_none">Pas cap</string>
   <string name="list_delkey_backspace">Retorn enrèire</string>
   <string name="list_delkey_del">Suprimir</string>
   <string name="delete_neg">Anullar</string>

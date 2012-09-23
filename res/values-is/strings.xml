@@ -145,11 +145,11 @@
   <string name="list_host_empty">Notaðu boxið hér að neðan\ntil þess að tengjast á þjón.</string>
   <string name="list_rotation_default">Sjálfgefið</string>
   <string name="list_rotation_auto">Sjálfgefið</string>
-  <string name="list_camera_ctrlaspace">Ctrl+A og Space</string>
-  <string name="list_camera_ctrla">Ctrl+A</string>
-  <string name="list_camera_esc">Esc</string>
-  <string name="list_camera_esc_a">Esc+A</string>
-  <string name="list_camera_none">Ekkert</string>
+  <string name="list_hwbutton_ctrlaspace">Ctrl+A og Space</string>
+  <string name="list_hwbutton_ctrla">Ctrl+A</string>
+  <string name="list_hwbutton_esc">Esc</string>
+  <string name="list_hwbutton_esc_a">Esc+A</string>
+  <string name="list_hwbutton_none">Ekkert</string>
   <string name="list_delkey_del">Eyða</string>
   <string name="delete_message">Ert þú viss um að þú viljir eyða \'%1$s\'?</string>
   <string name="delete_pos">Já, eyða</string>

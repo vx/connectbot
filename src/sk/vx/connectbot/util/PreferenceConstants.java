@@ -58,12 +58,17 @@ public class PreferenceConstants {
 	public static final String KEYMODE_LEFT = "Use left-side keys";
 
 	public static final String CAMERA = "camera";
+	public static final String VOLUP = "volup";
+	public static final String VOLDN = "voldn";
+	public static final String SEARCH = "search";
 
-	public static final String CAMERA_SCREEN_CAPTURE = "Screen Capture";
-	public static final String CAMERA_CTRLA_SPACE = "Ctrl+A then Space";
-	public static final String CAMERA_CTRLA = "Ctrl+A";
-	public static final String CAMERA_ESC = "Esc";
-	public static final String CAMERA_ESC_A = "Esc+A";
+	public static final String HWBUTTON_SCREEN_CAPTURE = "Screen Capture";
+	public static final String HWBUTTON_CTRLA_SPACE = "Ctrl+A then Space";
+	public static final String HWBUTTON_CTRLA = "Ctrl+A";
+	public static final String HWBUTTON_ESC = "Esc";
+	public static final String HWBUTTON_ESC_A = "Esc+A";
+	public static final String HWBUTTON_CTRL = "CTRL";
+	public static final String HWBUTTON_TAB  = "Tab";
 
 	public static final String KEEP_ALIVE = "keepalive";
 

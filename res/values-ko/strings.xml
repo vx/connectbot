@@ -158,8 +158,8 @@
   <string name="list_rotation_land">가로 고정</string>
   <string name="list_rotation_port">세로 고정</string>
   <string name="list_rotation_auto">자동</string>
-  <string name="list_camera_ctrlaspace">Ctrl+A 후 Space</string>
-  <string name="list_camera_none">없음</string>
+  <string name="list_hwbutton_ctrlaspace">Ctrl+A 후 Space</string>
+  <string name="list_hwbutton_none">없음</string>
   <string name="list_delkey_backspace">백스페이스</string>
   <string name="list_delkey_del">삭제</string>
   <string name="delete_pos">예, 삭제</string>

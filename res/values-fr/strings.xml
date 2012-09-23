@@ -167,11 +167,11 @@
   <string name="list_rotation_land">Forcer le mode paysage</string>
   <string name="list_rotation_port">Forcer le mode portrait</string>
   <string name="list_rotation_auto">Automatique</string>
-  <string name="list_camera_ctrlaspace">Ctrl+A puis Espace</string>
-  <string name="list_camera_ctrla">Ctrl+A</string>
-  <string name="list_camera_esc">Échap</string>
-  <string name="list_camera_esc_a">Echap+A</string>
-  <string name="list_camera_none">Aucun</string>
+  <string name="list_hwbutton_ctrlaspace">Ctrl+A puis Espace</string>
+  <string name="list_hwbutton_ctrla">Ctrl+A</string>
+  <string name="list_hwbutton_esc">Échap</string>
+  <string name="list_hwbutton_esc_a">Echap+A</string>
+  <string name="list_hwbutton_none">Aucun</string>
   <string name="list_delkey_backspace">Retour arrière</string>
   <string name="list_delkey_del">Supprimer</string>
   <string name="delete_message">Êtes-vous sûr de vouloir supprimer \'%1$s\' ?</string>

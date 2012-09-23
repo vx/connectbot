@@ -167,11 +167,11 @@
   <string name="list_rotation_land">Только альбомная ориентация</string>
   <string name="list_rotation_port">Только портретная ориетация</string>
   <string name="list_rotation_auto">Автоматически</string>
-  <string name="list_camera_ctrlaspace">Ctrl+A затем пробел</string>
-  <string name="list_camera_ctrla">Ctrl+A</string>
-  <string name="list_camera_esc">Esc</string>
-  <string name="list_camera_esc_a">Esc+A</string>
-  <string name="list_camera_none">Нет</string>
+  <string name="list_hwbutton_ctrlaspace">Ctrl+A затем пробел</string>
+  <string name="list_hwbutton_ctrla">Ctrl+A</string>
+  <string name="list_hwbutton_esc">Esc</string>
+  <string name="list_hwbutton_esc_a">Esc+A</string>
+  <string name="list_hwbutton_none">Нет</string>
   <string name="list_delkey_backspace">Backspace</string>
   <string name="list_delkey_del">Удалить</string>
   <string name="delete_message">Вы уверены, что хотите удалить \'%1$s\'?</string>
