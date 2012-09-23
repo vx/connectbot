@@ -167,11 +167,11 @@
   <string name="list_rotation_land">Fremtving liggende</string>
   <string name="list_rotation_port">Fremtving stående</string>
   <string name="list_rotation_auto">Automatisk</string>
-  <string name="list_camera_ctrlaspace">Ctrl+A derefter mellemrum</string>
-  <string name="list_camera_ctrla">Ctrl+A</string>
-  <string name="list_camera_esc">Esc</string>
-  <string name="list_camera_esc_a">Esc+A</string>
-  <string name="list_camera_none">Ingen</string>
+  <string name="list_hwbutton_ctrlaspace">Ctrl+A derefter mellemrum</string>
+  <string name="list_hwbutton_ctrla">Ctrl+A</string>
+  <string name="list_hwbutton_esc">Esc</string>
+  <string name="list_hwbutton_esc_a">Esc+A</string>
+  <string name="list_hwbutton_none">Ingen</string>
   <string name="list_delkey_backspace">Slet tilbage</string>
   <string name="list_delkey_del">Slet</string>
   <string name="delete_message">Er du sikker på at du vil slette \'%1$s\'?</string>

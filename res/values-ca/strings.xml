@@ -167,11 +167,11 @@
   <string name="list_rotation_land">Força horitzontal</string>
   <string name="list_rotation_port">Força vertical</string>
   <string name="list_rotation_auto">Automàtic</string>
-  <string name="list_camera_ctrlaspace">Ctrl+A llavors Espai</string>
-  <string name="list_camera_ctrla">Ctrl+A</string>
-  <string name="list_camera_esc">Esc</string>
-  <string name="list_camera_esc_a">Esc+A</string>
-  <string name="list_camera_none">Res</string>
+  <string name="list_hwbutton_ctrlaspace">Ctrl+A llavors Espai</string>
+  <string name="list_hwbutton_ctrla">Ctrl+A</string>
+  <string name="list_hwbutton_esc">Esc</string>
+  <string name="list_hwbutton_esc_a">Esc+A</string>
+  <string name="list_hwbutton_none">Res</string>
   <string name="list_delkey_backspace">Retrocés</string>
   <string name="list_delkey_del">Suprimeix</string>
   <string name="delete_message">Estas segur que vols esborrar \'%1$s\'?</string>

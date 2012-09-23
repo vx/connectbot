@@ -161,8 +161,8 @@
   <string name="list_rotation_land">強制橫屏顯示</string>
   <string name="list_rotation_port">強制竪屏顯示</string>
   <string name="list_rotation_auto">自動</string>
-  <string name="list_camera_ctrlaspace">Ctrl+A 然後 Space</string>
-  <string name="list_camera_none">無</string>
+  <string name="list_hwbutton_ctrlaspace">Ctrl+A 然後 Space</string>
+  <string name="list_hwbutton_none">無</string>
   <string name="list_delkey_del">刪除</string>
   <string name="delete_pos">是，刪除</string>
   <string name="delete_neg">取消</string>
