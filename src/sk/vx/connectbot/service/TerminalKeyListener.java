@@ -44,6 +44,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.view.Gravity;
 import de.mud.terminal.VDUBuffer;
 import de.mud.terminal.vt320;
 
@@ -102,6 +103,7 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 	private final SharedPreferences prefs;
 
 	private Toast debugToast = null;
+	private Toast metakeyToast = null;
 
 	public TerminalKeyListener(TerminalManager manager,
 			TerminalBridge bridge,
@@ -181,15 +183,6 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 				}
 
 				return false;
-			}
-
-			// check for terminal resizing keys
-			if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
-				bridge.increaseFontSize();
-				return true;
-			} else if(keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
-				bridge.decreaseFontSize();
-				return true;
 			}
 
 			// skip keys if we aren't connected yet or have been disconnected
@@ -406,25 +399,28 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 				return true;
 			case KeyEvent.KEYCODE_CAMERA:
 				// check to see which shortcut the camera button triggers
-				String camera = manager.prefs.getString(
+				String hwbuttonShortcut = manager.prefs.getString(
 						PreferenceConstants.CAMERA,
-						PreferenceConstants.CAMERA_SCREEN_CAPTURE);
-				if(PreferenceConstants.CAMERA_SCREEN_CAPTURE.equals(camera)) {
-					bridge.captureScreen();
-				} else if (PreferenceConstants.CAMERA_CTRLA_SPACE.equals(camera)) {
-					bridge.transport.write(0x01);
-					bridge.transport.write(' ');
-				} else if(PreferenceConstants.CAMERA_CTRLA.equals(camera)) {
-					bridge.transport.write(0x01);
-				} else if(PreferenceConstants.CAMERA_ESC.equals(camera)) {
-					((vt320)buffer).keyTyped(vt320.KEY_ESCAPE, ' ', 0);
-				} else if(PreferenceConstants.CAMERA_ESC_A.equals(camera)) {
-					((vt320)buffer).keyTyped(vt320.KEY_ESCAPE, ' ', 0);
-					bridge.transport.write('a');
-				}
-
-				break;
-
+						PreferenceConstants.HWBUTTON_SCREEN_CAPTURE);
+				return(handleShortcut(v, hwbuttonShortcut));
+			case KeyEvent.KEYCODE_VOLUME_UP:
+				// check to see which shortcut the camera button triggers
+				hwbuttonShortcut = manager.prefs.getString(
+						PreferenceConstants.VOLUP,
+						PreferenceConstants.HWBUTTON_CTRL);
+				return(handleShortcut(v, hwbuttonShortcut));
+			case KeyEvent.KEYCODE_VOLUME_DOWN:
+				// check to see which shortcut the camera button triggers
+				hwbuttonShortcut = manager.prefs.getString(
+						PreferenceConstants.VOLDN,
+						PreferenceConstants.HWBUTTON_TAB);
+				return(handleShortcut(v, hwbuttonShortcut));
+			case KeyEvent.KEYCODE_SEARCH:
+				// check to see which shortcut the camera button triggers
+				hwbuttonShortcut = manager.prefs.getString(
+						PreferenceConstants.SEARCH,
+						PreferenceConstants.HWBUTTON_ESC);
+				return(handleShortcut(v, hwbuttonShortcut));
 			case KeyEvent.KEYCODE_DEL:
 				if ((metaState & META_ALT_MASK) != 0) {
 					((vt320) buffer).keyPressed(vt320.KEY_INSERT, ' ',
@@ -527,6 +523,50 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 		}
 
 		return false;
+	}
+
+	private boolean handleShortcut(View v, String shortcut) {
+		try {
+			if(PreferenceConstants.HWBUTTON_SCREEN_CAPTURE.equals(shortcut)) {
+				bridge.captureScreen();
+			} else if (PreferenceConstants.HWBUTTON_CTRL.equals(shortcut)) {
+				showMetakeyToast(v, PreferenceConstants.HWBUTTON_CTRL);
+				metaPress(META_CTRL_ON);
+			} else if (PreferenceConstants.HWBUTTON_TAB.equals(shortcut)) {
+				bridge.transport.write(0x09);
+			} else if (PreferenceConstants.HWBUTTON_CTRLA_SPACE.equals(shortcut)) {
+				bridge.transport.write(0x01);
+				bridge.transport.write(' ');
+			} else if(PreferenceConstants.HWBUTTON_CTRLA.equals(shortcut)) {
+				bridge.transport.write(0x01);
+			} else if(PreferenceConstants.HWBUTTON_ESC.equals(shortcut)) {
+				showMetakeyToast(v, PreferenceConstants.HWBUTTON_ESC);
+				((vt320)buffer).keyTyped(vt320.KEY_ESCAPE, ' ', 0);
+			} else if(PreferenceConstants.HWBUTTON_ESC_A.equals(shortcut)) {
+				((vt320)buffer).keyTyped(vt320.KEY_ESCAPE, ' ', 0);
+				bridge.transport.write('a');
+			} else {
+				return(false);
+			}
+		} catch (IOException e) {
+			Log.e(TAG, "Problem while trying to handle an onKey() event", e);
+			try {
+				bridge.transport.flush();
+			} catch (IOException ioe) {
+				Log.d(TAG, "Our transport was closed, dispatching disconnect event");
+				bridge.dispatchDisconnect(false);
+			}
+		}
+		return(true);
+	}
+
+	private void showMetakeyToast(View v, String keyname) {
+		if (metakeyToast == null)
+			metakeyToast = Toast.makeText(v.getContext(), keyname, Toast.LENGTH_LONG);
+		else
+			metakeyToast.setText(keyname);
+		metakeyToast.setGravity(Gravity.TOP|Gravity.RIGHT, 0, 0);
+		metakeyToast.show();
 	}
 
 	public int keyAsControl(int key) {
@@ -842,6 +882,47 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 				// We should probably tell the user that we couldn't find a
 				// handler...
 			}
+		}
+	}
+
+	public void fnScan(View v) {
+		//final TerminalView terminalView = (TerminalView) findCurrentView(R.id.console_flip);
+
+		List<String> fns = bridge.scanForFNs();
+
+		clipboard.setText("");
+
+		Dialog fnDialog = new Dialog(v.getContext());
+		fnDialog.setTitle(R.string.console_menu_fnscan);
+
+		ListView fnListView = new ListView(v.getContext());
+		FNItemListener fnListener = new FNItemListener(v.getContext());
+		fnListView.setOnItemClickListener(fnListener);
+
+		fnListView.setAdapter(new ArrayAdapter<String>(v.getContext(), android.R.layout.simple_list_item_1, fns));
+		fnDialog.setContentView(fnListView);
+		fnDialog.show();
+	}
+
+	private class FNItemListener implements OnItemClickListener {
+		private WeakReference<Context> contextRef;
+
+		FNItemListener(Context context) {
+			this.contextRef = new WeakReference<Context>(context);
+		}
+
+		public void onItemClick(AdapterView<?> arg0, View view, int position,
+				long id) {
+			Context context = contextRef.get();
+
+			if (context == null)
+				return;
+
+			TextView fnView = (TextView) view;
+			String fn = fnView.getText().toString() + " ";
+
+			clipboard.setText(clipboard.getText() + fn);
+			bridge.injectString(fn);
 		}
 	}
 }

@@ -17,7 +17,7 @@
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	package="sk.vx.connectbot"
-	android:versionName="1.7.1-21"
+	android:versionName="1.7.1-21-mx-3"
 	android:versionCode="21"
 	android:installLocation="auto">
 

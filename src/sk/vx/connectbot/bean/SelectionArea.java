@@ -144,14 +144,26 @@ public class SelectionArea {
 	}
 
 	public String copyFrom(VDUBuffer vb) {
-		int size = (getRight() - getLeft() + 1) * (getBottom() - getTop() + 1);
+		int size = maxColumns * (getBottom() - getTop() + 1);
 
 		StringBuffer buffer = new StringBuffer(size);
 
 		for(int y = getTop(); y <= getBottom(); y++) {
 			int lastNonSpace = buffer.length();
 
-			for (int x = getLeft(); x <= getRight(); x++) {
+			int x;
+			if(y == getTop()) 
+					x = getLeft();
+			else 
+					x = 0;
+			
+			int max_x;
+			if(y == getBottom())
+					max_x = getRight();
+			else
+					max_x = maxColumns;
+
+			for (; x <= maxColumns; x++) {
 				// only copy printable chars
 				char c = vb.getChar(x, y);
 

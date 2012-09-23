@@ -47,6 +47,7 @@ import android.view.accessibility.AccessibilityManager;
 import android.view.inputmethod.BaseInputConnection;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
+import android.view.ScaleGestureDetector;
 import android.widget.Toast;
 import de.mud.terminal.VDUBuffer;
 
@@ -64,6 +65,7 @@ public class TerminalView extends View implements FontSizeChangedListener {
 	private final Paint paint;
 	private final Paint cursorPaint;
 	private final Paint cursorStrokePaint;
+	private final Paint markPaint;
 
 	// Cursor paints to distinguish modes
 	private Path ctrlCursor, altCursor, shiftCursor;
@@ -91,6 +93,8 @@ public class TerminalView extends View implements FontSizeChangedListener {
 	private static final String SCREENREADER_INTENT_ACTION = "android.accessibilityservice.AccessibilityService";
 	private static final String SCREENREADER_INTENT_CATEGORY = "android.accessibilityservice.category.FEEDBACK_SPOKEN";
 
+	public ScaleGestureDetector mScaleDetector;
+
 	public TerminalView(Context context, TerminalBridge bridge) {
 		super(context);
 
@@ -110,6 +114,10 @@ public class TerminalView extends View implements FontSizeChangedListener {
 		cursorStrokePaint = new Paint(cursorPaint);
 		cursorStrokePaint.setStrokeWidth(0.1f);
 		cursorStrokePaint.setStyle(Paint.Style.STROKE);
+
+		markPaint = new Paint();
+		markPaint.setColor(0xa033b5e5);
+		markPaint.setStyle(Paint.Style.FILL);
 
 		/*
 		 * Set up our cursor indicators on a 1x1 Path object which we can later
@@ -145,6 +153,8 @@ public class TerminalView extends View implements FontSizeChangedListener {
 
 		// Enable accessibility features if a screen reader is active.
 		new AccessibilityStateTester().execute((Void) null);
+
+		mScaleDetector = new ScaleGestureDetector(context, new ScaleListener());
 	}
 
 	public void destroy() {
@@ -243,15 +253,33 @@ public class TerminalView extends View implements FontSizeChangedListener {
 			// draw any highlighted area
 			if (bridge.isSelectingForCopy()) {
 				SelectionArea area = bridge.getSelectionArea();
-				canvas.save(Canvas.CLIP_SAVE_FLAG);
-				canvas.clipRect(
-					area.getLeft() * bridge.charWidth,
-					area.getTop() * bridge.charHeight,
-					(area.getRight() + 1) * bridge.charWidth,
-					(area.getBottom() + 1) * bridge.charHeight
-				);
-				canvas.drawPaint(cursorPaint);
-				canvas.restore();
+				if (area.getTop() != area.getBottom() || area.getLeft() != area.getRight()) {
+					if(area.getBottom() > area.getTop()) {
+						canvas.drawRect(area.getLeft() * bridge.charWidth,
+														area.getTop() * bridge.charHeight,
+														720,
+														(area.getTop() + 1) * bridge.charHeight, markPaint
+														);
+						if(area.getBottom() - area.getTop() > 1) {
+							canvas.drawRect(0,
+															(area.getTop()+1) * bridge.charHeight,
+															720,
+															area.getBottom() * bridge.charHeight, markPaint
+															);
+						}
+						canvas.drawRect(0,
+														area.getBottom() * bridge.charHeight,
+														(area.getRight() + 1) * bridge.charWidth,
+														(area.getBottom() + 1) * bridge.charHeight, markPaint
+														);
+					} else {
+						canvas.drawRect(area.getLeft() * bridge.charWidth,
+														area.getTop() * bridge.charHeight,
+														(area.getRight() + 1) * bridge.charWidth,
+														(area.getBottom() + 1) * bridge.charHeight, markPaint
+														);
+					}
+ 				}
 			}
 		}
 	}
@@ -448,4 +476,21 @@ public class TerminalView extends View implements FontSizeChangedListener {
 			}
 		}
 	}
+
+	private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
+    @Override
+    public boolean onScale(ScaleGestureDetector detector) {
+        float mScaleFactor = detector.getScaleFactor();
+        
+				if(mScaleFactor > 1.1) {
+					bridge.increaseFontSize();
+					return true;
+				} else if(mScaleFactor < 0.9) {
+					bridge.decreaseFontSize();
+					return true;
+				}
+				return(false);
+    }
+	}
+
 }

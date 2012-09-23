@@ -139,8 +139,8 @@
   <string name="list_rotation_land">Paksa landscape</string>
   <string name="list_rotation_port">Paksa portrait</string>
   <string name="list_rotation_auto">Otomatis</string>
-  <string name="list_camera_ctrlaspace">Ctrl+A kemudian spasi</string>
-  <string name="list_camera_none">Kosong</string>
+  <string name="list_hwbutton_ctrlaspace">Ctrl+A kemudian spasi</string>
+  <string name="list_hwbutton_none">Kosong</string>
   <string name="delete_message">Apakah anda yakin ingin menghapus %1$s?</string>
   <string name="delete_pos">Ya, hapus</string>
   <string name="delete_neg">Batal</string>

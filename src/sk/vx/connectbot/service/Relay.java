@@ -136,6 +136,12 @@ public class Relay implements Runnable {
 					offset = charBuffer.position();
 
 					eastAsianWidthMeasure(charArray, 0, offset, wideAttribute, bridge.defaultPaint, charWidth);
+					if(charBuffer.position() > 100) {
+							try {
+									Thread.sleep(100);
+							} catch(InterruptedException e) {
+							}
+					}
 					buffer.putString(charArray, wideAttribute, 0, charBuffer.position());
 					bridge.propagateConsoleText(charArray, charBuffer.position());
 					charBuffer.clear();

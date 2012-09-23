@@ -1028,6 +1028,31 @@ public class TerminalBridge implements VDUDisplay {
 		return (new LinkedList<String>(urls));
 	}
 
+	private static Pattern fnPattern = null;
+
+	/**
+	 * @return
+	 */
+	public List<String> scanForFNs() {
+		Set<String> fns = new LinkedHashSet<String>();
+
+		if (fnPattern == null) {
+			String fnRegex = "[-A-Za-zäöüßÄÖÜ0-9,./?%&#:_~@]+";
+			fnPattern = Pattern.compile(fnRegex);
+		}
+
+		char[] visibleBuffer = new char[buffer.height * buffer.width];
+		for (int l = 0; l < buffer.height; l++)
+			System.arraycopy(buffer.charArray[buffer.windowBase + l], 0,
+					visibleBuffer, l * buffer.width, buffer.width);
+
+		Matcher fnMatcher = fnPattern.matcher(new String(visibleBuffer));
+		while (fnMatcher.find())
+			fns.add(fnMatcher.group());
+
+		return (new LinkedList<String>(fns));
+	}
+
 	/**
 	 * @return
 	 */
