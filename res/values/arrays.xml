@@ -41,20 +41,24 @@
 		<item>Automatic</item>
 	</string-array>
 
-	<string-array name="list_camera" translatable="false">
-		<item>@string/list_camera_screen_capture</item>
-		<item>@string/list_camera_ctrlaspace</item>
-		<item>@string/list_camera_ctrla</item>
-		<item>@string/list_camera_esc</item>
-		<item>@string/list_camera_esc_a</item>
-		<item>@string/list_camera_none</item>
+	<string-array name="list_hwbutton" translatable="false">
+		<item>@string/list_hwbutton_ctrl</item>
+		<item>@string/list_hwbutton_esc</item>
+		<item>@string/list_hwbutton_tab</item>
+		<item>@string/list_hwbutton_screen_capture</item>
+		<item>@string/list_hwbutton_ctrlaspace</item>
+		<item>@string/list_hwbutton_ctrla</item>
+		<item>@string/list_hwbutton_esc_a</item>
+		<item>@string/list_hwbutton_none</item>
 	</string-array>
 
-	<string-array name="list_camera_values" translatable="false">
+	<string-array name="list_hwbutton_values" translatable="false">
+		<item>CTRL</item>
+		<item>Esc</item>
+		<item>Tab</item>
 		<item>Screen Capture</item>
 		<item>Ctrl+A then Space</item>
 		<item>Ctrl+A</item>
-		<item>Esc</item>
 		<item>Esc+A</item>
 		<item>None</item>
 	</string-array>

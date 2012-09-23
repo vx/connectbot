@@ -154,11 +154,11 @@
   <string name="list_rotation_land">Prisili ležeče</string>
   <string name="list_rotation_port">Prisili pokončno</string>
   <string name="list_rotation_auto">Samodejno</string>
-  <string name="list_camera_ctrlaspace">Ctrl+A nato Space</string>
-  <string name="list_camera_ctrla">Ctrl+A</string>
-  <string name="list_camera_esc">Esc</string>
-  <string name="list_camera_esc_a">Esc+A</string>
-  <string name="list_camera_none">Nič</string>
+  <string name="list_hwbutton_ctrlaspace">Ctrl+A nato Space</string>
+  <string name="list_hwbutton_ctrla">Ctrl+A</string>
+  <string name="list_hwbutton_esc">Esc</string>
+  <string name="list_hwbutton_esc_a">Esc+A</string>
+  <string name="list_hwbutton_none">Nič</string>
   <string name="list_delkey_backspace">Vračalka</string>
   <string name="list_delkey_del">Delete</string>
   <string name="delete_message">Ali ste prepričani, da želite izbrisati \'%1$s\'?</string>

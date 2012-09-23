@@ -167,11 +167,11 @@
   <string name="list_rotation_land">Yatay zorunlu</string>
   <string name="list_rotation_port">Dikey zorunlu</string>
   <string name="list_rotation_auto">Otomatik</string>
-  <string name="list_camera_ctrlaspace">Ctrl+A ardından Boşluk</string>
-  <string name="list_camera_ctrla">Ctrl+A</string>
-  <string name="list_camera_esc">Esc</string>
-  <string name="list_camera_esc_a">Esc+A</string>
-  <string name="list_camera_none">Hiçbiri</string>
+  <string name="list_hwbutton_ctrlaspace">Ctrl+A ardından Boşluk</string>
+  <string name="list_hwbutton_ctrla">Ctrl+A</string>
+  <string name="list_hwbutton_esc">Esc</string>
+  <string name="list_hwbutton_esc_a">Esc+A</string>
+  <string name="list_hwbutton_none">Hiçbiri</string>
   <string name="list_delkey_backspace">Sil</string>
   <string name="list_delkey_del">Sil</string>
   <string name="delete_message">\'%1$s\' silinecek onaylıyor musunuz?</string>
