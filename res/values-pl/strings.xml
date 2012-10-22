@@ -167,11 +167,11 @@
   <string name="list_rotation_land">Wymuś orientację poziomą</string>
   <string name="list_rotation_port">Wymuś orientację pionową</string>
   <string name="list_rotation_auto">Automatycznie</string>
-  <string name="list_camera_ctrlaspace">Ctrl+A następnie Spacja</string>
-  <string name="list_camera_ctrla">Ctrl+A</string>
-  <string name="list_camera_esc">Esc</string>
-  <string name="list_camera_esc_a">Esc+A</string>
-  <string name="list_camera_none">Brak akcji</string>
+  <string name="list_hwbutton_ctrlaspace">Ctrl+A następnie Spacja</string>
+  <string name="list_hwbutton_ctrla">Ctrl+A</string>
+  <string name="list_hwbutton_esc">Esc</string>
+  <string name="list_hwbutton_esc_a">Esc+A</string>
+  <string name="list_hwbutton_none">Brak akcji</string>
   <string name="list_delkey_backspace">Backspace</string>
   <string name="list_delkey_del">Usuń</string>
   <string name="delete_message">Jesteś pewien, że chcesz usunąć \'%1$s\'?</string>

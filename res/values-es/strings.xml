@@ -167,11 +167,11 @@
   <string name="list_rotation_land">Forzar paisaje</string>
   <string name="list_rotation_port">Forzar retrato</string>
   <string name="list_rotation_auto">Automático</string>
-  <string name="list_camera_ctrlaspace">Ctrl+A después espacio</string>
-  <string name="list_camera_ctrla">Ctrl+A</string>
-  <string name="list_camera_esc">Esc</string>
-  <string name="list_camera_esc_a">Esc+A</string>
-  <string name="list_camera_none">Ninguno</string>
+  <string name="list_hwbutton_ctrlaspace">Ctrl+A después espacio</string>
+  <string name="list_hwbutton_ctrla">Ctrl+A</string>
+  <string name="list_hwbutton_esc">Esc</string>
+  <string name="list_hwbutton_esc_a">Esc+A</string>
+  <string name="list_hwbutton_none">Ninguno</string>
   <string name="list_delkey_backspace">Borrar</string>
   <string name="list_delkey_del">Eliminar</string>
   <string name="delete_message">¿Está seguro de que quiere eliminar \'%1$s\'?</string>

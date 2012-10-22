@@ -163,8 +163,8 @@
   <string name="list_rotation_land">横向き固定</string>
   <string name="list_rotation_port">縦向き固定</string>
   <string name="list_rotation_auto">自動判定</string>
-  <string name="list_camera_ctrlaspace">Ctrl+Aに続いてSpace</string>
-  <string name="list_camera_none">なし</string>
+  <string name="list_hwbutton_ctrlaspace">Ctrl+Aに続いてSpace</string>
+  <string name="list_hwbutton_none">なし</string>
   <string name="delete_message">\'%1$s\'を削除してよろしいですか?</string>
   <string name="delete_pos">はい、削除します</string>
   <string name="delete_neg">キャンセル</string>

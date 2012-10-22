@@ -165,11 +165,11 @@
   <string name="list_rotation_land">Tvinga horisontellt läge</string>
   <string name="list_rotation_port">Tvinga vertikalt läge</string>
   <string name="list_rotation_auto">Automatiskt</string>
-  <string name="list_camera_ctrlaspace">Ctrl+A sen Space</string>
-  <string name="list_camera_ctrla">Ctrl+A</string>
-  <string name="list_camera_esc">Esc</string>
-  <string name="list_camera_esc_a">Esc+A</string>
-  <string name="list_camera_none">Ingen</string>
+  <string name="list_hwbutton_ctrlaspace">Ctrl+A sen Space</string>
+  <string name="list_hwbutton_ctrla">Ctrl+A</string>
+  <string name="list_hwbutton_esc">Esc</string>
+  <string name="list_hwbutton_esc_a">Esc+A</string>
+  <string name="list_hwbutton_none">Ingen</string>
   <string name="list_delkey_backspace">Baksteg</string>
   <string name="delete_message">Är du säker att du vill ta bort \'%1$s\'?</string>
   <string name="delete_pos">Ja, ta bort</string>

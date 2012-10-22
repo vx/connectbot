@@ -167,11 +167,11 @@
   <string name="list_rotation_land">Fekvő mód kényszerítése</string>
   <string name="list_rotation_port">Álló mód kényszerítése</string>
   <string name="list_rotation_auto">Automatikus</string>
-  <string name="list_camera_ctrlaspace">Ctrl+A majd Space</string>
-  <string name="list_camera_ctrla">Ctrl+A</string>
-  <string name="list_camera_esc">Esc</string>
-  <string name="list_camera_esc_a">Esc+A</string>
-  <string name="list_camera_none">Semmit</string>
+  <string name="list_hwbutton_ctrlaspace">Ctrl+A majd Space</string>
+  <string name="list_hwbutton_ctrla">Ctrl+A</string>
+  <string name="list_hwbutton_esc">Esc</string>
+  <string name="list_hwbutton_esc_a">Esc+A</string>
+  <string name="list_hwbutton_none">Semmit</string>
   <string name="list_delkey_backspace">Backspace</string>
   <string name="list_delkey_del">Delete</string>
   <string name="delete_message">Biztosan törli a \'%1$s\'-t?</string>

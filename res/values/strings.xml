@@ -195,6 +195,18 @@
 	<!-- Summary for the camera shortcut usage preference -->
 	<string name="pref_camera_summary">"Select which shortcut to trigger when the camera button is pushed"</string>
 
+	<!-- Name for the volup shortcut usage preference -->
+	<string name="pref_volup_title">"Volume up shortcut"</string>
+	<string name="pref_volup_summary">"Select which shortcut to trigger when the volume up button is pushed"</string>
+
+	<!-- Name for the volup shortcut usage preference -->
+	<string name="pref_voldn_title">"Volume down shortcut"</string>
+	<string name="pref_voldn_summary">"Select which shortcut to trigger when the volume down button is pushed"</string>
+
+	<!-- Name for the volup shortcut usage preference -->
+	<string name="pref_search_title">"Search button shortcut"</string>
+	<string name="pref_search_summary">"Select which shortcut to trigger when the search button is pushed"</string>
+
 	<!-- Name for the keep screen on preference -->
 	<string name="pref_keepalive_title">"Keep screen awake"</string>
 	<!-- Summary for the camera shortcut usage preference -->
@@ -389,18 +401,22 @@
 	<!-- Selection to indicate the rotation should be selected automatically based on the tilt sensor. -->
 	<string name="list_rotation_auto">"Automatic"</string>
 
-	<!-- Selection to indicate pressing the Camera button should do a screen capture -->
-	<string name="list_camera_screen_capture">"Screen Capture"</string>
-	<!-- Selection to indicate pressing the Camera button should send "Ctrl+A then Space". -->
-	<string name="list_camera_ctrlaspace">"Ctrl+A then Space"</string>
-	<!-- Selection to indicate pressing the Camera button should send "Ctrl+A". -->
-	<string name="list_camera_ctrla">"Ctrl+A"</string>
-	<!-- Selection to indicate pressing the Camera button should send the "Esc" key. -->
-	<string name="list_camera_esc">"Esc"</string>
-	<!-- Selection to indicate pressing the Camera button should send "Esc+A". -->
-	<string name="list_camera_esc_a">"Esc+A"</string>
-	<!-- Selection to indicate pressing the Camera button should send nothing at all. -->
-	<string name="list_camera_none">"None"</string>
+	<!-- Selection to indicate pressing a hardware button should send Ctrl. -->
+	<string name="list_hwbutton_ctrl">"CTRL"</string>
+	<!-- Selection to indicate pressing a hardware button should send Esc. -->
+	<string name="list_hwbutton_esc">"Esc"</string>
+	<!-- Selection to indicate pressing a hardware button should send a Tab. -->
+	<string name="list_hwbutton_tab">"Tab"</string>
+	<!-- Selection to indicate pressing a hardware button should do a screen capture. -->
+	<string name="list_hwbutton_screen_capture">"Screen Capture"</string>
+	<!-- Selection to indicate pressing a hardware button should send "Ctrl then Space". -->
+	<string name="list_hwbutton_ctrlaspace">"Ctrl+A then Space"</string>
+	<!-- Selection to indicate pressing a hardware button should send "Ctrl+A". -->
+	<string name="list_hwbutton_ctrla">"Ctrl+A"</string>
+	<!-- Selection to indicate pressing a hardware button should send "Esc+A". -->
+	<string name="list_hwbutton_esc_a">"Esc+A"</string>
+	<!-- Selection to indicate pressing a hardware button should send nothing at all. -->
+	<string name="list_hwbutton_none">"None"</string>
 
 	<!-- Name for the backspace character -->
 	<string name="list_delkey_backspace">"Backspace"</string>

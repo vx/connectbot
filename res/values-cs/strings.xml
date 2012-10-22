@@ -155,8 +155,8 @@
   <string name="list_rotation_land">Vynutit na šířku</string>
   <string name="list_rotation_port">Vynutit na výšku</string>
   <string name="list_rotation_auto">Automaticky</string>
-  <string name="list_camera_ctrlaspace">Ctrl+A potom mezerník</string>
-  <string name="list_camera_none">Nic</string>
+  <string name="list_hwbutton_ctrlaspace">Ctrl+A potom mezerník</string>
+  <string name="list_hwbutton_none">Nic</string>
   <string name="delete_pos">Ano, smazat</string>
   <string name="delete_neg">Zrušit</string>
   <string name="wizard_agree">Souhlasím</string>
