@@ -156,12 +156,14 @@
 	<string-array name="list_custom_keymap" translatable="false">
 		<item>Samsung Captivate Glide (SGH-i927)</item>
 		<item>Sony Ericsson Xperia (mini) pro</item>
+		<item>Lenovo Thinkpad Tablet</item>
 		<item>@string/pref_custom_keymap_disabled</item>
 	</string-array>
 
 	<string-array name="list_custom_keymap_values" translatable="false">
 		<item>sgh_i927</item>
 		<item>se_xppro</item>
+		<item>lenovo_1838-CTO</item>
 		<item>none</item>
 	</string-array>
 </resources>
