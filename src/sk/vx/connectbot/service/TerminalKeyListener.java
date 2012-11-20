@@ -781,7 +781,13 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 					break;
 				}
 			}
-		}
+		} else if (customKeyboard.equals(PreferenceConstants.CUSTOM_KEYMAP_LENOVO_1838_CTO)) {
+			if (keyCode == KeyEvent.KEYCODE_MENU) {
+				ctrlKeySpecial();
+				return true;
+			}
+
+        }
 
 		if (c != 0x00) {
 			try {

@@ -109,4 +109,5 @@ public class PreferenceConstants {
 	public static final String CUSTOM_KEYMAP_DISABLED = "none";
 	public static final String CUSTOM_KEYMAP_SE_XPPRO = "se_xppro";
 	public static final String CUSTOM_KEYMAP_SGH_I927 = "sgh_i927";
+	public static final String CUSTOM_KEYMAP_LENOVO_1838_CTO = "lenovo_1838-CTO";
 }
