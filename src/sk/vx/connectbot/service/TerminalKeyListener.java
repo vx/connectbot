@@ -154,7 +154,23 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 					debugToast.show();
 				}
 
-				if (PreferenceConstants.KEYMODE_RIGHT.equals(keymode)) {
+				if (customKeyboard.equals(PreferenceConstants.CUSTOM_KEYMAP_FULL)) {
+					switch (keyCode) {
+					case KeyEvent.KEYCODE_CTRL_LEFT:
+					case KeyEvent.KEYCODE_CTRL_RIGHT:
+						metaKeyUp(META_CTRL_ON);
+						return true;
+					case KeyEvent.KEYCODE_ALT_LEFT:
+					case KeyEvent.KEYCODE_ALT_RIGHT:
+						metaKeyUp(META_ALT_ON);
+						return true;
+					case KeyEvent.KEYCODE_SHIFT_LEFT:
+					case KeyEvent.KEYCODE_SHIFT_RIGHT:
+						metaKeyUp(META_SHIFT_ON);
+						return true;
+					default:
+					}
+				} else if (PreferenceConstants.KEYMODE_RIGHT.equals(keymode)) {
 					if (keyCode == KeyEvent.KEYCODE_ALT_RIGHT
 							&& (metaState & META_SLASH) != 0) {
 						metaState &= ~(META_SLASH | META_TRANSIENT);
@@ -218,6 +234,7 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 
 			int key = event.getUnicodeChar(curMetaState);
 			// no hard keyboard?  ALT-k should pass through to below
+
 			if ((orgMetaState & KeyEvent.META_ALT_ON) != 0 &&
 					(!hardKeyboard || hardKeyboardHidden)) {
 				key = 0;
@@ -234,6 +251,8 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 			}
 
 			final boolean printing = (key != 0 && keyCode != KeyEvent.KEYCODE_ENTER);
+
+
 
 			if (v != null) {
 				//Show up the CharacterPickerDialog when the SYM key is pressed
@@ -322,6 +341,28 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 					}
 				}
 			}
+
+			// handle meta and f-keys for full hardware keyboard
+			if (hardKeyboard && !hardKeyboardHidden &&
+					customKeyboard.equals(PreferenceConstants.CUSTOM_KEYMAP_FULL)) {
+				int k = event.getUnicodeChar(0);
+				int k0 = k;
+				if (k != 0) {
+					if ((orgMetaState & HC_META_CTRL_ON) != 0) {
+						k = keyAsControl(k);
+						if (k != k0)
+							bridge.transport.write(k);
+							return true;
+					} else if ((orgMetaState & KeyEvent.META_ALT_ON) != 0) {
+						sendEscape();
+						bridge.transport.write(k);
+						return true;
+					}
+				}
+				if (sendFullSpecialKey(keyCode))
+					return true;
+			}
+
 			// try handling keymode shortcuts
 			if (hardKeyboard && !hardKeyboardHidden &&
 					event.getRepeatCount() == 0) {
@@ -590,6 +631,86 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 		}
 	}
 
+	private boolean sendFullSpecialKey(int keyCode) {
+		switch (keyCode) {
+		case KeyEvent.KEYCODE_F1:
+			((vt320) buffer).keyPressed(vt320.KEY_F1, ' ', 0);
+			return true;
+		case KeyEvent.KEYCODE_F2:
+			((vt320) buffer).keyPressed(vt320.KEY_F2, ' ', 0);
+			return true;
+		case KeyEvent.KEYCODE_F3:
+			((vt320) buffer).keyPressed(vt320.KEY_F3, ' ', 0);
+			return true;
+		case KeyEvent.KEYCODE_F4:
+			((vt320) buffer).keyPressed(vt320.KEY_F4, ' ', 0);
+			return true;
+		case KeyEvent.KEYCODE_F5:
+			((vt320) buffer).keyPressed(vt320.KEY_F5, ' ', 0);
+			return true;
+		case KeyEvent.KEYCODE_F6:
+			((vt320) buffer).keyPressed(vt320.KEY_F6, ' ', 0);
+			return true;
+		case KeyEvent.KEYCODE_F7:
+			((vt320) buffer).keyPressed(vt320.KEY_F7, ' ', 0);
+			return true;
+		case KeyEvent.KEYCODE_F8:
+			((vt320) buffer).keyPressed(vt320.KEY_F8, ' ', 0);
+			return true;
+		case KeyEvent.KEYCODE_F9:
+			((vt320) buffer).keyPressed(vt320.KEY_F9, ' ', 0);
+			return true;
+		case KeyEvent.KEYCODE_F10:
+			((vt320) buffer).keyPressed(vt320.KEY_F10, ' ', 0);
+			return true;
+		case KeyEvent.KEYCODE_F11:
+			((vt320) buffer).keyPressed(vt320.KEY_F10, ' ', 0);
+			return true;
+		case KeyEvent.KEYCODE_F12:
+			((vt320) buffer).keyPressed(vt320.KEY_F10, ' ', 0);
+			return true;
+		case KeyEvent.KEYCODE_INSERT:
+			((vt320) buffer).keyPressed(vt320.KEY_INSERT, ' ', 0);
+			return true;
+		case KeyEvent.KEYCODE_FORWARD_DEL:
+			((vt320) buffer).keyPressed(vt320.KEY_DELETE, ' ', 0);
+			return true;
+/*
+		case KeyEvent.KEYCODE_PAGE_UP:
+			((vt320) buffer).keyPressed(vt320.KEY_PAGE_UP, ' ', 0);
+			return true;
+		case KeyEvent.KEYCODE_PAGE_DOWN:
+			((vt320) buffer).keyPressed(vt320.KEY_PAGE_DOWN, ' ', 0);
+			return true;
+		case KeyEvent.KEYCODE_MOVE_HOME:
+			((vt320) buffer).keyPressed(vt320.KEY_HOME, ' ', getStateForBuffer());
+			return true;
+		case KeyEvent.KEYCODE_MOVE_END:
+			((vt320) buffer).keyPressed(vt320.KEY_END, ' ', getStateForBuffer());
+			return true;
+*/
+		default:
+			return false;
+		}
+	}
+
+	/**
+	 * Handle meta key presses for full hardware keyboard
+	 */
+	private void metaKeyDown(int code) {
+		if ((metaState & code) == 0) {
+				metaState |= code;
+				//bridge.redraw();
+		}
+	}
+
+	private void metaKeyUp(int code) {
+		if ((metaState & code) != 0) {
+			metaState &= ~code;
+			//bridge.redraw();
+		}
+	}
+
 	/**
 	 * Handle meta key presses where the key can be locked on.
 	 * <p>
@@ -604,7 +725,8 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 			metaState &= ~(code << 1);
 		} else if ((metaState & code) != 0) {
 			metaState &= ~code;
-			metaState |= code << 1;
+			if (!customKeyboard.equals(PreferenceConstants.CUSTOM_KEYMAP_FULL))
+				metaState |= code << 1;
 		} else
 			metaState |= code;
 		bridge.redraw();
@@ -699,8 +821,23 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 			return false;
 
 		byte c = 0x00;
-
-		if (customKeyboard.equals(PreferenceConstants.CUSTOM_KEYMAP_SE_XPPRO)) {
+		if (customKeyboard.equals(PreferenceConstants.CUSTOM_KEYMAP_FULL)) {
+			switch (keyCode) {
+			case KeyEvent.KEYCODE_CTRL_LEFT:
+			case KeyEvent.KEYCODE_CTRL_RIGHT:
+				metaKeyDown(META_CTRL_ON);
+				return true;
+			case KeyEvent.KEYCODE_ALT_LEFT:
+			case KeyEvent.KEYCODE_ALT_RIGHT:
+				metaKeyDown(META_ALT_ON);
+				return true;
+			case KeyEvent.KEYCODE_SHIFT_LEFT:
+			case KeyEvent.KEYCODE_SHIFT_RIGHT:
+				metaKeyDown(META_SHIFT_ON);
+				return true;
+			default:
+			}
+		} else if (customKeyboard.equals(PreferenceConstants.CUSTOM_KEYMAP_SE_XPPRO)) {
 			// Sony Ericsson Xperia pro (MK16i) and Xperia mini Pro (SK17i)
 			// Language key acts as CTRL
 			if (keyCode == KeyEvent.KEYCODE_SWITCH_CHARSET) {

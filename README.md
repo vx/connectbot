@@ -32,6 +32,7 @@ VX ConnectBot is an enhanced version of the popular open-source telnet and secur
 VX ConnectBot aims to provide customizations for Android devices with a physical keyboard.
 Currently, there are customizations for the following devices:
 
+ - Full hardware keyboard (e.g. external bluetooth keyboard)
  - Samsung Captivate Glide (SGH-i927)
  - Sony Ericsson Xperia pro (MK16i)
  - Sony Ericsson Xperia mini pro (SK17i)
