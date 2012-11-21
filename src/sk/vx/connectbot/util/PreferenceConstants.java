@@ -106,8 +106,8 @@ public class PreferenceConstants {
 
 	/* Device keyboard mapping */
 	public static final String CUSTOM_KEYMAP = "list_custom_keymap";
-	public static final Integer CUSTOM_KEYMAP_DISABLED = 0;
-	public static final Integer CUSTOM_KEYMAP_FULL = 1;
-	public static final Integer CUSTOM_KEYMAP_SGH_I927 = 2;
-	public static final Integer CUSTOM_KEYMAP_SE_XPPRO = 3;
+	public static final String CUSTOM_KEYMAP_DISABLED = "none";
+	public static final String CUSTOM_KEYMAP_FULL = "full";
+	public static final String CUSTOM_KEYMAP_SGH_I927 = "sgh_i927";
+	public static final String CUSTOM_KEYMAP_SE_XPPRO = "se_xppro";
 }

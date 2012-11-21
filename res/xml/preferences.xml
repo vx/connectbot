@@ -167,7 +167,7 @@
 			android:summary="@string/pref_custom_keymap_summary"
 			android:entries="@array/list_custom_keymap"
 			android:entryValues="@array/list_custom_keymap_values"
-			android:defaultValue="0"
+			android:defaultValue="none"
 			/>
 	</PreferenceCategory>
 
