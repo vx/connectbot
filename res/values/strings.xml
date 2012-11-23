@@ -640,4 +640,6 @@
 	<!-- Ctrl picker dialog -->
 	<string name="pref_ctrl_string">Ctrl window contents</string>
 	<string name="pref_ctrl_string_summary">String of characters for the CTRL+? combination</string>
+
+	<string name="fullscreen">Fullscreen</string>
 </resources>

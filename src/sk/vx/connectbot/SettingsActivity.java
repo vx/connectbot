@@ -20,9 +20,7 @@ package sk.vx.connectbot;
 import sk.vx.connectbot.util.PreferenceConstants;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.CheckBoxPreference;
 import android.preference.PreferenceActivity;
-import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -53,12 +51,6 @@ public class SettingsActivity extends PreferenceActivity {
 
 			addPreferencesFromResource(R.xml.preferences);
 		}
-		if (PreferenceConstants.PRE_HONEYCOMB) {
-			PreferenceCategory uiCategory = (PreferenceCategory) findPreference(PreferenceConstants.CATEGORY_UI);
-			CheckBoxPreference actionBarCheckBox = (CheckBoxPreference) findPreference(PreferenceConstants.HIDE_ACTIONBAR);
-			uiCategory.removePreference(actionBarCheckBox);
-		}
-
 		// TODO: add parse checking here to make sure we have integer value for scrollback
 
 	}

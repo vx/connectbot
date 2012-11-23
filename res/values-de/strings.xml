@@ -80,8 +80,6 @@
   <string name="pref_ui_category">Benutzungsschnittstelle</string>
   <string name="pref_rotation_title">Rotationsmodus</string>
   <string name="pref_rotation_summary">Wie soll die Rotation beim Ein-/Ausklappen der Tastatur verändert werden</string>
-  <string name="pref_fullscreen_title">Vollbild</string>
-  <string name="pref_fullscreen_summary">Konsole im Vollbildmodus ausführen</string>
   <string name="pref_memkeys_title">Schlüssel im Speicher behalten</string>
   <string name="pref_memkeys_summary">Entsperrte Schlüssel im Speicher halten, bis der Hintergrunddienst beendet wurde</string>
   <string name="pref_update_title">Aktualisierungen suchen</string>
@@ -325,4 +323,5 @@
   <string name="longpress_sym_dialog">Zeichenwahl</string>
   <string name="pref_ctrl_string">Inhalt des Ctrl-Fensters</string>
   <string name="pref_ctrl_string_summary">Zeichenkette für die CTRL+? kombination</string>
+  <string name="fullscreen">Vollbild</string>
 </resources>

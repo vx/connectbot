@@ -159,9 +159,6 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 
 			// set fullscreen value
 			if (bound.getFullScreen() == 0) {
-				if (prefs.getBoolean(PreferenceConstants.FULLSCREEN, false))
-					setFullScreen(FULLSCREEN_ON);
-				else
 					setFullScreen(FULLSCREEN_OFF);
 			} else if (fullScreen != bound.getFullScreen())
 				setFullScreen(bound.getFullScreen());
@@ -497,6 +494,7 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 				}
 			}
 		});
+
 		escButton.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View view) {
 				View flip = findCurrentView(R.id.console_flip);
@@ -817,6 +815,21 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 		}
 
 		menu.setQwertyMode(true);
+
+		if (!PreferenceConstants.PRE_HONEYCOMB) {
+			MenuItem ctrlKey = menu.add(getString(R.string.fullscreen));
+			ctrlKey.setEnabled(activeTerminal);
+			ctrlKey.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+			ctrlKey.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+				public boolean onMenuItemClick(MenuItem menuItem) {
+					if (fullScreen == FULLSCREEN_ON) {
+						setFullScreen(FULLSCREEN_OFF);
+					} else
+						setFullScreen(FULLSCREEN_ON);
+					return true;
+				}
+			});
+		}
 
 		disconnect = menu.add(R.string.list_host_disconnect);
 		if (hardKeyboard)

@@ -50,9 +50,6 @@ public class PreferenceConstants {
 	public static final String ROTATION_PORTRAIT = "Force portrait";
 	public static final String ROTATION_AUTOMATIC = "Automatic";
 
-	public static final String FULLSCREEN = "fullscreen";
-	public static final String HIDE_ACTIONBAR = "hide_actionbar";
-
 	public static final String KEYMODE = "keymode";
 
 	public static final String KEYMODE_RIGHT = "Use right-side keys";

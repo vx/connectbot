@@ -78,13 +78,6 @@
 			android:defaultValue="Default"
 			/>
 
-		<CheckBoxPreference
-			android:key="fullscreen"
-			android:title="@string/pref_fullscreen_title"
-			android:summary="@string/pref_fullscreen_summary"
-			android:defaultValue="false"
-			/>
-
 		<ListPreference
 			android:key="keymode"
 			android:title="@string/pref_keymode_title"
