@@ -88,8 +88,14 @@
   <string name="pref_conn_persist_summary">Vynútiť spojenie aj v pozadí</string>
   <string name="pref_keymode_title">Skratky adresárov</string>
   <string name="pref_keymode_summary">Vyberte ako použiť Alt pre \'/\' a Shift pre Tab</string>
-  <string name="pref_camera_title">Odkaz pre fotoaparát</string>
-  <string name="pref_camera_summary">Vyberte odkaz, ktorý spustiť po stlačení tlačidla kamera</string>
+  <string name="pref_camera_title">Tlačidlo fotoaparát</string>
+  <string name="pref_camera_summary">Činnosť, ktorá sa vykoná po stlačení tlačidla fotoaparátu</string>
+  <string name="pref_volup_title">Tlačidlo hlasnejšie</string>
+  <string name="pref_volup_summary">Činnosť, ktorá sa vykoná po stlačení tlačidla hlasnejšie</string>
+  <string name="pref_voldn_title">Tlačidlo tichšie</string>
+  <string name="pref_voldn_summary">Činnosť, ktorá sa vykoná po stlačení tlačidla tichšie</string>
+  <string name="pref_search_title">Tlačidlo hľadať</string>
+  <string name="pref_search_summary">Činnosť, ktorá sa vykoná po stlačení tlačidla hľadať</string>
   <string name="pref_keepalive_title">Ponechať obrazovku zapnutú</string>
   <string name="pref_keepalive_summary">Zabrániť vypnutiu obrazovky pri práci s konzolou</string>
   <string name="pref_wifilock_title">Ponechať Wi-Fi aktívne</string>
