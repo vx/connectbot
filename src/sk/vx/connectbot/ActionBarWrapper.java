@@ -18,6 +18,7 @@
 package sk.vx.connectbot;
 
 import sk.vx.connectbot.util.PreferenceConstants;
+import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.Activity;
 
@@ -48,6 +49,7 @@ public abstract class ActionBarWrapper {
 	private static class DummyActionBar extends ActionBarWrapper {
 	}
 
+	@TargetApi(11)
 	private static class RealActionBar extends ActionBarWrapper {
 		private final ActionBar actionBar;
 
