@@ -102,7 +102,7 @@
 			android:summary="@string/pref_volup_summary"
 			android:entries="@array/list_hwbutton"
 			android:entryValues="@array/list_hwbutton_values"
-			android:defaultValue="CTRL"
+			android:defaultValue="None"
 			/>
 
 		<ListPreference
@@ -111,7 +111,7 @@
 			android:summary="@string/pref_voldn_summary"
 			android:entries="@array/list_hwbutton"
 			android:entryValues="@array/list_hwbutton_values"
-			android:defaultValue="Tab"
+			android:defaultValue="None"
 			/>
 
 		<ListPreference
@@ -120,7 +120,7 @@
 			android:summary="@string/pref_search_summary"
 			android:entries="@array/list_hwbutton"
 			android:entryValues="@array/list_hwbutton_values"
-			android:defaultValue="Esc"
+			android:defaultValue="None"
 			/>
 
 		<CheckBoxPreference
