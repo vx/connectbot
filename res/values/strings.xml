@@ -165,11 +165,6 @@
 	<!-- Summary for the full screen preference -->
 	<string name="pref_fullscreen_summary">"Start terminal in full screen mode"</string>
 
-	<!-- Name for the Action Bar preference -->
-	<string name="pref_hide_actionbar_title">"Hide Action Bar"</string>
-	<!-- Summary for the Action Bar preference -->
-	<string name="pref_hide_actionbar_summary">"Do not display the Action Bar in terminal window"</string>
-
 	<!-- Name for the memorize keys preference -->
 	<string name="pref_memkeys_title">"Remember keys in memory"</string>
 	<!-- Summary for the memorize keys preference -->

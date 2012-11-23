@@ -19,6 +19,7 @@ package sk.vx.connectbot.util;
 
 import android.os.Build;
 
+
 /**
  * @author Kenny Root
  *

@@ -85,13 +85,6 @@
 			android:defaultValue="false"
 			/>
 
-		<CheckBoxPreference
-			android:key="hide_actionbar"
-			android:title="@string/pref_hide_actionbar_title"
-			android:summary="@string/pref_hide_actionbar_summary"
-			android:defaultValue="false"
-			/>
-
 		<ListPreference
 			android:key="keymode"
 			android:title="@string/pref_keymode_title"

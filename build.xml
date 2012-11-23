@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- vim: set ts=4 sw=4 et: -->
 <project name="VX ConnectBot" default="help">
 
     <!-- The local.properties file is created and updated by the 'android' tool.
@@ -33,6 +34,49 @@
          This file is an integral part of the build system for your
          application and should be checked into Version Control Systems. -->
     <loadproperties srcFile="project.properties" />
+
+   <!-- quick check on sdk.dir -->
+    <fail
+            message="sdk.dir is missing. Make sure to generate local.properties using 'android update project'"
+            unless="sdk.dir"
+    />
+
+
+<!-- extension targets. Uncomment the ones where you want to do custom work
+     in between standard targets -->
+<!--
+    <target name="-pre-build">
+    </target>
+    <target name="-pre-compile">
+    </target>
+
+    /* This is typically used for code obfuscation.
+       Compiled code location: ${out.classes.absolute.dir}
+       If this is not done in place, override ${out.dex.input.absolute.dir} */
+    <target name="-post-compile">
+    </target>
+-->
+
+    <!-- Import the actual build file.
+
+         To customize existing targets, there are two options:
+         - Customize only one target:
+             - copy/paste the target into this file, *before* the
+               <import> task.
+             - customize it to your needs.
+         - Customize the whole content of build.xml
+             - copy/paste the content of the rules files (minus the top node)
+               into this file, replacing the <import> task.
+             - customize to your needs.
+
+         ***********************
+         ****** IMPORTANT ******
+         ***********************
+         In all cases you must update the value of version-tag below to read 'custom' instead of an integer,
+         in order to avoid having your file be overridden by tools such as "android update project"
+    -->
+    <!-- version-tag: custom -->
+    <import file="${sdk.dir}/tools/ant/build.xml" />
 
 <!-- Begin custom ConnectBot stuff -->
 
@@ -82,9 +126,9 @@
         <xpath input="AndroidManifest.xml" expression="/manifest/@android:versionName"
                     output="manifest.version.name" />
 
-        <!-- checkout notrans.xml so we can ignore it in our index -->
+        <!-- tell git to ignore changes to the version xml -->
         <exec executable="git">
-            <arg line="checkout res/values/notrans.xml"/>
+            <arg line="update-index --assume-unchanged res/values/version.xml"/>
         </exec>
 
         <!-- find out the description of the current Git commit -->
@@ -92,16 +136,14 @@
             <arg line="describe --match 'v[0-9]*' --dirty"/>
         </exec>
 
-        <replaceregexp file="${resource.absolute.dir}/values/notrans.xml" encoding="utf8" match='(\x3Cstring name="msg_version">)[^\x3C]*(\x3C/string>)'
-            replace='\1${ant.project.name} ${manifest.version.name} (${git.revision} ${build.date})\2' />
-        <echo>Updated "msg_version" to: ${ant.project.name} ${manifest.version.name} (${git.revision} ${build.date})</echo>
-    </target>
+        <!-- write out to res/values/version.xml -->
+        <echo file="${resource.absolute.dir}/values/version.xml" encoding="utf8"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="msg_version" translatable="false">${ant.project.name} ${manifest.version.name} (${git.revision} ${build.date})</string>
+</resources>
+]]></echo>
 
-    <target name="clean"
-        description="Clean up the result of the build process">
-        <delete dir="${out.absolute.dir}"/>
-        <delete dir="${gen.absolute.dir}"/>
-        <ant dir="tests" target="clean" />
+        <echo>Updated "msg_version" to: ${ant.project.name} ${manifest.version.name} (${git.revision} ${build.date})</echo>
     </target>
 
     <!-- Translations come from launchpad.net and are placed in the
@@ -144,49 +186,24 @@
         </exec>
     </target>
 
+    <property name="lint" location="${android.tools.dir}/lint${bat}" />
+
+    <target name="lint-xml">
+        <exec executable="${lint}">
+            <arg value="--xml" />
+            <arg value="lint-results.xml" />
+            <arg path="${basedir}" />
+        </exec>
+    </target>
+
+    <target name="lint-html">
+        <exec executable="${lint}">
+            <arg value="--html" />
+            <arg value="lint-results.html" />
+            <arg path="${basedir}" />
+        </exec>
+    </target>
+
 <!-- End custom ConnectBot stuff -->
-
-   <!-- quick check on sdk.dir -->
-    <fail
-            message="sdk.dir is missing. Make sure to generate local.properties using 'android update project'"
-            unless="sdk.dir"
-    />
-
-
-<!-- extension targets. Uncomment the ones where you want to do custom work
-     in between standard targets -->
-<!--
-    <target name="-pre-build">
-    </target>
-    <target name="-pre-compile">
-    </target>
-
-    /* This is typically used for code obfuscation.
-       Compiled code location: ${out.classes.absolute.dir}
-       If this is not done in place, override ${out.dex.input.absolute.dir} */
-    <target name="-post-compile">
-    </target>
--->
-
-    <!-- Import the actual build file.
-
-         To customize existing targets, there are two options:
-         - Customize only one target:
-             - copy/paste the target into this file, *before* the
-               <import> task.
-             - customize it to your needs.
-         - Customize the whole content of build.xml
-             - copy/paste the content of the rules files (minus the top node)
-               into this file, replacing the <import> task.
-             - customize to your needs.
-
-         ***********************
-         ****** IMPORTANT ******
-         ***********************
-         In all cases you must update the value of version-tag below to read 'custom' instead of an integer,
-         in order to avoid having your file be overridden by tools such as "android update project"
-    -->
-    <!-- version-tag: custom -->
-    <import file="${sdk.dir}/tools/ant/build.xml" />
 
 </project>

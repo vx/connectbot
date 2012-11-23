@@ -31,7 +31,6 @@ import sk.vx.connectbot.util.FileChooser;
 import sk.vx.connectbot.util.FileChooserCallback;
 import sk.vx.connectbot.util.PreferenceConstants;
 import sk.vx.connectbot.util.TransferThread;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ComponentName;
@@ -140,6 +139,9 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 	private Handler handler = new Handler();
 
 	private ImageView mKeyboardButton;
+
+	private ActionBarWrapper actionBar;
+	private boolean inActionBarMenu = false;
 
 	private ServiceConnection connection = new ServiceConnection() {
 		public void onServiceConnected(ComponentName className, IBinder service) {
@@ -313,10 +315,6 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 		clipboard = (ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-		// hide action bar if requested by user
-		if (!PreferenceConstants.PRE_HONEYCOMB && prefs.getBoolean(PreferenceConstants.HIDE_ACTIONBAR, false))
-			this.hideActionBar();
-
 		// TODO find proper way to disable volume key beep if it exists.
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
@@ -400,6 +398,7 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 
 				inputManager.showSoftInput(flip, InputMethodManager.SHOW_FORCED);
 				keyboardGroup.setVisibility(View.GONE);
+				actionBar.hide();
 			}
 		});
 
@@ -458,6 +457,7 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 				handler.metaPress(TerminalKeyListener.META_CTRL_ON);
 
 				keyboardGroup.setVisibility(View.GONE);
+				actionBar.hide();
 			}
 		});
 		ctrlButton.setOnLongClickListener(new OnLongClickListener() {
@@ -481,6 +481,20 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 				handler.sendEscape();
 
 				keyboardGroup.setVisibility(View.GONE);
+				actionBar.hide();
+			}
+		});
+
+		actionBar = ActionBarWrapper.getActionBar(this);
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.hide();
+		actionBar.addOnMenuVisibilityListener(new ActionBarWrapper.OnMenuVisibilityListener() {
+			public void onMenuVisibilityChanged(boolean isVisible) {
+				inActionBarMenu = isVisible;
+				if (isVisible == false) {
+					keyboardGroup.setVisibility(View.GONE);
+					actionBar.hide();
+				}
 			}
 		});
 		escButton.setOnLongClickListener(new OnLongClickListener() {
@@ -732,14 +746,16 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 						&& Math.abs(event.getY() - lastY) < MAX_CLICK_DISTANCE) {
 					keyboardGroup.startAnimation(keyboard_fade_in);
 					keyboardGroup.setVisibility(View.VISIBLE);
+					actionBar.show();
 
 					handler.postDelayed(new Runnable() {
 						public void run() {
-							if (keyboardGroup.getVisibility() == View.GONE)
+							if (keyboardGroup.getVisibility() == View.GONE || inActionBarMenu)
 								return;
 
 							keyboardGroup.startAnimation(keyboard_fade_out);
 							keyboardGroup.setVisibility(View.GONE);
+							actionBar.hide();
 						}
 					}, KEYBOARD_DISPLAY_TIME);
 				}
@@ -1121,6 +1137,19 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 	}
 
 	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case android.R.id.home:
+				Intent intent = new Intent(this, HostListActivity.class);
+				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(intent);
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
+	}
+
+	@Override
 	public void onOptionsMenuClosed(Menu menu) {
 		super.onOptionsMenuClosed(menu);
 
@@ -1432,39 +1461,12 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 			if (fullScreen == FULLSCREEN_ON) {
 				getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 						WindowManager.LayoutParams.FLAG_FULLSCREEN);
-				if (!PreferenceConstants.PRE_HONEYCOMB) {
-					this.hideActionBar();
-				}
 			} else {
 				getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-				if (!PreferenceConstants.PRE_HONEYCOMB) {
-					if (!prefs.getBoolean(PreferenceConstants.HIDE_ACTIONBAR, false))
-						this.showActionBar();
-				}
 			}
 			this.fullScreen = fullScreen;
 			if (bound != null)
 				bound.setFullScreen(this.fullScreen);
-		}
-	}
-
-	@TargetApi(11)
-	private void showActionBar() {
-		try {
-			if (this.getActionBar() != null)
-				this.getActionBar().show();
-		} catch (Exception e) {
-			Log.e(TAG, "Error showing ActionBar", e);
-		}
-	}
-
-	@TargetApi(11)
-	private void hideActionBar() {
-		try {
-			if (this.getActionBar() != null)
-				this.getActionBar().hide();
-		} catch (Exception e) {
-			Log.e(TAG, "Error hiding ActionBar", e);
 		}
 	}
 }

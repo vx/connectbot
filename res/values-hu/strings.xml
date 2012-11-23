@@ -81,8 +81,6 @@
   <string name="pref_rotation_summary">Hogyan forduljon a kijelző a billentyűzet ki/becsukása során</string>
   <string name="pref_fullscreen_title">Teljes képernyő</string>
   <string name="pref_fullscreen_summary">Rejtett állapotsor a konzol használata során</string>
-  <string name="pref_hide_actionbar_title">Műveleti mező elrejtése</string>
-  <string name="pref_hide_actionbar_summary">Nem jeleníti meg a műveleti mezőt a terminál ablakban.</string>
   <string name="pref_memkeys_title">Kulcsok megőrzése a memóriában</string>
   <string name="pref_memkeys_summary">Tartsa nyitva a memóriában lévő kulcsokat amíg a háttérszolgáltatás meg nem szűnik</string>
   <string name="pref_update_title">Frissítés ellenőrzése</string>
