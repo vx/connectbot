@@ -735,15 +735,15 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 	 */
 	private void metaKeyDown(int code) {
 		if ((metaState & code) == 0) {
-				metaState |= code;
-				//bridge.redraw();
+			metaState |= code;
+			bridge.redraw();
 		}
 	}
 
 	private void metaKeyUp(int code) {
 		if ((metaState & code) != 0) {
 			metaState &= ~code;
-			//bridge.redraw();
+			bridge.redraw();
 		}
 	}
 
