@@ -481,6 +481,16 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 			}
 		});
 
+		escButton.setOnLongClickListener(new OnLongClickListener() {
+			public boolean onLongClick(View view) {
+				View flip = findCurrentView(R.id.console_flip);
+				if (flip == null) return false;
+				TerminalView terminal = (TerminalView)flip;
+				terminal.bridge.showFKeysDialog();
+				return true;
+			}
+		});
+
 		actionBar = ActionBarWrapper.getActionBar(this);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.hide();
@@ -491,16 +501,6 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 					keyboardGroup.setVisibility(View.GONE);
 					actionBar.hide();
 				}
-			}
-		});
-
-		escButton.setOnLongClickListener(new OnLongClickListener() {
-			public boolean onLongClick(View view) {
-				View flip = findCurrentView(R.id.console_flip);
-				if (flip == null) return false;
-				TerminalView terminal = (TerminalView)flip;
-				terminal.bridge.showFKeysDialog();
-				return true;
 			}
 		});
 
