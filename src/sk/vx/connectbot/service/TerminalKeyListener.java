@@ -857,6 +857,8 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 			return false;
 
 		byte c = 0x00;
+		int termKey = 0;
+
 		if (customKeyboard.equals(PreferenceConstants.CUSTOM_KEYMAP_FULL)) {
 			switch (keyCode) {
 			case KeyEvent.KEYCODE_CTRL_LEFT:
@@ -906,6 +908,9 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 					case KeyEvent.KEYCODE_Z:
 						c = 0x5c;
 						break;
+					case KeyEvent.KEYCODE_DEL:
+						termKey = vt320.KEY_DELETE;
+						break;
 					}
 				}
 			} else if ((metaState & META_SHIFT_MASK) != 0) {
@@ -925,6 +930,9 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 					break;
 				case KeyEvent.KEYCODE_APOSTROPHE:
 					c = 0x7e;
+					break;
+				case KeyEvent.KEYCODE_DEL:
+					termKey = vt320.KEY_BACK_SPACE;
 					break;
 				}
 			}
@@ -956,9 +964,12 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 			}
 		}
 
-		if (c != 0x00) {
+		if ((c != 0x00) || termKey != 0) {
 			try {
-				bridge.transport.write(c);
+				if (c != 0x00)
+					bridge.transport.write(c);
+				else
+					((vt320) buffer).keyPressed(termKey, ' ', 0);
 			} catch (IOException e) {
 				Log.e(TAG, "Problem while trying to handle a custom onKey() event", e);
 			}
