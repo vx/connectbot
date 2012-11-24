@@ -266,7 +266,7 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 
 			// otherwise pass through to existing session
 			// print normal keys
-			if (uchar >= 0x20) {
+			if (uchar > 0x00 && keyCode != KeyEvent.KEYCODE_ENTER) {
 				metaState &= ~(META_SLASH | META_TAB);
 
 				// Remove shift and alt modifiers
