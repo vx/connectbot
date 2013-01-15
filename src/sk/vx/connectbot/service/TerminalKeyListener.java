@@ -243,6 +243,10 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 				mDeadKey = 0;
 			}
 
+			// handle customized keymaps
+			if (customKeymapAction(v, keyCode))
+				return true;
+
 			if (v != null) {
 				//Show up the CharacterPickerDialog when the SYM key is pressed
 				if( (keyCode == KeyEvent.KEYCODE_SYM || keyCode == KeyEvent.KEYCODE_PICTSYMBOLS ||
@@ -259,10 +263,6 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 					return true;
 				}
 			}
-
-			// handle customized keymaps
-			if (customKeymapAction(keyCode))
-				return true;
 
 			// otherwise pass through to existing session
 			// print normal keys
@@ -851,7 +851,7 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 		bridge.redraw();
 	}
 
-	private boolean customKeymapAction(int keyCode) {
+	private boolean customKeymapAction(View v, int keyCode) {
 
 		if (bridge == null || customKeyboard.equals(PreferenceConstants.CUSTOM_KEYMAP_DISABLED))
 			return false;
@@ -942,8 +942,7 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 				// .com key = ESC
 				sendEscape();
 				return true;
-			}
-			if (keyCode == 116) {
+			} else if (keyCode == 116) {
 				// Microphone key = TAB
 				c = 0x09;
 			} else if ((metaState & META_ALT_MASK) != 0 && (metaState & META_SHIFT_MASK) != 0) {
@@ -962,8 +961,41 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 					break;
 				}
 			}
+		} else if (customKeyboard.equals(PreferenceConstants.CUSTOM_KEYMAP_SGH_I927_ICS)) {
+			// Samsung Captivate Glide (SGH-i927) Ice Cream Sandwich (4.0.x)
+			if (keyCode == 226) {
+				// .com key = ESC
+				sendEscape();
+				return true;
+			} else if (keyCode == 220) {
+				// Microphone key = TAB
+				c = 0x09;
+			} else if (keyCode == 227) {
+				// Symbol key
+				if (v != null) {
+					bridge.showCharPickerDialog();
+					if(metaState == 4) { // reset fn-key state
+						metaState = 0;
+						bridge.redraw();
+					}
+				}
+			} else if ((metaState & META_ALT_MASK) != 0 && (metaState & META_SHIFT_MASK) != 0) {
+				switch (keyCode) {
+				case KeyEvent.KEYCODE_O:
+					c = 0x5B;
+					break;
+				case KeyEvent.KEYCODE_P:
+					c = 0x5D;
+					break;
+				case KeyEvent.KEYCODE_A:
+					c = 0x3C;
+					break;
+				case KeyEvent.KEYCODE_D:
+					c = 0x3E;
+					break;
+				}
+			}
 		}
-
 		if ((c != 0x00) || termKey != 0) {
 			try {
 				if (c != 0x00)
