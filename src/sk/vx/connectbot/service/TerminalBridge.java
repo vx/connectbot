@@ -1442,15 +1442,15 @@ public class TerminalBridge implements VDUDisplay {
 			public boolean dispatchKeyEvent(KeyEvent event) {
 				int keyCode = event.getKeyCode();
 				if (event.getAction() == KeyEvent.ACTION_DOWN) {
-					if (keyCode == KeyEvent.KEYCODE_SYM ||
-							keyCode == KeyEvent.KEYCODE_PICTSYMBOLS ||
+					// close window if SYM or BACK keys are pressed
+					if (keyListener.isSymKey(keyCode) ||
 							keyCode == KeyEvent.KEYCODE_BACK) {
 						dismiss();
 						return true;
 					}
-					return keyListener.onKey(parent, event.getKeyCode(), event);
+//					return keyListener.onKey(parent, event.getKeyCode(), event);
 				}
-				return true;
+				return super.dispatchKeyEvent(event);
 			}
 		};
 

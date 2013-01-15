@@ -249,8 +249,7 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 
 			if (v != null) {
 				//Show up the CharacterPickerDialog when the SYM key is pressed
-				if( (keyCode == KeyEvent.KEYCODE_SYM || keyCode == KeyEvent.KEYCODE_PICTSYMBOLS ||
-						uchar == KeyCharacterMap.PICKER_DIALOG_INPUT)) {
+				if( (isSymKey(keyCode) || uchar == KeyCharacterMap.PICKER_DIALOG_INPUT)) {
 					bridge.showCharPickerDialog();
 					if(metaState == 4) { // reset fn-key state
 						metaState = 0;
@@ -970,15 +969,6 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 			} else if (keyCode == 220) {
 				// Microphone key = TAB
 				c = 0x09;
-			} else if (keyCode == 227) {
-				// Symbol key
-				if (v != null) {
-					bridge.showCharPickerDialog();
-					if(metaState == 4) { // reset fn-key state
-						metaState = 0;
-						bridge.redraw();
-					}
-				}
 			} else if ((metaState & META_ALT_MASK) != 0 && (metaState & META_SHIFT_MASK) != 0) {
 				switch (keyCode) {
 				case KeyEvent.KEYCODE_O:
@@ -1028,6 +1018,16 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 		urlListView.setAdapter(new ArrayAdapter<String>(v.getContext(), android.R.layout.simple_list_item_1, urls));
 		urlDialog.setContentView(urlListView);
 		urlDialog.show();
+	}
+
+	public boolean isSymKey(int keyCode) {
+		if (keyCode == KeyEvent.KEYCODE_SYM ||
+				keyCode == KeyEvent.KEYCODE_PICTSYMBOLS)
+			return true;
+		if (customKeyboard.equals(PreferenceConstants.CUSTOM_KEYMAP_SGH_I927_ICS) &&
+				keyCode == 227)
+			return true;
+		return false;
 	}
 
 	private class URLItemListener implements OnItemClickListener {
