@@ -238,8 +238,8 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 				return true;
 			}
 
-			if (mDeadKey != 0) {
-				uchar = KeyCharacterMap.getDeadChar(mDeadKey, keyCode);
+			if (mDeadKey != 0 && uchar != 0) {
+				uchar = KeyCharacterMap.getDeadChar(mDeadKey, uchar);
 				mDeadKey = 0;
 			}
 
