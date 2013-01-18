@@ -248,6 +248,10 @@ public class GeneratePubkeyActivity extends Activity implements OnEntropyGathere
 		public void run() {
 			try {
 				boolean encrypted = false;
+				int tmpbits = bits;
+
+				if (keyType == PubkeyDatabase.KEY_TYPE_DSA)
+					tmpbits = DSA_BITS;
 
 				SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
 
@@ -255,7 +259,7 @@ public class GeneratePubkeyActivity extends Activity implements OnEntropyGathere
 
 				KeyPairGenerator keyPairGen = KeyPairGenerator.getInstance(keyType);
 
-				keyPairGen.initialize(bits, random);
+				keyPairGen.initialize(tmpbits, random);
 
 				KeyPair pair = keyPairGen.generateKeyPair();
 				PrivateKey priv = pair.getPrivate();
