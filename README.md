@@ -33,12 +33,12 @@ VX ConnectBot aims to provide customizations for Android devices with a physical
 Currently, there are customizations for the following devices:
 
  - Full hardware keyboard (e.g. external bluetooth keyboard)
+ - ASUS Transformer Pad Series Mobile Dock
  - Samsung Captivate Glide (SGH-i927)
  - Sony Ericsson Xperia pro (MK16i)
  - Sony Ericsson Xperia mini pro (SK17i)
  
 The following devices with physical keyboards are also reported to work properly:
- - ASUS Transformer Prime (TF201)
  - Motorola Droid 4 (XT894)
 
 Individual key mappings can be viewed [here](http://connectbot.vx.sk/customkeymap.html)
