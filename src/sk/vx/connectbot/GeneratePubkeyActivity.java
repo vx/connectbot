@@ -54,6 +54,7 @@ public class GeneratePubkeyActivity extends Activity implements OnEntropyGathere
 	public final static String TAG = "ConnectBot.GeneratePubkeyActivity";
 
 	final static int DEFAULT_BITS = 2048;
+	final static int DSA_BITS = 1024;
 
 	private LayoutInflater inflater = null;
 
@@ -120,9 +121,9 @@ public class GeneratePubkeyActivity extends Activity implements OnEntropyGathere
 					// DSA keys can only be 1024 bits
 
 					bitsSlider.setEnabled(false);
-					bitsSlider.setProgress(DEFAULT_BITS - minBits);
+					bitsSlider.setProgress(DSA_BITS - minBits);
 
-					bitsText.setText(String.valueOf(DEFAULT_BITS));
+					bitsText.setText(String.valueOf(DSA_BITS));
 					bitsText.setEnabled(false);
 
 					keyType = PubkeyDatabase.KEY_TYPE_DSA;
