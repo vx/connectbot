@@ -111,6 +111,7 @@ public class PreferenceConstants {
 	public static final String CUSTOM_KEYMAP = "list_custom_keymap";
 	public static final String CUSTOM_KEYMAP_DISABLED = "none";
 	public static final String CUSTOM_KEYMAP_FULL = "full";
+	public static final String CUSTOM_KEYMAP_ASUS_TF = "asus_tf";
 	public static final String CUSTOM_KEYMAP_SGH_I927 = "sgh_i927";
 	public static final String CUSTOM_KEYMAP_SGH_I927_ICS = "sgh_i927_ics";
 	public static final String CUSTOM_KEYMAP_SE_XPPRO = "se_xppro";

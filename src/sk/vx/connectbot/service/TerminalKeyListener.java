@@ -156,7 +156,7 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 					debugToast.show();
 				}
 
-				if (customKeyboard.equals(PreferenceConstants.CUSTOM_KEYMAP_FULL)) {
+				if (fullKeyboard()) {
 					switch (keyCode) {
 					case KeyEvent.KEYCODE_CTRL_LEFT:
 					case KeyEvent.KEYCODE_CTRL_RIGHT:
@@ -244,7 +244,7 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 			}
 
 			// handle customized keymaps
-			if (customKeymapAction(v, keyCode))
+			if (customKeymapAction(v, keyCode, event))
 				return true;
 
 			if (v != null) {
@@ -331,8 +331,7 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 			}
 
 			// handle meta and f-keys for full hardware keyboard
-			if (hardKeyboard && !hardKeyboardHidden &&
-					customKeyboard.equals(PreferenceConstants.CUSTOM_KEYMAP_FULL)) {
+			if (hardKeyboard && !hardKeyboardHidden && fullKeyboard()) {
 				int k = event.getUnicodeChar(0);
 				int k0 = k;
 				if (k != 0) {
@@ -760,7 +759,7 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 			metaState &= ~(code << 1);
 		} else if ((metaState & code) != 0) {
 			metaState &= ~code;
-			if (!customKeyboard.equals(PreferenceConstants.CUSTOM_KEYMAP_FULL))
+			if (!fullKeyboard())
 				metaState |= code << 1;
 		} else
 			metaState |= code;
@@ -850,7 +849,7 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 		bridge.redraw();
 	}
 
-	private boolean customKeymapAction(View v, int keyCode) {
+	private boolean customKeymapAction(View v, int keyCode, KeyEvent event) {
 
 		if (bridge == null || customKeyboard.equals(PreferenceConstants.CUSTOM_KEYMAP_DISABLED))
 			return false;
@@ -858,7 +857,7 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 		byte c = 0x00;
 		int termKey = 0;
 
-		if (customKeyboard.equals(PreferenceConstants.CUSTOM_KEYMAP_FULL)) {
+		if (fullKeyboard()) {
 			switch (keyCode) {
 			case KeyEvent.KEYCODE_CTRL_LEFT:
 			case KeyEvent.KEYCODE_CTRL_RIGHT:
@@ -872,6 +871,16 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 			case KeyEvent.KEYCODE_SHIFT_RIGHT:
 				metaKeyDown(META_SHIFT_ON);
 				return true;
+			case KeyEvent.KEYCODE_BACK:
+				if (customKeyboard.equals(PreferenceConstants.CUSTOM_KEYMAP_ASUS_TF)) {
+					// Check to see whether this is the back button on the
+					// screen (-1) or the Asus Transformer Keyboard Dock.
+					// Treat the HW button as ESC.
+					if (event.getDeviceId() > 0) {
+						sendEscape();
+						return true;
+					}
+				}
 			default:
 			}
 		} else if (customKeyboard.equals(PreferenceConstants.CUSTOM_KEYMAP_SE_XPPRO)) {
@@ -1026,6 +1035,13 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 			return true;
 		if (customKeyboard.equals(PreferenceConstants.CUSTOM_KEYMAP_SGH_I927_ICS) &&
 				keyCode == 227)
+			return true;
+		return false;
+	}
+
+	private boolean fullKeyboard() {
+		if (customKeyboard.equals(PreferenceConstants.CUSTOM_KEYMAP_FULL) ||
+		(customKeyboard.equals(PreferenceConstants.CUSTOM_KEYMAP_ASUS_TF)))
 			return true;
 		return false;
 	}

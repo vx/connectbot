@@ -160,6 +160,7 @@
 	<string-array name="list_custom_keymap" translatable="false">
 		<item>@string/pref_custom_keymap_disabled</item>
 		<item>@string/pref_custom_keymap_full</item>
+		<item>ASUS Transformer Keyboard Dock</item>
 		<item>Samsung Captivate Glide (SGH-i927)</item>
 		<item>Samsung Captivate Glide (SGH-i927) ICS</item>
 		<item>Sony Ericsson Xperia (mini) pro</item>
@@ -168,6 +169,7 @@
 	<string-array name="list_custom_keymap_values" translatable="false">
 		<item>none</item>
 		<item>full</item>
+		<item>asus_tf</item>
 		<item>sgh_i927</item>
 		<item>sgh_i927_ics</item>
 		<item>se_xppro</item>
