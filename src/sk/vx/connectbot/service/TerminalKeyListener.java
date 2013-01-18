@@ -886,7 +886,7 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 		}
 		if (customKeyboard.equals(PreferenceConstants.CUSTOM_KEYMAP_ASUS_TF)) {
 			if ((metaState & META_ALT_MASK) != 0
-					&& (metaState & META_CTRL_MASK) != 0
+					&& (metaState & META_SHIFT_MASK) != 0
 					&& sendFunctionKey(keyCode))
 				return true;
 		}
