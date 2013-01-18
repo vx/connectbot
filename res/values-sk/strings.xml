@@ -150,6 +150,7 @@
   <string name="console_menu_resize">Vynútiť veľkosť</string>
   <string name="console_menu_urlscan">Nájsť URL</string>
   <string name="console_menu_screencapture">Snímka obrazovky</string>
+  <string name="console_menu_register_pubkey">Registrovať verejný kľúč</string>
   <string name="console_menu_download">"Prevziať súbor"</string>
   <string name="console_menu_upload">"Odoslať súbor"</string>
   <string name="button_yes">Áno</string>
@@ -307,6 +308,7 @@
   <string name="pubkey_public_export_problem">Chyba pri exporte verejného kľúča</string>
   <string name="pubkey_private_export_success">Súkromný kľúč bol uložený ako %1$s</string>
   <string name="pubkey_private_export_problem">Chyba pri exporte súkromného kľúča</string>
+  <string name="pubkey_public_not_available">Verejný kľúč nie je k dispozícii</string>
   <string name="pref_debug_category">Nastavenia pre vývoj</string>
   <string name="pref_debug_keycodes">Zobrazovať kódy kláves</string>
   <string name="pref_debug_keycodes_summary">Zobrazovať kódy stlačených kláves v termináli</string>

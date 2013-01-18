@@ -79,6 +79,9 @@ public class PubkeyListActivity extends ListActivity implements EventListener, F
 
 	public final static String TAG = "ConnectBot.PubkeyListActivity";
 
+	public static final String PICK_MODE = "pickmode";
+	public static final String PICKED_PUBKEY_ID = "pubkey_id";
+
 	private static final int MAX_KEYFILE_SIZE = 8192;
 	private static final int KEYTYPE_PUBLIC = 0;
 	private static final int KEYTYPE_PRIVATE = 1;
@@ -147,19 +150,29 @@ public class PubkeyListActivity extends ListActivity implements EventListener, F
 
 		registerForContextMenu(getListView());
 
+		final boolean pickMode = getIntent().getBooleanExtra(PICK_MODE, false);
+
 		getListView().setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
 				PubkeyBean pubkey = (PubkeyBean) getListView().getItemAtPosition(position);
 				boolean loaded = bound.isKeyLoaded(pubkey.getNickname());
 
-				// handle toggling key in-memory on/off
-				if(loaded) {
-					bound.removeKey(pubkey.getNickname());
-					updateHandler.sendEmptyMessage(-1);
+				// if sending public key to console, we don't need to unlock the private key
+				if (pickMode) {
+					Intent intent = new Intent();
+					intent.putExtra(PICKED_PUBKEY_ID, pubkey.getId());
+					setResult(RESULT_OK, intent);
+					finish();
 				} else {
-					handleAddKey(pubkey);
-				}
 
+					// handle toggling key in-memory on/off
+					if(loaded) {
+						bound.removeKey(pubkey.getNickname());
+						updateHandler.sendEmptyMessage(-1);
+					} else {
+						handleAddKey(pubkey);
+					}
+				}
 			}
 		});
 

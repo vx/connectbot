@@ -338,6 +338,8 @@
 	<string name="console_menu_urlscan">"URL Scan"</string>
 	<!--  Button that initiates screen capture -->
 	<string name="console_menu_screencapture">"Screen Capture"</string>
+	<!-- Button that echoes to console a command for setting up public key authentication -->
+	<string name="console_menu_register_pubkey">"Register public key"</string>
 	<!-- Button that lets user pick the file to download -->
 	<string name="console_menu_download">"Download File"</string>
 	<!-- Button that lets user pick the file to upload -->
@@ -618,6 +620,9 @@
 	<string name="pubkey_public_export_problem">Error exporting public key</string>
 	<string name="pubkey_private_export_success">Private key saved as %1$s</string>
 	<string name="pubkey_private_export_problem">Error exporting private key</string>
+
+	<!-- Key paste to console -->
+	<string name="pubkey_public_not_available">"Public key not available"</string>
 
 	<!--  Debug -->
 	<string name="pref_debug_category">Debug settings</string>

@@ -18,10 +18,14 @@
 package sk.vx.connectbot;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
+import java.security.InvalidKeyException;
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
 
+import sk.vx.connectbot.bean.PubkeyBean;
 import sk.vx.connectbot.bean.SelectionArea;
 import sk.vx.connectbot.service.PromptHelper;
 import sk.vx.connectbot.service.TerminalBridge;
@@ -30,6 +34,8 @@ import sk.vx.connectbot.service.TerminalManager;
 import sk.vx.connectbot.util.FileChooser;
 import sk.vx.connectbot.util.FileChooserCallback;
 import sk.vx.connectbot.util.PreferenceConstants;
+import sk.vx.connectbot.util.PubkeyDatabase;
+import sk.vx.connectbot.util.PubkeyUtils;
 import sk.vx.connectbot.util.TransferThread;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -84,6 +90,7 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 	public final static String TAG = "ConnectBot.ConsoleActivity";
 
 	protected static final int REQUEST_EDIT = 1;
+	protected static final int REQUEST_SELECT = 2;
 
 	private static final int CLICK_TIME = 400;
 	private static final float MAX_CLICK_DISTANCE = 25f;
@@ -129,7 +136,7 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 
 	private InputMethodManager inputManager;
 
-	private MenuItem disconnect, copy, paste, portForward, resize, urlscan, screenCapture, download, upload;
+	private MenuItem disconnect, copy, paste, portForward, resize, urlscan, screenCapture, regpubkey, download, upload;
 
 	protected TerminalBridge copySource = null;
 	private int lastTouchRow, lastTouchCol;
@@ -995,6 +1002,19 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 			}
 		});
 
+        regpubkey = menu.add(R.string.console_menu_register_pubkey);
+        regpubkey.setIcon(android.R.drawable.ic_lock_lock);
+        regpubkey.setIntent(new Intent(this, PubkeyListActivity.class));
+        regpubkey.setEnabled(sessionOpen);
+        regpubkey.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent = new Intent(ConsoleActivity.this, PubkeyListActivity.class);
+                intent.putExtra(PubkeyListActivity.PICK_MODE, true);
+                ConsoleActivity.this.startActivityForResult(intent, REQUEST_SELECT);
+                return true;
+            }
+        });
+
 		download = menu.add(R.string.console_menu_download);
 		download.setAlphabeticShortcut('d');
 		download.setEnabled(sessionOpen && canTransferFiles);
@@ -1059,6 +1079,13 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 				}
 			}
 			break;
+		case REQUEST_SELECT:
+			if (resultCode == Activity.RESULT_OK) {
+				long pubkeyId = intent.getLongExtra( PubkeyListActivity.PICKED_PUBKEY_ID, -1 );
+				PubkeyDatabase pubkeyDatabase = new PubkeyDatabase(this);
+				PubkeyBean pubkey = pubkeyDatabase.findPubkeyById(pubkeyId);
+				setupPublicKey(pubkey);
+			}
 		}
 	}
 
@@ -1142,6 +1169,7 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 		portForward.setEnabled(sessionOpen && canForwardPorts);
 		urlscan.setEnabled(activeTerminal);
 		resize.setEnabled(sessionOpen);
+		regpubkey.setEnabled(sessionOpen);
 		download.setEnabled(sessionOpen && canTransferFiles);
 		upload.setEnabled(sessionOpen && canTransferFiles);
 
@@ -1479,6 +1507,29 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 			this.fullScreen = fullScreen;
 			if (bound != null)
 				bound.setFullScreen(this.fullScreen);
+		}
+	}
+
+	private void setupPublicKey(PubkeyBean pubkey) {
+		Log.d(TAG, "setupPublicKey, pubKey=" + pubkey.getNickname());
+
+		try {
+			PublicKey pk;
+
+			pk = pubkey.getPublicKey();
+			if (pk == null) {
+				Toast.makeText(ConsoleActivity.this, getString(R.string.pubkey_public_not_available), Toast.LENGTH_LONG).show();
+				return;
+			}
+			String openSSHPubkey = PubkeyUtils.convertToOpenSSHFormat(pk, pubkey.getNickname());
+
+			final TerminalView terminal = (TerminalView) findCurrentView(R.id.console_flip);
+			if (terminal != null && terminal.bridge != null)
+				terminal.bridge.injectString("mkdir -p -m 700 ~/.ssh; echo " + openSSHPubkey + " >> ~/.ssh/authorized_keys");
+		} catch (InvalidKeyException e) {
+			Log.e(TAG, e.getMessage(), e);
+		} catch (IOException e) {
+			Log.e(TAG, e.getMessage(), e);
 		}
 	}
 }
