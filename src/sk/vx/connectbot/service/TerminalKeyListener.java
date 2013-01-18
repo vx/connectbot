@@ -883,7 +883,14 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 				}
 			default:
 			}
-		} else if (customKeyboard.equals(PreferenceConstants.CUSTOM_KEYMAP_SE_XPPRO)) {
+		}
+		if (customKeyboard.equals(PreferenceConstants.CUSTOM_KEYMAP_ASUS_TF)) {
+			if ((metaState & META_ALT_MASK) != 0
+					&& (metaState & META_CTRL_MASK) != 0
+					&& sendFunctionKey(keyCode))
+				return true;
+		}
+		else if (customKeyboard.equals(PreferenceConstants.CUSTOM_KEYMAP_SE_XPPRO)) {
 			// Sony Ericsson Xperia pro (MK16i) and Xperia mini Pro (SK17i)
 			// Language key acts as CTRL
 			if (keyCode == KeyEvent.KEYCODE_SWITCH_CHARSET) {
