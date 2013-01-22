@@ -332,7 +332,7 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 
 			// handle meta and f-keys for full hardware keyboard
 			if (hardKeyboard && !hardKeyboardHidden && fullKeyboard()) {
-				int k = event.getUnicodeChar(0);
+				int k = event.getUnicodeChar(orgMetaState & KeyEvent.META_SHIFT_ON);
 				int k0 = k;
 				if (k != 0) {
 					if ((orgMetaState & HC_META_CTRL_ON) != 0) {
@@ -606,10 +606,10 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 
 	public int keyAsControl(int key) {
 		// Support CTRL-a through CTRL-z
-		if (key >= 0x61 && key <= 0x7A)
+		if (key >= 0x60 && key <= 0x7A)
 			key -= 0x60;
 		// Support CTRL-A through CTRL-_
-		else if (key >= 0x41 && key <= 0x5F)
+		else if (key >= 0x40 && key <= 0x5F)
 			key -= 0x40;
 		// CTRL-space sends NULL
 		else if (key == 0x20)
