@@ -35,12 +35,6 @@ import android.content.ContentValues;
 public class PubkeyBean extends AbstractBean {
 	public static final String BEAN_NAME = "pubkey";
 
-	private static final String KEY_TYPE_RSA = "RSA";
-
-	private static final String KEY_TYPE_DSA = "DSA";
-
-	private static final String KEY_TYPE_EC = "EC";
-
 	/* Database fields */
 	private long id;
 	private String nickname;
@@ -167,14 +161,14 @@ public class PubkeyBean extends AbstractBean {
 			final StringBuilder sb = new StringBuilder();
 			try {
 				final PublicKey pubKey = PubkeyUtils.decodePublic(publicKey, type);
-				if (type.equals(KEY_TYPE_RSA)) {
+				if (PubkeyDatabase.KEY_TYPE_RSA.equals(type)) {
 					int bits = ((RSAPublicKey) pubKey).getModulus().bitLength();
 					sb.append("RSA ");
 					sb.append(bits);
 					sb.append("-bit");
-				} else if (type.equals(KEY_TYPE_DSA)) {
+				} else if (PubkeyDatabase.KEY_TYPE_DSA.equals(type)) {
 					sb.append("DSA 1024-bit");
-				} else if (type.equals(KEY_TYPE_EC)) {
+				} else if (PubkeyDatabase.KEY_TYPE_EC.equals(type)) {
 					int bits = ((ECPublicKey) pubKey).getParams().getCurve().getField()
 							.getFieldSize();
 					sb.append("EC ");
