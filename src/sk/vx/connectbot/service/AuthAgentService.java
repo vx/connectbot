@@ -1,7 +1,13 @@
 package sk.vx.connectbot.service;
 
 import java.io.IOException;
+import java.security.KeyPair;
+import java.security.PrivateKey;
 import java.security.SecureRandom;
+import java.security.interfaces.DSAPrivateKey;
+import java.security.interfaces.DSAPublicKey;
+import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -9,7 +15,6 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import sk.vx.connectbot.service.TerminalManager;
 import sk.vx.connectbot.service.TerminalManager.KeyHolder;
 import android.app.Service;
 import android.content.ComponentName;
@@ -20,14 +25,8 @@ import android.os.RemoteException;
 import android.util.Log;
 
 import com.madgag.ssh.android.authagent.AndroidAuthAgent;
-import com.trilead.ssh2.signature.DSAPrivateKey;
-import com.trilead.ssh2.signature.DSAPublicKey;
 import com.trilead.ssh2.signature.DSASHA1Verify;
-import com.trilead.ssh2.signature.DSASignature;
-import com.trilead.ssh2.signature.RSAPrivateKey;
-import com.trilead.ssh2.signature.RSAPublicKey;
 import com.trilead.ssh2.signature.RSASHA1Verify;
-import com.trilead.ssh2.signature.RSASignature;
 
 public class AuthAgentService extends Service {
 	private static final String TAG = "ConnectBot.AuthAgentService";
@@ -108,7 +107,7 @@ public class AuthAgentService extends Service {
 			Map<String, byte[]> encodedPubKeysByName = new HashMap<String, byte[]>(keypairs.size());
 
 			for (Entry<String, KeyHolder> entry : keypairs.entrySet()) {
-				byte[] encodedKey = sshEncodedPubKeyFrom(entry.getValue().trileadKey);
+				byte[] encodedKey = sshEncodedPubKeyFrom(entry.getValue().pair);
 				if (encodedKey != null) {
 					encodedPubKeysByName.put(entry.getKey(), encodedKey);
 				}
@@ -116,24 +115,25 @@ public class AuthAgentService extends Service {
 			return encodedPubKeysByName;
 		}
 
-		private byte[] sshEncodedPubKeyFrom(Object trileadKey) {
+		private byte[] sshEncodedPubKeyFrom(KeyPair pair) {
 			try {
-				if (trileadKey instanceof RSAPrivateKey) {
-					RSAPublicKey pubkey = ((RSAPrivateKey) trileadKey).getPublicKey();
+				PrivateKey privKey = pair.getPrivate();
+				if (privKey instanceof RSAPrivateKey) {
+					RSAPublicKey pubkey = (RSAPublicKey) pair.getPublic();
 					return RSASHA1Verify.encodeSSHRSAPublicKey(pubkey);
-				} else if (trileadKey instanceof DSAPrivateKey) {
-					DSAPublicKey pubkey = ((DSAPrivateKey) trileadKey).getPublicKey();
+				} else if (privKey instanceof DSAPrivateKey) {
+					DSAPublicKey pubkey = (DSAPublicKey) pair.getPublic();
 					return DSASHA1Verify.encodeSSHDSAPublicKey(pubkey);
 				}
 			} catch (IOException e) {
-				Log.e(TAG, "Couldn't encode " + trileadKey, e);
+				Log.e(TAG, "Couldn't encode " + pair, e);
 			}
 			return null;
 		}
 
 		private byte[] sshEncodedSignatureFor(byte[] data, RSAPrivateKey trileadKey) {
 			try {
-				RSASignature signature = RSASHA1Verify.generateSignature(data, trileadKey);
+				byte[] signature = RSASHA1Verify.generateSignature(data, trileadKey);
 				return RSASHA1Verify.encodeSSHRSASignature(signature);
 			} catch (IOException e) {
 				throw new RuntimeException(e);
@@ -141,8 +141,12 @@ public class AuthAgentService extends Service {
 		}
 
 		private byte[] sshEncodedSignatureFor(byte[] data, DSAPrivateKey dsaPrivateKey) {
-			DSASignature signature = DSASHA1Verify.generateSignature(data, dsaPrivateKey, new SecureRandom());
-			return DSASHA1Verify.encodeSSHDSASignature(signature);
+			try {
+				byte[] signature = DSASHA1Verify.generateSignature(data, dsaPrivateKey, new SecureRandom());
+				return DSASHA1Verify.encodeSSHDSASignature(signature);
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
 		}
 
 		private Object keyPairFor(byte[] publicKey) {
