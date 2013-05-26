@@ -17,7 +17,6 @@
 
 package sk.vx.connectbot.util;
 
-import android.os.Build;
 
 
 /**
@@ -25,9 +24,6 @@ import android.os.Build;
  *
  */
 public class PreferenceConstants {
-	public static final boolean PRE_HONEYCOMB =
-		(Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.HONEYCOMB);
-
 	public static final String CATEGORY_UI = "category_ui";
 
 	public static final String MEMKEYS = "memkeys";

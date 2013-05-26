@@ -31,6 +31,7 @@ import sk.vx.connectbot.util.FileChooser;
 import sk.vx.connectbot.util.FileChooserCallback;
 import sk.vx.connectbot.util.PreferenceConstants;
 import sk.vx.connectbot.util.TransferThread;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ComponentName;
@@ -140,7 +141,7 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 
 	private ImageView mKeyboardButton;
 
-	private ActionBarWrapper actionBar;
+	private ActionBar actionBar;
 	private boolean inActionBarMenu = false;
 
 	private ServiceConnection connection = new ServiceConnection() {
@@ -491,10 +492,10 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 			}
 		});
 
-		actionBar = ActionBarWrapper.getActionBar(this);
+		actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.hide();
-		actionBar.addOnMenuVisibilityListener(new ActionBarWrapper.OnMenuVisibilityListener() {
+		actionBar.addOnMenuVisibilityListener(new ActionBar.OnMenuVisibilityListener() {
 			public void onMenuVisibilityChanged(boolean isVisible) {
 				inActionBarMenu = isVisible;
 				if (isVisible == false) {
@@ -815,20 +816,18 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 
 		menu.setQwertyMode(true);
 
-		if (!PreferenceConstants.PRE_HONEYCOMB) {
-			MenuItem ctrlKey = menu.add(getString(R.string.fullscreen));
-			ctrlKey.setEnabled(activeTerminal);
-			ctrlKey.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-			ctrlKey.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-				public boolean onMenuItemClick(MenuItem menuItem) {
-					if (fullScreen == FULLSCREEN_ON) {
-						setFullScreen(FULLSCREEN_OFF);
-					} else
-						setFullScreen(FULLSCREEN_ON);
-					return true;
-				}
-			});
-		}
+		MenuItem ctrlKey = menu.add(getString(R.string.fullscreen));
+		ctrlKey.setEnabled(activeTerminal);
+		ctrlKey.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+		ctrlKey.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+			public boolean onMenuItemClick(MenuItem menuItem) {
+				if (fullScreen == FULLSCREEN_ON) {
+					setFullScreen(FULLSCREEN_OFF);
+				} else
+					setFullScreen(FULLSCREEN_ON);
+				return true;
+			}
+		});
 
 		disconnect = menu.add(R.string.list_host_disconnect);
 		if (hardKeyboard)
