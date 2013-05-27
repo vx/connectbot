@@ -216,9 +216,6 @@
   <string name="terminal_enable_portfoward">Aktiviere Port Forwarding: %1$s</string>
   <string name="local_shell_unavailable">Fehler! Lokale Kommandozeile ist auf diesem Telefon nicht verfügbar.</string>
   <string name="notification_text">%1$s will ihre Aufmerksamkeit.</string>
-  <string name="upgrade">Neue Version</string>
-  <string name="upgrade_pos">Ja, aktualisieren</string>
-  <string name="upgrade_neg">Nicht jetzt</string>
   <string name="no">Nein</string>
   <string name="with_confirmation">Mit Bestätigung</string>
   <string name="yes">Ja</string>
@@ -263,9 +260,9 @@
   <string name="pref_file_dialog_builtin">eingebaut</string>
   <string name="error_starting_app">Fehler beim Ausführen von %1$s</string>
   <string name="file_chooser_select_file">Datei %1s auswählen</string>
-  <string name="for_download">fürs Herunterladen</string>
-  <string name="for_upload">fürs Hochladen</string>
-  <string name="for_key_import">für den Schlüssel-Import</string>  
+  <string name="select_for_download">fürs Herunterladen</string>
+  <string name="select_for_upload">fürs Hochladen</string>
+  <string name="select_for_key_import">für den Schlüssel-Import</string>  
   <string name="location">Position</string>
   <string name="cant_read_folder">Fehler beim lesen des Verzeichnisses.</string>
   <string name="nnew">Neu</string>
@@ -310,7 +307,7 @@
   <string name="pref_debug_category">Entwickler-Einstellungen</string>
   <string name="pref_debug_keycodes">Tastencodes anzeigen</string>
   <string name="pref_debug_keycodes_summary">Codes der im Terminal gedrückten Tasten anzeigen</string>
-  <string name="keycode_presesed">Code der gedrückten Taste</string>
+  <string name="keycode_pressed">Code der gedrückten Taste</string>
   <string name="pref_extended_longpress">Erweitertes Longpress-Menu</string>
   <string name="pref_extended_longpress_summary">Eingabeoptionen im Tap-And-Hold-Menü anzeigen</string>
   <string name="longpress_select_action">Aktion auswählen</string>

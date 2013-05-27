@@ -214,9 +214,6 @@
   <string name="terminal_enable_portfoward">Zapnúť presmerovanie portu: %1$s</string>
   <string name="local_shell_unavailable">Chyba! Lokálny shell je nedostupný na tomto telefóne.</string>
   <string name="notification_text">%1$s vyžaduje vašu pozornosť.</string>
-  <string name="upgrade">Nová verzia</string>
-  <string name="upgrade_pos">Áno, nahrať novú verziu</string>
-  <string name="upgrade_neg">Nie teraz</string>
   <string name="no">Nie</string>
   <string name="with_confirmation">S potvrdením</string>
   <string name="yes">Áno</string>
@@ -261,9 +258,9 @@
   <string name="pref_file_dialog_builtin">zabudovaný</string>
   <string name="error_starting_app">Nepodarilo sa spustiť %1$s</string>
   <string name="file_chooser_select_file">Vybrať súbor %1s</string>
-  <string name="for_download">na prevzatie</string>
-  <string name="for_upload">na odoslanie</string>
-  <string name="for_key_import">na import kľúča</string> 
+  <string name="select_for_download">na prevzatie</string>
+  <string name="select_for_upload">na odoslanie</string>
+  <string name="select_for_key_import">na import kľúča</string> 
   <string name="location">Umiestnenie</string>
   <string name="cant_read_folder">Chyba pri čítaní priečinka.</string>
   <string name="nnew">Nové</string>
@@ -285,8 +282,6 @@
   <string name="transfer_downloading_file">Preberanie súbora: %1$s</string>
   <string name="transfer_download_complete">Preberanie ukončené</string>
   <string name="transfer_download_failed">Chyba pri preberaní:%1$s</string>
-  <string name="transfer_select_remote">Vybrať vzdialený súbor</string>
-  <string name="transfer_select_remote_desc"></string>
   <string name="transfer_select_remote_download_title">Prevziať súbor(y)</string>
   <string name="transfer_select_remote_download_desc">Cesty k vzdialeným súborom na prevzatie (jeden na riadok)</string>
   <string name="transfer_select_remote_upload_dest_title">Umiestnenie odosielaného súbora</string>

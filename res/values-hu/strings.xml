@@ -174,10 +174,10 @@
   <string name="list_rotation_auto">Automatikus</string>
   <string name="list_hwbutton_screen_capture">Képernyőkép készítése</string>
   <string name="list_hwbutton_ctrlaspace">Ctrl+A majd Space</string>
-  <string name="list_hwbutton__ctrla">Ctrl+A</string>
+  <string name="list_hwbutton_ctrla">Ctrl+A</string>
   <string name="list_hwbutton_esc">Esc</string>
   <string name="list_hwbutton_esc_a">Esc+A</string>
-  <string name="list_hwbutton__none">Semmi</string>
+  <string name="list_hwbutton_none">Semmi</string>
   <string name="list_delkey_backspace">Backspace</string>
   <string name="list_delkey_del">Delete</string>
   <string name="delete_message">Biztosan törli a \'%1$s\'-t?</string>
@@ -260,9 +260,9 @@
   <string name="pref_file_dialog_builtin">beépített</string>
   <string name="error_starting_app">Hiba indításkor %1$s</string>
   <string name="file_chooser_select_file">Válasszon fájlt %1$s</string>
-  <string name="for_download">letöltéshez</string>
-  <string name="for_upload">feltöltéshez</string>
-  <string name="for_key_import">kulcsimportáláshoz</string>  
+  <string name="select_for_download">letöltéshez</string>
+  <string name="select_for_upload">feltöltéshez</string>
+  <string name="select_for_key_import">kulcsimportáláshoz</string>  
   <string name="location">Hely</string>
   <string name="cant_read_folder">Nem olvasható a mappa.</string>
   <string name="nnew">Új</string>
@@ -307,7 +307,7 @@
   <string name="pref_debug_category">Hibakeresési beállítások</string>
   <string name="pref_debug_keycodes">Billentyűkódok kiírása</string>
   <string name="pref_debug_keycodes_summary">A terminálablakban lenyomott billentyűk kódjait kiírja.</string>
-  <string name="keycode_presesed">A lenyomott billentyű kódja</string>
+  <string name="keycode_pressed">A lenyomott billentyű kódja</string>
   <string name="pref_extended_longpress">Bővített hosszan nyomva tartott menü</string>
   <string name="pref_extended_longpress_summary">A beviteli párbeszédablakot mutatja érintés és tartás esetén.</string>
   <string name="longpress_select_action">Válassza ki a műveletet</string>
