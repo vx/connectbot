@@ -17,6 +17,7 @@ VX ConnectBot is an enhanced version of the popular open-source telnet and secur
  - tap-and-hold to toggle full screen mode or change font size
  - tap-and hold on on-screen buttons with various manus
  - ssh-agent from Roberto Tyley
+ - X11 forwarding support
   
 ### New key mappings:
 
