@@ -49,6 +49,9 @@ public class HostBean extends AbstractBean {
 	private boolean compression = false;
 	private String encoding = HostDatabase.ENCODING_DEFAULT;
 	private boolean stayConnected = false;
+	private boolean wantX11Forward = false;
+	private String x11Host = "localhost";
+	private int x11Port = 6000;
 
 	public HostBean() {
 
@@ -210,6 +213,30 @@ public class HostBean extends AbstractBean {
 		return description;
 	}
 
+	public boolean getWantX11Forward() {
+		return this.wantX11Forward;
+	}
+
+	public void setWantX11Forward(boolean wantX11Forward) {
+		this.wantX11Forward = wantX11Forward;
+	}
+
+	public String getX11Host() {
+		return this.x11Host;
+	}
+
+	public void setX11Host(String x11Host) {
+		this.x11Host = x11Host;
+	}
+
+	public int getX11Port() {
+		return this.x11Port;
+	}
+
+	public void setX11Port(int x11Port) {
+		this.x11Port = x11Port;
+	}
+
 	@Override
 	public ContentValues getValues() {
 		ContentValues values = new ContentValues();
@@ -233,7 +260,9 @@ public class HostBean extends AbstractBean {
 		values.put(HostDatabase.FIELD_HOST_COMPRESSION, Boolean.toString(compression));
 		values.put(HostDatabase.FIELD_HOST_ENCODING, encoding);
 		values.put(HostDatabase.FIELD_HOST_STAYCONNECTED, stayConnected);
-
+		values.put(HostDatabase.FIELD_HOST_WANTX11FORWARD, wantX11Forward);
+		values.put(HostDatabase.FIELD_HOST_X11HOST, x11Host);
+		values.put(HostDatabase.FIELD_HOST_X11PORT, x11Port);
 		return values;
 	}
 

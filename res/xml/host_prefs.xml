@@ -119,6 +119,28 @@
 			android:title="@string/hostpref_port_title"
 			android:numeric="integer"
 			/>
+	</PreferenceCategory>
+
+	<PreferenceCategory
+	    android:title="@string/hostpref_x11_forwarding">
+
+		<CheckBoxPreference
+			android:key="wantx11forward"
+			android:title="@string/hostpref_wantx11forward_title"
+			android:summary="@string/hostpref_wantx11forward_summary"
+		/>
+
+		<EditTextPreference
+		    android:key="x11host"
+		    android:title="@string/hostpref_x11host_title"
+		    android:singleLine="true"
+		    />
+
+		<EditTextPreference
+		    android:key="x11port"
+		    android:title="@string/hostpref_x11port_title"
+		    android:numeric="integer"
+		    />
 
 	</PreferenceCategory>
 

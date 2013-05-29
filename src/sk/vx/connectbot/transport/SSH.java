@@ -391,6 +391,14 @@ public class SSH extends AbsTransport implements ConnectionMonitor, InteractiveC
 			if (!useAuthAgent.equals(HostDatabase.AUTHAGENT_NO))
 				session.requestAuthAgentForwarding(this);
 
+			if (host.getWantX11Forward()) {
+				try {
+					session.requestX11Forwarding(host.getX11Host(), host.getX11Port(), null, false);
+				} catch (IOException e2) {
+					Log.e(TAG, "Problem while trying to setup X11 forwarding in finishConnection()", e2);
+				}
+			}
+
 			session.requestPTY(getEmulation(), columns, rows, width, height, null);
 			session.startShell();
 

@@ -137,6 +137,11 @@
   <string name="hostpref_username_title">Používateľské meno</string>
   <string name="hostpref_hostname_title">Hostiteľ</string>
   <string name="hostpref_port_title">Port</string>
+  <string name="hostpref_x11_forwarding">"Presmerovanie X11"</string>
+  <string name="hostpref_wantx11forward_title">"Zapnúť presmerovanie X11"</string>
+  <string name="hostpref_wantx11forward_summary">"Sedenia X11 budú presmerované na hostiteľa a port uvedený nižšie"</string>
+  <string name="hostpref_x11host_title">"Hostiteľ pre presmerovanie X11"</string>
+  <string name="hostpref_x11port_title">"Port pre presmerovanie X11"</string>
   <string name="bind_never">Nikdy nepripojený</string>
   <string name="bind_minutes">Pred %1$s minútami</string>
   <string name="bind_hours">Pred %1$s hodinami</string>
