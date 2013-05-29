@@ -137,6 +137,11 @@
   <string name="hostpref_username_title">Benutzername</string>
   <string name="hostpref_hostname_title">Host</string>
   <string name="hostpref_port_title">Port</string>
+  <string name="hostpref_x11_forwarding">"X11-Weiterleitung"</string>
+  <string name="hostpref_wantx11forward_title">"X11-Weiterleitung aktivieren"</string>
+  <string name="hostpref_wantx11forward_summary">"X11-Sitzungen an unten angegebenen Host und Port weiterleiten"</string>
+  <string name="hostpref_x11host_title">"Host für X11-Weiterleitung"</string>
+  <string name="hostpref_x11port_title">"Port für X11-Weiterleitung"</string>
   <string name="bind_never">Nie verbunden</string>
   <string name="bind_minutes">vor %1$s Minuten</string>
   <string name="bind_hours">vor %1$s Stunden</string>
