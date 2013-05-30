@@ -625,7 +625,7 @@ public class SSH extends AbsTransport implements ConnectionMonitor, InteractiveC
 			LocalPortForwarder lpf = null;
 			try {
 				lpf = connection.createLocalPortForwarder(
-						new InetSocketAddress(InetAddress.getLocalHost(), portForward.getSourcePort()),
+						new InetSocketAddress("0.0.0.0", portForward.getSourcePort()),
 						portForward.getDestAddr(), portForward.getDestPort());
 			} catch (Exception e) {
 				Log.e(TAG, "Could not create local port forward", e);
