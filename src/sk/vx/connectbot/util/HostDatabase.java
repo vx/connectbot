@@ -66,6 +66,7 @@ public class HostDatabase extends RobustSQLiteOpenHelper {
 	public final static String FIELD_HOST_DELKEY = "delkey";
 	public final static String FIELD_HOST_FONTSIZE = "fontsize";
 	public final static String FIELD_HOST_COMPRESSION = "compression";
+	public final static String FIELD_HOST_HTTPPROXY = "httpproxy"
 	public final static String FIELD_HOST_ENCODING = "encoding";
 	public final static String FIELD_HOST_STAYCONNECTED = "stayconnected";
 	public final static String FIELD_HOST_WANTX11FORWARD = "wantx11forward";
@@ -173,6 +174,7 @@ public class HostDatabase extends RobustSQLiteOpenHelper {
 				+ FIELD_HOST_FONTSIZE + " INTEGER, "
 				+ FIELD_HOST_WANTSESSION + " TEXT DEFAULT '" + Boolean.toString(true) + "', "
 				+ FIELD_HOST_COMPRESSION + " TEXT DEFAULT '" + Boolean.toString(false) + "', "
+				+ FIELD_HOST_HTTPPROXY + " TEXT, "
 				+ FIELD_HOST_ENCODING + " TEXT DEFAULT '" + ENCODING_DEFAULT + "', "
 				+ FIELD_HOST_STAYCONNECTED + " TEXT, "
 				+ FIELD_HOST_WANTX11FORWARD + " TEXT DEFAULT '" + Boolean.toString(false) + "', "
@@ -274,6 +276,9 @@ public class HostDatabase extends RobustSQLiteOpenHelper {
 					+ " ADD COLUMN " + FIELD_HOST_X11HOST + " TEXT DEFAULT '" + X11HOST_DEFAULT + "'");
 			db.execSQL("ALTER TABLE " + TABLE_HOSTS
 					+ " ADD COLUMN " + FIELD_HOST_X11PORT + " INTEGER DEFAULT " + X11PORT_DEFAULT);
+		case 23:
+			db.execSQL("ALTER TABLE " + TABLE_HOSTS
+					+ " ADD COLUMN " + FIELD_HOST_HTTPPROXY + " TEXT");
 		}
 	}
 
@@ -390,6 +395,7 @@ public class HostDatabase extends RobustSQLiteOpenHelper {
 			COL_DELKEY = c.getColumnIndexOrThrow(FIELD_HOST_DELKEY),
 			COL_FONTSIZE = c.getColumnIndexOrThrow(FIELD_HOST_FONTSIZE),
 			COL_COMPRESSION = c.getColumnIndexOrThrow(FIELD_HOST_COMPRESSION),
+			COL_HTTPPROXY = c.getColumnIndexOrThrow(FIELD_HOST_HTTPPROXY),
 			COL_ENCODING = c.getColumnIndexOrThrow(FIELD_HOST_ENCODING),
 			COL_STAYCONNECTED = c.getColumnIndexOrThrow(FIELD_HOST_STAYCONNECTED),
 			COL_WANTX11FORWARD = c.getColumnIndexOrThrow(FIELD_HOST_WANTX11FORWARD),
@@ -415,6 +421,7 @@ public class HostDatabase extends RobustSQLiteOpenHelper {
 			host.setDelKey(c.getString(COL_DELKEY));
 			host.setFontSize(c.getInt(COL_FONTSIZE));
 			host.setCompression(Boolean.valueOf(c.getString(COL_COMPRESSION)));
+			host.setHttpproxy(c.getString(COL_HTTPPROXY));
 			host.setEncoding(c.getString(COL_ENCODING));
 			host.setStayConnected(Boolean.valueOf(c.getString(COL_STAYCONNECTED)));
 			host.setWantX11Forward(Boolean.valueOf(c.getString(COL_WANTX11FORWARD)));

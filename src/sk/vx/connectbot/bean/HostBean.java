@@ -47,6 +47,7 @@ public class HostBean extends AbstractBean {
 	private String delKey = HostDatabase.DELKEY_DEL;
 	private int fontSize = -1;
 	private boolean compression = false;
+	private String httpproxy = null;
 	private String encoding = HostDatabase.ENCODING_DEFAULT;
 	private boolean stayConnected = false;
 	private boolean wantX11Forward = false;
@@ -187,6 +188,12 @@ public class HostBean extends AbstractBean {
 	public boolean getCompression() {
 		return compression;
 	}
+	public void setHttpproxy(String httpproxy) {
+		this.httpproxy = httpproxy;
+	}
+	public String getHttpproxy() {
+		return httpproxy;
+	}
 
 	public void setEncoding(String encoding) {
 		this.encoding  = encoding;
@@ -258,6 +265,7 @@ public class HostBean extends AbstractBean {
 		values.put(HostDatabase.FIELD_HOST_DELKEY, delKey);
 		values.put(HostDatabase.FIELD_HOST_FONTSIZE, fontSize);
 		values.put(HostDatabase.FIELD_HOST_COMPRESSION, Boolean.toString(compression));
+		values.put(HostDatabase.FIELD_HOST_HTTPPROXY, httpproxy);
 		values.put(HostDatabase.FIELD_HOST_ENCODING, encoding);
 		values.put(HostDatabase.FIELD_HOST_STAYCONNECTED, stayConnected);
 		values.put(HostDatabase.FIELD_HOST_WANTX11FORWARD, wantX11Forward);
