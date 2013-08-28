@@ -66,7 +66,7 @@ public class HostDatabase extends RobustSQLiteOpenHelper {
 	public final static String FIELD_HOST_DELKEY = "delkey";
 	public final static String FIELD_HOST_FONTSIZE = "fontsize";
 	public final static String FIELD_HOST_COMPRESSION = "compression";
-	public final static String FIELD_HOST_HTTPPROXY = "httpproxy"
+        public final static String FIELD_HOST_HTTPPROXY = "httpproxy";
 	public final static String FIELD_HOST_ENCODING = "encoding";
 	public final static String FIELD_HOST_STAYCONNECTED = "stayconnected";
 	public final static String FIELD_HOST_WANTX11FORWARD = "wantx11forward";
