@@ -188,6 +188,7 @@ public class HostListActivity extends ListActivity {
 
 				Intent contents = new Intent(Intent.ACTION_VIEW, uri);
 				contents.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				contents.setClass(HostListActivity.this, ConsoleActivity.class);
 
 				if (makingShortcut) {
 					// create shortcut if requested
