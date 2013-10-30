@@ -24,6 +24,8 @@ import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.security.KeyPair;
+import java.net.URL;
+import java.net.MalformedURLException;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
@@ -69,6 +71,8 @@ import com.trilead.ssh2.LocalPortForwarder;
 import com.trilead.ssh2.SCPClient;
 import com.trilead.ssh2.ServerHostKeyVerifier;
 import com.trilead.ssh2.Session;
+import com.trilead.ssh2.HTTPProxyData;
+import com.trilead.ssh2.HTTPProxyException;
 import com.trilead.ssh2.crypto.PEMDecoder;
 import com.trilead.ssh2.signature.DSASHA1Verify;
 import com.trilead.ssh2.signature.RSASHA1Verify;
@@ -106,6 +110,7 @@ public class SSH extends AbsTransport implements ConnectionMonitor, InteractiveC
 	}
 
 	private boolean compression = false;
+	private String httpproxy = null;
 	private volatile boolean authenticated = false;
 	private volatile boolean connected = false;
 	private volatile boolean sessionOpen = false;
@@ -426,6 +431,32 @@ public class SSH extends AbsTransport implements ConnectionMonitor, InteractiveC
 			Log.e(TAG, "Could not enable compression!", e);
 		}
 
+		if (httpproxy != null && httpproxy.length() > 0) {
+			Log.d(TAG, "Want HTTP Proxy: "+httpproxy, null);
+			try {
+                                URL u;
+                                if (httpproxy.startsWith("http://")) {
+				        u = new URL(httpproxy);
+                                } else {
+				        u = new URL("http://" + httpproxy);
+                                }
+				connection.setProxyData(new HTTPProxyData(
+					u.getHost(),
+					u.getPort(),
+					u.getUserInfo(),
+					u.getAuthority()));
+			        bridge.outputLine("Connecting via proxy: "+httpproxy);
+			} catch (MalformedURLException e) {
+				Log.e(TAG, "Could not parse proxy "+httpproxy, e);
+
+			        // Display the reason in the text.
+			        bridge.outputLine("Bad proxy URL: "+httpproxy);
+
+			        onDisconnect();
+			        return;
+			}
+		}
+
 		try {
 			/* Uncomment when debugging SSH protocol:
 			DebugLogger logger = new DebugLogger() {
@@ -459,6 +490,14 @@ public class SSH extends AbsTransport implements ConnectionMonitor, InteractiveC
 						connectionInfo.serverToClientCryptoAlgorithm,
 						connectionInfo.serverToClientMACAlgorithm));
 			}
+		} catch (HTTPProxyException e) {
+			Log.e(TAG, "Failed to connect to HTTP Proxy", e);
+
+			// Display the reason in the text.
+			bridge.outputLine("Failed to connect to HTTP Proxy.");
+
+			onDisconnect();
+			return;
 		} catch (IOException e) {
 			Log.e(TAG, "Problem in SSH connection thread during authentication", e);
 
@@ -555,6 +594,8 @@ public class SSH extends AbsTransport implements ConnectionMonitor, InteractiveC
 		Map<String, String> options = new HashMap<String, String>();
 
 		options.put("compression", Boolean.toString(compression));
+                if (httpproxy != null)
+			options.put("httpproxy", httpproxy);
 
 		return options;
 	}
@@ -563,6 +604,8 @@ public class SSH extends AbsTransport implements ConnectionMonitor, InteractiveC
 	public void setOptions(Map<String, String> options) {
 		if (options.containsKey("compression"))
 			compression = Boolean.parseBoolean(options.get("compression"));
+		if (options.containsKey("httpproxy"))
+			httpproxy = options.get("httpproxy");
 	}
 
 	public static String getProtocolName() {
@@ -899,6 +942,11 @@ public class SSH extends AbsTransport implements ConnectionMonitor, InteractiveC
 	@Override
 	public void setCompression(boolean compression) {
 		this.compression = compression;
+	}
+
+	@Override
+	public void setHttpproxy(String httpproxy) {
+		this.httpproxy = httpproxy;
 	}
 
 	public static String getFormatHint(Context context) {

@@ -72,6 +72,13 @@
 		android:title="@string/hostpref_compression_title"
 		android:summary="@string/hostpref_compression_summary"
 		/>
+
+	<EditTextPreference
+		android:key="httpproxy"
+		android:title="@string/hostpref_httpproxy_title"
+		android:summary="@string/hostpref_httpproxy_summary"
+		android:inputType="textUri"
+		/>
 		
 	<CheckBoxPreference
 		android:key="wantsession"
