@@ -278,6 +278,11 @@
 	<!-- Summary for compression preference -->
 	<string name="hostpref_compression_summary">"This may help with slower networks"</string>
 
+	<!-- HTTP Proxy preference title -->
+	<string name="hostpref_httpproxy_title">"Use HTTP Proxy"</string>
+	<!-- Summary for compression preference -->
+	<string name="hostpref_httpproxy_summary">"The host:port of an HTTP proxy"</string>
+
 	<!-- Setting for whether we want a session to start up when we connect to a host -->
 	<string name="hostpref_wantsession_title">"Start shell session"</string>
 	<!-- Summary for field asking whether a shell session should be started up upon connection or not -->

@@ -131,6 +131,10 @@ public abstract class AbsTransport {
 		// do nothing
 	}
 
+	public void setHttpproxy(String httpproxy) {
+		// do nothing
+	}
+
 	public void setUseAuthAgent(String useAuthAgent) {
 		// do nothing
 	}
