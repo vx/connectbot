@@ -67,6 +67,8 @@ public class PreferenceConstants {
 	public static final String HWBUTTON_ESC_A = "Esc+A";
 	public static final String HWBUTTON_CTRL = "CTRL";
 	public static final String HWBUTTON_TAB  = "Tab";
+	public static final String HWBUTTON_FONT_INC  = "Increase font size";
+	public static final String HWBUTTON_FONT_DEC  = "Decrease font size";
 
 	public static final String KEEP_ALIVE = "keepalive";
 

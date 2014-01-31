@@ -580,6 +580,10 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 			} else if(PreferenceConstants.HWBUTTON_ESC_A.equals(shortcut)) {
 				((vt320)buffer).keyTyped(vt320.KEY_ESCAPE, ' ', 0);
 				bridge.transport.write('a');
+			} else if(PreferenceConstants.HWBUTTON_FONT_INC.equals(shortcut)) {
+				bridge.increaseFontSize();
+			} else if(PreferenceConstants.HWBUTTON_FONT_DEC.equals(shortcut)) {
+				bridge.decreaseFontSize();
 			} else {
 				return(false);
 			}
