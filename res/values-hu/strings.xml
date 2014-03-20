@@ -321,8 +321,8 @@
   <string name="pref_ctrl_string">CTRL ablak tartalma</string>
   <string name="pref_ctrl_string_summary">Karakterek sorozata a CTRL+? kombinációkhoz.</string>
   <string name="fullscreen">Teljes képernyő</string>
-  <string name="hostpref_wantsession_title">"Héj indítása"</string>
-  <string name="hostpref_wantsession_summary">"Kapcsoljuk ki, ha csak port átirányításra van szükségünk"</string>
+  <!-- <string name="hostpref_wantsession_title">"Héj indítása"</string>
+  <string name="hostpref_wantsession_summary">"Kapcsoljuk ki, ha csak port átirányításra van szükségünk"</string> -->
   <string name="hostpref_x11_forwarding">"X11 átirányítás"</string>
   <string name="hostpref_wantx11forward_title">"X11 átirányítás bekapcsolása"</string>
   <string name="hostpref_wantx11forward_summary">"X11 munkamenetek átirányítása a lentebb megadott kiszolgálóra és portra"</string>
