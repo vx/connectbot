@@ -872,7 +872,8 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 				metaKeyDown(META_SHIFT_ON);
 				return true;
 			case KeyEvent.KEYCODE_BACK:
-				if (customKeyboard.equals(PreferenceConstants.CUSTOM_KEYMAP_ASUS_TF)) {
+				if (customKeyboard.equals(PreferenceConstants.CUSTOM_KEYMAP_ASUS_TF)
+				 || customKeyboard.equals(PreferenceConstants.CUSTOM_KEYMAP_FULL)) {
 					// Check to see whether this is the back button on the
 					// screen (-1) or the Asus Transformer Keyboard Dock.
 					// Treat the HW button as ESC.
