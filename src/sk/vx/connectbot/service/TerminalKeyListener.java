@@ -698,10 +698,10 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 			((vt320) buffer).keyPressed(vt320.KEY_F10, ' ', 0);
 			return true;
 		case KeyEvent.KEYCODE_F11:
-			((vt320) buffer).keyPressed(vt320.KEY_F10, ' ', 0);
+			((vt320) buffer).keyPressed(vt320.KEY_F11, ' ', 0);
 			return true;
 		case KeyEvent.KEYCODE_F12:
-			((vt320) buffer).keyPressed(vt320.KEY_F10, ' ', 0);
+			((vt320) buffer).keyPressed(vt320.KEY_F12, ' ', 0);
 			return true;
 		case KeyEvent.KEYCODE_INSERT:
 			((vt320) buffer).keyPressed(vt320.KEY_INSERT, ' ', 0);
