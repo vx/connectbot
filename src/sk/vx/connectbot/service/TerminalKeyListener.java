@@ -46,6 +46,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import de.mud.terminal.VDUBuffer;
+import de.mud.terminal.VDUInput;
 import de.mud.terminal.vt320;
 
 /**
@@ -775,11 +776,11 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 		int bufferState = 0;
 
 		if ((metaState & META_CTRL_MASK) != 0)
-			bufferState |= vt320.KEY_CONTROL;
+			bufferState |= VDUInput.KEY_CONTROL;
 		if ((metaState & META_SHIFT_MASK) != 0)
-			bufferState |= vt320.KEY_SHIFT;
+			bufferState |= VDUInput.KEY_SHIFT;
 		if ((metaState & META_ALT_MASK) != 0)
-			bufferState |= vt320.KEY_ALT;
+			bufferState |= VDUInput.KEY_ALT;
 
 		return bufferState;
 	}
