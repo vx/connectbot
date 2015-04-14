@@ -274,7 +274,7 @@ public void setScreenSize(int c, int r, boolean broadcast) {
     FunctionKeyCtrl = new String[21];
 
     for (int i = 0; i < 20; i++) {
-      FunctionKeyShift[i] = "";
+      FunctionKeyShift[i] = FunctionKey[i % 10 + 10];
       FunctionKeyAlt[i] = "";
       FunctionKeyCtrl[i] = "";
     }
