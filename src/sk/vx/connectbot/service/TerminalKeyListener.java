@@ -668,53 +668,54 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 	private boolean sendFullSpecialKey(int keyCode) {
 		switch (keyCode) {
 		case KeyEvent.KEYCODE_F1:
-			((vt320) buffer).keyPressed(vt320.KEY_F1, ' ', 0);
+			((vt320) buffer).keyPressed(vt320.KEY_F1, ' ', getStateForBuffer());
 			return true;
 		case KeyEvent.KEYCODE_F2:
-			((vt320) buffer).keyPressed(vt320.KEY_F2, ' ', 0);
+			((vt320) buffer).keyPressed(vt320.KEY_F2, ' ', getStateForBuffer());
 			return true;
 		case KeyEvent.KEYCODE_F3:
-			((vt320) buffer).keyPressed(vt320.KEY_F3, ' ', 0);
+			((vt320) buffer).keyPressed(vt320.KEY_F3, ' ', getStateForBuffer());
 			return true;
 		case KeyEvent.KEYCODE_F4:
-			((vt320) buffer).keyPressed(vt320.KEY_F4, ' ', 0);
+			((vt320) buffer).keyPressed(vt320.KEY_F4, ' ', getStateForBuffer());
+			Log.d(TAG, "/sendFullSpecialKey F4");
 			return true;
 		case KeyEvent.KEYCODE_F5:
-			((vt320) buffer).keyPressed(vt320.KEY_F5, ' ', 0);
+			((vt320) buffer).keyPressed(vt320.KEY_F5, ' ', getStateForBuffer());
 			return true;
 		case KeyEvent.KEYCODE_F6:
-			((vt320) buffer).keyPressed(vt320.KEY_F6, ' ', 0);
+			((vt320) buffer).keyPressed(vt320.KEY_F6, ' ', getStateForBuffer());
 			return true;
 		case KeyEvent.KEYCODE_F7:
-			((vt320) buffer).keyPressed(vt320.KEY_F7, ' ', 0);
+			((vt320) buffer).keyPressed(vt320.KEY_F7, ' ', getStateForBuffer());
 			return true;
 		case KeyEvent.KEYCODE_F8:
-			((vt320) buffer).keyPressed(vt320.KEY_F8, ' ', 0);
+			((vt320) buffer).keyPressed(vt320.KEY_F8, ' ', getStateForBuffer());
 			return true;
 		case KeyEvent.KEYCODE_F9:
-			((vt320) buffer).keyPressed(vt320.KEY_F9, ' ', 0);
+			((vt320) buffer).keyPressed(vt320.KEY_F9, ' ', getStateForBuffer());
 			return true;
 		case KeyEvent.KEYCODE_F10:
-			((vt320) buffer).keyPressed(vt320.KEY_F10, ' ', 0);
+			((vt320) buffer).keyPressed(vt320.KEY_F10, ' ', getStateForBuffer());
 			return true;
 		case KeyEvent.KEYCODE_F11:
-			((vt320) buffer).keyPressed(vt320.KEY_F11, ' ', 0);
+			((vt320) buffer).keyPressed(vt320.KEY_F11, ' ', getStateForBuffer());
 			return true;
 		case KeyEvent.KEYCODE_F12:
-			((vt320) buffer).keyPressed(vt320.KEY_F12, ' ', 0);
+			((vt320) buffer).keyPressed(vt320.KEY_F12, ' ', getStateForBuffer());
 			return true;
 		case KeyEvent.KEYCODE_INSERT:
-			((vt320) buffer).keyPressed(vt320.KEY_INSERT, ' ', 0);
+			((vt320) buffer).keyPressed(vt320.KEY_INSERT, ' ', getStateForBuffer());
 			return true;
 		case KeyEvent.KEYCODE_FORWARD_DEL:
-			((vt320) buffer).keyPressed(vt320.KEY_DELETE, ' ', 0);
+			((vt320) buffer).keyPressed(vt320.KEY_DELETE, ' ', getStateForBuffer());
 			return true;
 /*
 		case KeyEvent.KEYCODE_PAGE_UP:
-			((vt320) buffer).keyPressed(vt320.KEY_PAGE_UP, ' ', 0);
+			((vt320) buffer).keyPressed(vt320.KEY_PAGE_UP, ' ', getStateForBuffer());
 			return true;
 		case KeyEvent.KEYCODE_PAGE_DOWN:
-			((vt320) buffer).keyPressed(vt320.KEY_PAGE_DOWN, ' ', 0);
+			((vt320) buffer).keyPressed(vt320.KEY_PAGE_DOWN, ' ', getStateForBuffer());
 			return true;
 		case KeyEvent.KEYCODE_MOVE_HOME:
 			((vt320) buffer).keyPressed(vt320.KEY_HOME, ' ', getStateForBuffer());
