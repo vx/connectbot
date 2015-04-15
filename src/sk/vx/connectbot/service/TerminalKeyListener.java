@@ -415,22 +415,26 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 				return true;
 			case KEYCODE_PAGE_DOWN:
 				((vt320)buffer).keyPressed(vt320.KEY_PAGE_DOWN, ' ', getStateForBuffer());
-				metaState &= ~META_TRANSIENT;
+				if (!fullKeyboard())
+					metaState &= ~META_TRANSIENT;
 				bridge.tryKeyVibrate();
 				return true;
 			case KEYCODE_PAGE_UP:
 				((vt320)buffer).keyPressed(vt320.KEY_PAGE_UP, ' ', getStateForBuffer());
-				metaState &= ~META_TRANSIENT;
+				if (!fullKeyboard())
+					metaState &= ~META_TRANSIENT;
 				bridge.tryKeyVibrate();
 				return true;
 			case KeyEvent.KEYCODE_MOVE_HOME:
 				((vt320) buffer).keyPressed(vt320.KEY_HOME, ' ', getStateForBuffer());
-				metaState &= ~META_TRANSIENT;
+				if (!fullKeyboard())
+					metaState &= ~META_TRANSIENT;
 				bridge.tryKeyVibrate();
 				return true;
 			case KeyEvent.KEYCODE_MOVE_END:
 				((vt320) buffer).keyPressed(vt320.KEY_END, ' ', getStateForBuffer());
-				metaState &= ~META_TRANSIENT;
+				if (!fullKeyboard())
+					metaState &= ~META_TRANSIENT;
 				bridge.tryKeyVibrate();
 				return true;
 			case KeyEvent.KEYCODE_CAMERA:
@@ -465,7 +469,8 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 					((vt320) buffer).keyPressed(vt320.KEY_BACK_SPACE, ' ',
 						getStateForBuffer());
 				}
-				metaState &= ~META_TRANSIENT;
+				if (!fullKeyboard())
+					metaState &= ~META_TRANSIENT;
 				return true;
 			case KeyEvent.KEYCODE_ENTER:
 				((vt320)buffer).keyTyped(vt320.KEY_ENTER, ' ', 0);
