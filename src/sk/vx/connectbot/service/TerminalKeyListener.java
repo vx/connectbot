@@ -469,7 +469,8 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 				return true;
 			case KeyEvent.KEYCODE_ENTER:
 				((vt320)buffer).keyTyped(vt320.KEY_ENTER, ' ', 0);
-				metaState &= ~META_TRANSIENT;
+				if (!fullKeyboard())
+					metaState &= ~META_TRANSIENT;
 				return true;
 
 			case KeyEvent.KEYCODE_DPAD_LEFT:
@@ -484,7 +485,8 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 						((vt320) buffer).keyPressed(vt320.KEY_LEFT, ' ',
 								getStateForBuffer());
 					}
-					metaState &= ~META_TRANSIENT;
+					if (!fullKeyboard())
+						metaState &= ~META_TRANSIENT;
 					bridge.tryKeyVibrate();
 				}
 				return true;
@@ -501,7 +503,8 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 						((vt320) buffer).keyPressed(vt320.KEY_UP, ' ',
 								getStateForBuffer());
 					}
-					metaState &= ~META_TRANSIENT;
+					if (!fullKeyboard())
+						metaState &= ~META_TRANSIENT;
 					bridge.tryKeyVibrate();
 				}
 				return true;
@@ -518,7 +521,8 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 						((vt320) buffer).keyPressed(vt320.KEY_DOWN, ' ',
 								getStateForBuffer());
 					}
-					metaState &= ~META_TRANSIENT;
+					if (!fullKeyboard())
+						metaState &= ~META_TRANSIENT;
 					bridge.tryKeyVibrate();
 				}
 				return true;
@@ -535,7 +539,8 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 						((vt320) buffer).keyPressed(vt320.KEY_RIGHT, ' ',
 								getStateForBuffer());
 					}
-					metaState &= ~META_TRANSIENT;
+					if (!fullKeyboard())
+						metaState &= ~META_TRANSIENT;
 					bridge.tryKeyVibrate();
 				}
 				return true;
