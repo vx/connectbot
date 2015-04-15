@@ -186,6 +186,23 @@ public void setScreenSize(int c, int r, boolean broadcast) {
     }
   }
 
+  /**
+   * Populate a key's modifier array with the codes as indicated by the given patterns.
+   */
+  private void fillKeys(String[] keys, String unshifted, String shiftedPattern) {
+    keys[0] = unshifted;
+    for (int i = 1; i < 8; i++) {
+      int n = 0;
+      if ((i & VDUInput.KEY_SHIFT) != 0)
+        n |= 1;
+      if ((i & VDUInput.KEY_ALT) != 0)
+        n |= 2;
+      if ((i & VDUInput.KEY_CONTROL) != 0)
+        n |= 4;
+      n++;
+      keys[i] = shiftedPattern.replace("*", Integer.toString(n));
+    }
+  }
 
   /**
    * Create a new vt320 terminal and intialize it with useful settings.
@@ -220,12 +237,12 @@ public void setScreenSize(int c, int r, boolean broadcast) {
     Escape = new String[8];
     BackSpace = new String[8];
     TabKey = new String[8];
-    Arrays.fill(Insert, "\u001b[2~");
-    Arrays.fill(Remove, "\u001b[3~");
-    Arrays.fill(PrevScn, "\u001b[5~");
-    Arrays.fill(NextScn, "\u001b[6~");
-    Arrays.fill(KeyHome, "\u001b[H");
-    Arrays.fill(KeyEnd, "\u001b[F");
+    fillKeys(Insert, "\u001b[2~", "\u001b[2;*~");
+    fillKeys(Remove, "\u001b[3~", "\u001b[3;*~");
+    fillKeys(PrevScn, "\u001b[5~", "\u001b[5;*~");
+    fillKeys(NextScn, "\u001b[6~", "\u001b[6;*~");
+    fillKeys(KeyHome, "\u001b[H", "\u001b[1;*H");
+    fillKeys(KeyEnd, "\u001b[F", "\u001b[1;*F");
     Arrays.fill(Escape, "\u001b");
     if (vms) {
       Arrays.fill(BackSpace, "\u007f");	//  VMS other is delete
@@ -247,35 +264,31 @@ public void setScreenSize(int c, int r, boolean broadcast) {
     Do = "\u001b[29~";
 
     FunctionKey = new String[21][8];
-    FunctionKey[0][0] = "";
-    FunctionKey[1][0] = PF1;
-    FunctionKey[2][0] = PF2;
-    FunctionKey[3][0] = PF3;
-    FunctionKey[4][0] = PF4;
+    Arrays.fill(FunctionKey[0], "");
+    fillKeys(FunctionKey[1], PF1, "\u001bO*P");
+    fillKeys(FunctionKey[2], PF2, "\u001bO*Q");
+    fillKeys(FunctionKey[3], PF3, "\u001bO*R");
+    fillKeys(FunctionKey[4], PF4, "\u001bO*S");
     /* following are defined differently for vt220 / vt132 ... */
-    FunctionKey[5][0] = "\u001b[15~";
-    FunctionKey[6][0] = "\u001b[17~";
-    FunctionKey[7][0] = "\u001b[18~";
-    FunctionKey[8][0] = "\u001b[19~";
-    FunctionKey[9][0] = "\u001b[20~";
-    FunctionKey[10][0] = "\u001b[21~";
-    FunctionKey[11][0] = "\u001b[23~";
-    FunctionKey[12][0] = "\u001b[24~";
-    FunctionKey[13][0] = "\u001b[25~";
-    FunctionKey[14][0] = "\u001b[26~";
-    FunctionKey[15][0] = Help;
-    FunctionKey[16][0] = Do;
-    FunctionKey[17][0] = "\u001b[31~";
-    FunctionKey[18][0] = "\u001b[32~";
-    FunctionKey[19][0] = "\u001b[33~";
-    FunctionKey[20][0] = "\u001b[34~";
+    fillKeys(FunctionKey[5], "\u001b[15~", "\u001b[15;*~");
+    fillKeys(FunctionKey[6], "\u001b[17~", "\u001b[17;*~");
+    fillKeys(FunctionKey[7], "\u001b[18~", "\u001b[18;*~");
+    fillKeys(FunctionKey[8], "\u001b[19~", "\u001b[19;*~");
+    fillKeys(FunctionKey[9], "\u001b[20~", "\u001b[20;*~");
+    fillKeys(FunctionKey[10], "\u001b[21~", "\u001b[21;*~");
+    fillKeys(FunctionKey[11], "\u001b[23~", "\u001b[23;*~");
+    fillKeys(FunctionKey[12], "\u001b[24~", "\u001b[24;*~");
+    fillKeys(FunctionKey[13], "\u001b[25~", "\u001b[25;*~");
+    fillKeys(FunctionKey[14], "\u001b[26~", "\u001b[26;*~");
+    fillKeys(FunctionKey[15], "\u001b[28~", "\u001b[28;*~");
+    fillKeys(FunctionKey[16], "\u001b[29~", "\u001b[29;*~");
+    fillKeys(FunctionKey[17], "\u001b[31~", "\u001b[31;*~");
+    fillKeys(FunctionKey[18], "\u001b[32~", "\u001b[32;*~");
+    fillKeys(FunctionKey[19], "\u001b[33~", "\u001b[33;*~");
+    fillKeys(FunctionKey[20], "\u001b[34~", "\u001b[34;*~");
 
-    for (int i = 0; i < 20; i++) {
-      for (int j = 1; j < 8; j++) {
-        FunctionKey[i][j] = "";
-      }
+    for (int i = 0; i < 20; i++)
       FunctionKey[i][VDUInput.KEY_SHIFT] = FunctionKey[i % 10 + 10][0];
-    }
     FunctionKey[15][VDUInput.KEY_SHIFT] = Find;
     FunctionKey[16][VDUInput.KEY_SHIFT] = Select;
 
@@ -283,18 +296,10 @@ public void setScreenSize(int c, int r, boolean broadcast) {
     TabKey[0] = "\u0009";
     TabKey[VDUInput.KEY_SHIFT] = "\u001bOP\u0009";
 
-    KeyUp = new String[8];
-    KeyUp[0] = "\u001b[A";
-    KeyUp[VDUInput.KEY_SHIFT] = "\u001bO2A";
-    KeyDown = new String[8];
-    KeyDown[0] = "\u001b[B";
-    KeyDown[VDUInput.KEY_SHIFT] = "\u001bO2B";
-    KeyRight = new String[8];
-    KeyRight[0] = "\u001b[C";
-    KeyRight[VDUInput.KEY_SHIFT] = "\u001bO2C";
-    KeyLeft = new String[8];
-    KeyLeft[0] = "\u001b[D";
-    KeyLeft[VDUInput.KEY_SHIFT] = "\u001bO2D";
+    KeyUp    = new String[8]; fillKeys(KeyUp   , "\u001b[A", "\u001b[1;*A"); KeyUp   [VDUInput.KEY_SHIFT] = "\u001bO2A";
+    KeyDown  = new String[8]; fillKeys(KeyDown , "\u001b[B", "\u001b[1;*B"); KeyDown [VDUInput.KEY_SHIFT] = "\u001bO2B";
+    KeyRight = new String[8]; fillKeys(KeyRight, "\u001b[C", "\u001b[1;*C"); KeyRight[VDUInput.KEY_SHIFT] = "\u001bO2C";
+    KeyLeft  = new String[8]; fillKeys(KeyLeft , "\u001b[D", "\u001b[1;*D"); KeyLeft [VDUInput.KEY_SHIFT] = "\u001bO2D";
     Numpad = new String[10];
     Numpad[0] = "\u001bOp";
     Numpad[1] = "\u001bOq";
