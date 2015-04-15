@@ -246,38 +246,38 @@ public void setScreenSize(int c, int r, boolean broadcast) {
     Help = "\u001b[28~";
     Do = "\u001b[29~";
 
-    FunctionKey = new String[8][21];
+    FunctionKey = new String[21][8];
     FunctionKey[0][0] = "";
-    FunctionKey[0][1] = PF1;
-    FunctionKey[0][2] = PF2;
-    FunctionKey[0][3] = PF3;
-    FunctionKey[0][4] = PF4;
+    FunctionKey[1][0] = PF1;
+    FunctionKey[2][0] = PF2;
+    FunctionKey[3][0] = PF3;
+    FunctionKey[4][0] = PF4;
     /* following are defined differently for vt220 / vt132 ... */
-    FunctionKey[0][5] = "\u001b[15~";
-    FunctionKey[0][6] = "\u001b[17~";
-    FunctionKey[0][7] = "\u001b[18~";
-    FunctionKey[0][8] = "\u001b[19~";
-    FunctionKey[0][9] = "\u001b[20~";
-    FunctionKey[0][10] = "\u001b[21~";
-    FunctionKey[0][11] = "\u001b[23~";
-    FunctionKey[0][12] = "\u001b[24~";
-    FunctionKey[0][13] = "\u001b[25~";
-    FunctionKey[0][14] = "\u001b[26~";
-    FunctionKey[0][15] = Help;
-    FunctionKey[0][16] = Do;
-    FunctionKey[0][17] = "\u001b[31~";
-    FunctionKey[0][18] = "\u001b[32~";
-    FunctionKey[0][19] = "\u001b[33~";
-    FunctionKey[0][20] = "\u001b[34~";
+    FunctionKey[5][0] = "\u001b[15~";
+    FunctionKey[6][0] = "\u001b[17~";
+    FunctionKey[7][0] = "\u001b[18~";
+    FunctionKey[8][0] = "\u001b[19~";
+    FunctionKey[9][0] = "\u001b[20~";
+    FunctionKey[10][0] = "\u001b[21~";
+    FunctionKey[11][0] = "\u001b[23~";
+    FunctionKey[12][0] = "\u001b[24~";
+    FunctionKey[13][0] = "\u001b[25~";
+    FunctionKey[14][0] = "\u001b[26~";
+    FunctionKey[15][0] = Help;
+    FunctionKey[16][0] = Do;
+    FunctionKey[17][0] = "\u001b[31~";
+    FunctionKey[18][0] = "\u001b[32~";
+    FunctionKey[19][0] = "\u001b[33~";
+    FunctionKey[20][0] = "\u001b[34~";
 
     for (int i = 0; i < 20; i++) {
       for (int j = 1; j < 8; j++) {
-        FunctionKey[j][i] = "";
+        FunctionKey[i][j] = "";
       }
-      FunctionKey[VDUInput.KEY_SHIFT][i] = FunctionKey[0][i % 10 + 10];
+      FunctionKey[i][VDUInput.KEY_SHIFT] = FunctionKey[i % 10 + 10][0];
     }
-    FunctionKey[VDUInput.KEY_SHIFT][15] = Find;
-    FunctionKey[VDUInput.KEY_SHIFT][16] = Select;
+    FunctionKey[15][VDUInput.KEY_SHIFT] = Find;
+    FunctionKey[16][VDUInput.KEY_SHIFT] = Select;
 
     Arrays.fill(TabKey, "");
     TabKey[0] = "\u0009";
@@ -484,7 +484,7 @@ public void setScreenSize(int c, int r, boolean broadcast) {
 
       for (f = 1; f <= 20; f++) {
         res = codes.getProperty(prefixes[i] + "F" + f);
-        if (res != null) FunctionKey[i][f] = unEscape(res);
+        if (res != null) FunctionKey[f][i] = unEscape(res);
       }
     }
   }
@@ -497,16 +497,16 @@ public void setScreenSize(int c, int r, boolean broadcast) {
     this.terminalID = terminalID;
 
     if (terminalID.equals("scoansi")) {
-      FunctionKey[0][1] = "\u001b[M";  FunctionKey[0][2] = "\u001b[N";
-      FunctionKey[0][3] = "\u001b[O";  FunctionKey[0][4] = "\u001b[P";
-      FunctionKey[0][5] = "\u001b[Q";  FunctionKey[0][6] = "\u001b[R";
-      FunctionKey[0][7] = "\u001b[S";  FunctionKey[0][8] = "\u001b[T";
-      FunctionKey[0][9] = "\u001b[U";  FunctionKey[0][10] = "\u001b[V";
-      FunctionKey[0][11] = "\u001b[W"; FunctionKey[0][12] = "\u001b[X";
-      FunctionKey[0][13] = "\u001b[Y"; FunctionKey[0][14] = "?";
-      FunctionKey[0][15] = "\u001b[a"; FunctionKey[0][16] = "\u001b[b";
-      FunctionKey[0][17] = "\u001b[c"; FunctionKey[0][18] = "\u001b[d";
-      FunctionKey[0][19] = "\u001b[e"; FunctionKey[0][20] = "\u001b[f";
+      FunctionKey[1][0] = "\u001b[M";  FunctionKey[2][0] = "\u001b[N";
+      FunctionKey[3][0] = "\u001b[O";  FunctionKey[4][0] = "\u001b[P";
+      FunctionKey[5][0] = "\u001b[Q";  FunctionKey[6][0] = "\u001b[R";
+      FunctionKey[7][0] = "\u001b[S";  FunctionKey[8][0] = "\u001b[T";
+      FunctionKey[9][0] = "\u001b[U";  FunctionKey[10][0] = "\u001b[V";
+      FunctionKey[11][0] = "\u001b[W"; FunctionKey[12][0] = "\u001b[X";
+      FunctionKey[13][0] = "\u001b[Y"; FunctionKey[14][0] = "?";
+      FunctionKey[15][0] = "\u001b[a"; FunctionKey[16][0] = "\u001b[b";
+      FunctionKey[17][0] = "\u001b[c"; FunctionKey[18][0] = "\u001b[d";
+      FunctionKey[19][0] = "\u001b[e"; FunctionKey[20][0] = "\u001b[f";
       Arrays.fill(PrevScn, "\u001b[I");
       Arrays.fill(NextScn, "\u001b[G");
       // more theoretically.
@@ -880,40 +880,40 @@ public void setScreenSize(int c, int r, boolean broadcast) {
           sendTelnetCommand((byte) 243); // BREAK
         break;
       case KEY_F1:
-        writeSpecial(FunctionKey[xind][1]);
+        writeSpecial(FunctionKey[1][xind]);
         break;
       case KEY_F2:
-        writeSpecial(FunctionKey[xind][2]);
+        writeSpecial(FunctionKey[2][xind]);
         break;
       case KEY_F3:
-        writeSpecial(FunctionKey[xind][3]);
+        writeSpecial(FunctionKey[3][xind]);
         break;
       case KEY_F4:
-        writeSpecial(FunctionKey[xind][4]);
+        writeSpecial(FunctionKey[4][xind]);
         break;
       case KEY_F5:
-        writeSpecial(FunctionKey[xind][5]);
+        writeSpecial(FunctionKey[5][xind]);
         break;
       case KEY_F6:
-        writeSpecial(FunctionKey[xind][6]);
+        writeSpecial(FunctionKey[6][xind]);
         break;
       case KEY_F7:
-        writeSpecial(FunctionKey[xind][7]);
+        writeSpecial(FunctionKey[7][xind]);
         break;
       case KEY_F8:
-        writeSpecial(FunctionKey[xind][8]);
+        writeSpecial(FunctionKey[8][xind]);
         break;
       case KEY_F9:
-        writeSpecial(FunctionKey[xind][9]);
+        writeSpecial(FunctionKey[9][xind]);
         break;
       case KEY_F10:
-        writeSpecial(FunctionKey[xind][10]);
+        writeSpecial(FunctionKey[10][xind]);
         break;
       case KEY_F11:
-        writeSpecial(FunctionKey[xind][11]);
+        writeSpecial(FunctionKey[11][xind]);
         break;
       case KEY_F12:
-        writeSpecial(FunctionKey[xind][12]);
+        writeSpecial(FunctionKey[12][xind]);
         break;
       case KEY_UP:
         writeSpecial(KeyUp[xind]);
