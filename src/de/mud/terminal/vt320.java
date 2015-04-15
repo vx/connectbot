@@ -288,12 +288,16 @@ public void setScreenSize(int c, int r, boolean broadcast) {
 
     KeyUp = new String[4];
     KeyUp[0] = "\u001b[A";
+    KeyUp[1] = "\u001bO2A";
     KeyDown = new String[4];
     KeyDown[0] = "\u001b[B";
+    KeyDown[1] = "\u001bO2B";
     KeyRight = new String[4];
     KeyRight[0] = "\u001b[C";
+    KeyRight[1] = "\u001bO2C";
     KeyLeft = new String[4];
     KeyLeft[0] = "\u001b[D";
+    KeyLeft[1] = "\u001bO2D";
     Numpad = new String[10];
     Numpad[0] = "\u001bOp";
     Numpad[1] = "\u001bOq";
