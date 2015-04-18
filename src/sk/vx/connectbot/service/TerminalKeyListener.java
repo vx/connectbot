@@ -786,11 +786,11 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 		int bufferState = 0;
 
 		if ((metaState & META_CTRL_MASK) != 0)
-			bufferState |= VDUInput.KEY_CONTROL;
+			bufferState |= VDUInput.MOD_CONTROL;
 		if ((metaState & META_SHIFT_MASK) != 0)
-			bufferState |= VDUInput.KEY_SHIFT;
+			bufferState |= VDUInput.MOD_SHIFT;
 		if ((metaState & META_ALT_MASK) != 0)
-			bufferState |= VDUInput.KEY_ALT;
+			bufferState |= VDUInput.MOD_ALT;
 
 		return bufferState;
 	}
