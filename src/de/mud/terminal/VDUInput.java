@@ -34,12 +34,15 @@ import java.util.Properties;
  */
 public interface VDUInput {
 
+  public final static int MOD_NONE = 0;
   public final static int MOD_CONTROL = 0x01;
   public final static int MOD_SHIFT = 0x02;
   public final static int MOD_ALT = 0x04;
-  public final static int MOD_ACTION = 0x08;
 
+  public final static int MOD_MASK = 0x07; // All bitfield combinations
+  public final static int MOD_MAX = 0x08;
 
+  public final static int MOD_ACTION = 0x08; // Numpad
 
   /**
    * Direct access to writing data ...
