@@ -283,8 +283,8 @@ public void setScreenSize(int c, int r, boolean broadcast) {
     fillKeys(FunctionKey[19], "\u001b[33~", "\u001b[33;*~");
     fillKeys(FunctionKey[20], "\u001b[34~", "\u001b[34;*~");
 
-    for (int i = 0; i < 20; i++)
-      FunctionKey[i][VDUInput.KEY_SHIFT] = FunctionKey[i % 10 + 10][0];
+    //for (int i = 0; i < 20; i++)
+    //  FunctionKey[i][VDUInput.KEY_SHIFT] = FunctionKey[i % 10 + 10][0];
     FunctionKey[15][VDUInput.KEY_SHIFT] = Find;
     FunctionKey[16][VDUInput.KEY_SHIFT] = Select;
 
