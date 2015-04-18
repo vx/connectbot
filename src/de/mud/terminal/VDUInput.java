@@ -38,11 +38,12 @@ public interface VDUInput {
   public final static int MOD_CONTROL = 0x01;
   public final static int MOD_SHIFT = 0x02;
   public final static int MOD_ALT = 0x04;
+  public final static int MOD_SUPER = 0x08; // Windows key
 
-  public final static int MOD_MASK = 0x07; // All bitfield combinations
-  public final static int MOD_MAX = 0x08;
+  public final static int MOD_MASK = 0x0F; // All bitfield combinations
+  public final static int MOD_MAX = 0x10;
 
-  public final static int MOD_ACTION = 0x08; // Numpad
+  public final static int MOD_ACTION = 0x10; // Numpad
 
   /**
    * Direct access to writing data ...

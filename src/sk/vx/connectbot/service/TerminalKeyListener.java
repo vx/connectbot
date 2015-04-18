@@ -65,6 +65,7 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 	public final static int META_SHIFT_LOCK = 0x20;
 	public final static int META_SLASH = 0x40;
 	public final static int META_TAB = 0x80;
+	public final static int META_WIN = 0x100;
 
 	// The bit mask of momentary and lock states for each
 	public final static int META_CTRL_MASK = META_CTRL_ON | META_CTRL_LOCK;
@@ -170,6 +171,10 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 					case KeyEvent.KEYCODE_SHIFT_LEFT:
 					case KeyEvent.KEYCODE_SHIFT_RIGHT:
 						metaKeyUp(META_SHIFT_ON);
+						return true;
+					case KeyEvent.KEYCODE_META_LEFT:
+					case KeyEvent.KEYCODE_META_RIGHT:
+						metaKeyUp(META_WIN);
 						return true;
 					default:
 					}
@@ -791,6 +796,8 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 			bufferState |= VDUInput.MOD_SHIFT;
 		if ((metaState & META_ALT_MASK) != 0)
 			bufferState |= VDUInput.MOD_ALT;
+		if ((metaState & META_WIN) != 0)
+			bufferState |= VDUInput.MOD_SUPER;
 
 		return bufferState;
 	}
@@ -882,6 +889,10 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 			case KeyEvent.KEYCODE_SHIFT_LEFT:
 			case KeyEvent.KEYCODE_SHIFT_RIGHT:
 				metaKeyDown(META_SHIFT_ON);
+				return true;
+			case KeyEvent.KEYCODE_META_LEFT:
+			case KeyEvent.KEYCODE_META_RIGHT:
+				metaKeyDown(META_WIN);
 				return true;
 			case KeyEvent.KEYCODE_BACK:
 				if (customKeyboard.equals(PreferenceConstants.CUSTOM_KEYMAP_ASUS_TF)
