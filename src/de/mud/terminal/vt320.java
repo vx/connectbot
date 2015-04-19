@@ -414,6 +414,30 @@ public void setScreenSize(int c, int r, boolean broadcast) {
   }
 
 
+  /**
+   * As above for moving the mouse while a mouse button is held down.
+   * @param x
+   * @param y
+   * @param modifiers
+   */
+  public void mouseMoved(int x, int y, int modifiers) {
+    if (mouserpt < 1002)
+      return;
+
+    int mousecode = 0x40 + mousebut;	/* same as press? appears so. */
+
+    byte b[] = new byte[6];
+    b[0] = 27;
+    b[1] = (byte) '[';
+    b[2] = (byte) 'M';
+    b[3] = (byte) mousecode;
+    b[4] = (byte) (0x20 + x + 1);
+    b[5] = (byte) (0x20 + y + 1);
+    //debug(String.format("vt320: Sending mouse move event with code %d", mousecode));
+    write(b); // FIXME: writeSpecial here
+  }
+
+
   /** we should do localecho (passed from other modules). false is default */
   private boolean localecho = false;
 

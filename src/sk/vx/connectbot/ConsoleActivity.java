@@ -778,6 +778,8 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 	}
 
 	private int oldMouseButtons = 0;
+	private int oldMouseX = -1;
+	private int oldMouseY = -1;
 
 	private int translateModifiers(int metaState, int buttonState) {
 		int mods = 0;
@@ -809,18 +811,31 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 				final int buttons = event.getButtonState();
 				final int pressedButtons  = buttons & ~oldMouseButtons;
 				final int releasedButtons = oldMouseButtons & ~buttons;
-				oldMouseButtons = buttons;
 				final int meta = event.getMetaState();
+				boolean handled = false;
+
+				//Log.d(TAG, String.format("handleMouseEvent: x=%d y=%d buttons=%d pressed=%d released=%d meta=%d",
+				//	x, y, buttons, pressedButtons, releasedButtons, meta));
 
 				if (releasedButtons != 0) {
 					int modifiers = translateModifiers(meta, releasedButtons);
 					((vt320)terminal.bridge.buffer).mouseReleased(x, y, modifiers);
+					handled = true;
 				}
 				if (pressedButtons != 0) {
 					int modifiers = translateModifiers(meta, pressedButtons);
 					((vt320)terminal.bridge.buffer).mousePressed(x, y, modifiers);
+					handled = true;
 				}
-				if (pressedButtons != 0 || releasedButtons != 0)
+				if (!handled && buttons != 0 && (oldMouseX != x || oldMouseY != y)) {
+					int modifiers = translateModifiers(meta, buttons);
+					((vt320)terminal.bridge.buffer).mouseMoved(x, y, modifiers);
+					handled = true;
+				}
+				oldMouseButtons = buttons;
+				oldMouseX = x;
+				oldMouseY = y;
+				if (handled)
 					return true;
 			}
 		}
