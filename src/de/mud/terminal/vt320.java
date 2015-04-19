@@ -354,15 +354,15 @@ public void setScreenSize(int c, int r, boolean broadcast) {
 
     int mods = modifiers;
     mousebut = 3;
-    if ((mods & 16) == 16) mousebut = 0;
-    if ((mods & 8) == 8) mousebut = 1;
-    if ((mods & 4) == 4) mousebut = 2;
+    if ((mods & VDUInput.MOD_MOUSE_1) == VDUInput.MOD_MOUSE_1) mousebut = 0;
+    if ((mods & VDUInput.MOD_MOUSE_2) == VDUInput.MOD_MOUSE_2) mousebut = 1;
+    if ((mods & VDUInput.MOD_MOUSE_3) == VDUInput.MOD_MOUSE_3) mousebut = 2;
 
     int mousecode;
     if (mouserpt == 9)	/* X10 Mouse */
-      mousecode = 0x20 | mousebut;
+      mousecode = 0x20 + mousebut;
     else			/* normal xterm mouse reporting */
-      mousecode = mousebut | 0x20 | ((mods & 7) << 2);
+      mousecode = 0x20 + mousebut + ((mods & 7) << 2); // SHIFT|META|CONTROL
 
     byte b[] = new byte[6];
 
@@ -372,7 +372,7 @@ public void setScreenSize(int c, int r, boolean broadcast) {
     b[3] = (byte) mousecode;
     b[4] = (byte) (0x20 + x + 1);
     b[5] = (byte) (0x20 + y + 1);
-
+    //debug(String.format("vt320: Sending mouse down event with code %d", mousecode));
     write(b); // FIXME: writeSpecial here
   }
 
@@ -399,7 +399,7 @@ public void setScreenSize(int c, int r, boolean broadcast) {
     if (mouserpt == 9)
       mousecode = 0x20 + mousebut;	/* same as press? appears so. */
     else
-      mousecode = '#';
+      mousecode = 0x20 + 3;
 
     byte b[] = new byte[6];
     b[0] = 27;
@@ -408,6 +408,7 @@ public void setScreenSize(int c, int r, boolean broadcast) {
     b[3] = (byte) mousecode;
     b[4] = (byte) (0x20 + x + 1);
     b[5] = (byte) (0x20 + y + 1);
+    //debug(String.format("vt320: Sending mouse up event with code %d", mousecode));
     write(b); // FIXME: writeSpecial here
     mousebut = 0;
   }

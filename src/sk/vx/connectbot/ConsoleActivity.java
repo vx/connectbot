@@ -63,6 +63,7 @@ import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnGenericMotionListener;
 import android.view.View.OnKeyListener;
 import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
@@ -79,6 +80,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 import de.mud.terminal.vt320;
+import de.mud.terminal.VDUInput;
 
 public class ConsoleActivity extends Activity implements FileChooserCallback {
 	public final static String TAG = "ConnectBot.ConsoleActivity";
@@ -670,6 +672,7 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 		flip.setOnTouchListener(new OnTouchListener() {
 
 			public boolean onTouch(View v, MotionEvent event) {
+				//Log.d(TAG, String.format("onTouch(%f, %f, %d, %d)", event.getX(), event.getY(), event.getAction(), event.getButtonState()));
 
 				// when copying, highlight the area
 				if (copySource != null && copySource.isSelectingForCopy()) {
@@ -731,7 +734,8 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 					}
 				}
 
-				Configuration config = getResources().getConfiguration();
+				if (handleMouseEvent(event))
+					return true;
 
 				if (event.getAction() == MotionEvent.ACTION_DOWN) {
 					lastX = event.getX();
@@ -764,6 +768,63 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 
 		});
 
+		flip.setOnGenericMotionListener(new OnGenericMotionListener() {
+			public boolean onGenericMotion(View v, MotionEvent event) {
+				Configuration config = getResources().getConfiguration();
+				//Log.d(TAG, String.format("onGenericMotion(%f, %f, %d, %d)", event.getX(), event.getY(), event.getAction(), event.getButtonState()));
+				return handleMouseEvent(event);
+			}
+		});
+	}
+
+	private int oldMouseButtons = 0;
+
+	private int translateModifiers(int metaState, int buttonState) {
+		int mods = 0;
+		if ((buttonState & MotionEvent.BUTTON_PRIMARY) != 0)
+			mods |= VDUInput.MOD_MOUSE_1; // leftmost
+		if ((buttonState & MotionEvent.BUTTON_SECONDARY) != 0)
+			mods |= VDUInput.MOD_MOUSE_3; // rightmost
+		if ((buttonState & MotionEvent.BUTTON_TERTIARY) != 0)
+			mods |= VDUInput.MOD_MOUSE_2; // middle
+		if ((metaState & KeyEvent.META_SHIFT_ON) != 0)
+			mods |= VDUInput.MOD_SHIFT;
+		if ((metaState & KeyEvent.META_CTRL_ON) != 0)
+			mods |= VDUInput.MOD_CONTROL;
+		if ((metaState & KeyEvent.META_ALT_ON) != 0)
+			mods |= VDUInput.MOD_ALT;
+		if ((metaState & KeyEvent.META_META_ON) != 0)
+			mods |= VDUInput.MOD_SUPER;
+		return mods;
+	}
+
+	private boolean handleMouseEvent(MotionEvent event) {
+		Configuration config = getResources().getConfiguration();
+		if (/*config.enableMouse || */event.getDeviceId() > 0) {
+			View flip = findCurrentView(R.id.console_flip);
+			if (flip != null) {
+				final TerminalView terminal = (TerminalView)flip;
+				final int x = (int)(event.getX() / terminal.bridge.charWidth);
+				final int y = (int)(event.getY() / terminal.bridge.charHeight);
+				final int buttons = event.getButtonState();
+				final int pressedButtons  = buttons & ~oldMouseButtons;
+				final int releasedButtons = oldMouseButtons & ~buttons;
+				oldMouseButtons = buttons;
+				final int meta = event.getMetaState();
+
+				if (releasedButtons != 0) {
+					int modifiers = translateModifiers(meta, releasedButtons);
+					((vt320)terminal.bridge.buffer).mouseReleased(x, y, modifiers);
+				}
+				if (pressedButtons != 0) {
+					int modifiers = translateModifiers(meta, pressedButtons);
+					((vt320)terminal.bridge.buffer).mousePressed(x, y, modifiers);
+				}
+				if (pressedButtons != 0 || releasedButtons != 0)
+					return true;
+			}
+		}
+		return false;
 	}
 
 	/**

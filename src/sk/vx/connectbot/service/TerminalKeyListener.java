@@ -35,6 +35,7 @@ import android.preference.PreferenceManager;
 import android.text.ClipboardManager;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.InputDevice;
 import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
 import android.view.View;
@@ -895,12 +896,16 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 				metaKeyDown(META_WIN);
 				return true;
 			case KeyEvent.KEYCODE_BACK:
-				if (customKeyboard.equals(PreferenceConstants.CUSTOM_KEYMAP_ASUS_TF)
-				 || customKeyboard.equals(PreferenceConstants.CUSTOM_KEYMAP_FULL)) {
-					// Check to see whether this is the back button on the
-					// screen (-1) or the Asus Transformer Keyboard Dock.
-					// Treat the HW button as ESC.
-					if (event.getDeviceId() > 0) {
+				if (event.getDeviceId() > 0) {
+					// Handle right clicks (Android sends right clicks as Esc buttons)
+					if (event.getSource() == InputDevice.SOURCE_MOUSE) {
+						return true;
+					}
+					if (customKeyboard.equals(PreferenceConstants.CUSTOM_KEYMAP_ASUS_TF)
+					 || customKeyboard.equals(PreferenceConstants.CUSTOM_KEYMAP_FULL)) {
+						// Check to see whether this is the back button on the
+						// screen (-1) or the Asus Transformer Keyboard Dock.
+						// Treat the HW button as ESC.
 						sendEscape();
 						return true;
 					}
