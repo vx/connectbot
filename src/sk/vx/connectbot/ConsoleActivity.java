@@ -55,6 +55,7 @@ import android.text.method.SingleLineTransformationMethod;
 import android.util.FloatMath;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.InputDevice;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -512,6 +513,8 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 
 			@Override
 			public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+				if (e1==null || e2==null)
+					return false;
 
 				final float distx = e2.getRawX() - e1.getRawX();
 				final float disty = e2.getRawY() - e1.getRawY();
@@ -802,7 +805,7 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 
 	private boolean handleMouseEvent(MotionEvent event) {
 		Configuration config = getResources().getConfiguration();
-		if (/*config.enableMouse || */event.getDeviceId() > 0) {
+		if (/*config.enableMouse || */event.getSource() == InputDevice.SOURCE_MOUSE) {
 			View flip = findCurrentView(R.id.console_flip);
 			if (flip != null) {
 				final TerminalView terminal = (TerminalView)flip;
