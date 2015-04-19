@@ -415,13 +415,18 @@ public void setScreenSize(int c, int r, boolean broadcast) {
 
 
   /**
-   * As above for moving the mouse while a mouse button is held down.
+   * As above, for mouse movement events.
    * @param x
    * @param y
    * @param modifiers
    */
   public void mouseMoved(int x, int y, int modifiers) {
     if (mouserpt < 1002)
+      return;
+
+    // 1002 is button-event tracking - only track while a button is down.
+    // 1003 is any-event tracking - send move events always.
+    if (mouserpt == 1002 && (modifiers & VDUInput.MOD_MOUSE_MASK) == 0)
       return;
 
     int mousecode = 0x40 + mousebut;	/* same as press? appears so. */

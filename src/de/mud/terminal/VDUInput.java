@@ -48,6 +48,7 @@ public interface VDUInput {
   public final static int MOD_MOUSE_1 = 0x10;
   public final static int MOD_MOUSE_2 = 0x20;
   public final static int MOD_MOUSE_3 = 0x40;
+  public final static int MOD_MOUSE_MASK = 0x70;
 
   /**
    * Direct access to writing data ...

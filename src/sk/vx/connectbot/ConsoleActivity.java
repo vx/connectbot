@@ -827,7 +827,7 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 					((vt320)terminal.bridge.buffer).mousePressed(x, y, modifiers);
 					handled = true;
 				}
-				if (!handled && buttons != 0 && (oldMouseX != x || oldMouseY != y)) {
+				if (!handled && (oldMouseX != x || oldMouseY != y)) {
 					int modifiers = translateModifiers(meta, buttons);
 					((vt320)terminal.bridge.buffer).mouseMoved(x, y, modifiers);
 					handled = true;
