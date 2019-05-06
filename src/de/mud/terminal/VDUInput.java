@@ -34,12 +34,21 @@ import java.util.Properties;
  */
 public interface VDUInput {
 
-  public final static int KEY_CONTROL = 0x01;
-  public final static int KEY_SHIFT = 0x02;
-  public final static int KEY_ALT = 0x04;
-  public final static int KEY_ACTION = 0x08;
+  public final static int MOD_NONE = 0;
+  public final static int MOD_CONTROL = 0x01;
+  public final static int MOD_SHIFT = 0x02;
+  public final static int MOD_ALT = 0x04;
+  public final static int MOD_SUPER = 0x08; // Windows key
 
+  public final static int MOD_MASK = 0x0F; // All bitfield combinations
+  public final static int MOD_MAX = 0x10;
 
+  public final static int MOD_ACTION = 0x10; // Numpad
+
+  public final static int MOD_MOUSE_1 = 0x10;
+  public final static int MOD_MOUSE_2 = 0x20;
+  public final static int MOD_MOUSE_3 = 0x40;
+  public final static int MOD_MOUSE_MASK = 0x70;
 
   /**
    * Direct access to writing data ...

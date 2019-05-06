@@ -55,6 +55,7 @@ import android.text.method.SingleLineTransformationMethod;
 import android.util.FloatMath;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.InputDevice;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -63,6 +64,7 @@ import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnGenericMotionListener;
 import android.view.View.OnKeyListener;
 import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
@@ -79,6 +81,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 import de.mud.terminal.vt320;
+import de.mud.terminal.VDUInput;
 
 public class ConsoleActivity extends Activity implements FileChooserCallback {
 	public final static String TAG = "ConnectBot.ConsoleActivity";
@@ -510,6 +513,8 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 
 			@Override
 			public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+				if (e1==null || e2==null)
+					return false;
 
 				final float distx = e2.getRawX() - e1.getRawX();
 				final float disty = e2.getRawY() - e1.getRawY();
@@ -670,6 +675,7 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 		flip.setOnTouchListener(new OnTouchListener() {
 
 			public boolean onTouch(View v, MotionEvent event) {
+				//Log.d(TAG, String.format("onTouch(%f, %f, %d, %d)", event.getX(), event.getY(), event.getAction(), event.getButtonState()));
 
 				// when copying, highlight the area
 				if (copySource != null && copySource.isSelectingForCopy()) {
@@ -731,7 +737,8 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 					}
 				}
 
-				Configuration config = getResources().getConfiguration();
+				if (handleMouseEvent(event))
+					return true;
 
 				if (event.getAction() == MotionEvent.ACTION_DOWN) {
 					lastX = event.getX();
@@ -764,6 +771,78 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 
 		});
 
+		flip.setOnGenericMotionListener(new OnGenericMotionListener() {
+			public boolean onGenericMotion(View v, MotionEvent event) {
+				Configuration config = getResources().getConfiguration();
+				//Log.d(TAG, String.format("onGenericMotion(%f, %f, %d, %d)", event.getX(), event.getY(), event.getAction(), event.getButtonState()));
+				return handleMouseEvent(event);
+			}
+		});
+	}
+
+	private int oldMouseButtons = 0;
+	private int oldMouseX = -1;
+	private int oldMouseY = -1;
+
+	private int translateModifiers(int metaState, int buttonState) {
+		int mods = 0;
+		if ((buttonState & MotionEvent.BUTTON_PRIMARY) != 0)
+			mods |= VDUInput.MOD_MOUSE_1; // leftmost
+		if ((buttonState & MotionEvent.BUTTON_SECONDARY) != 0)
+			mods |= VDUInput.MOD_MOUSE_3; // rightmost
+		if ((buttonState & MotionEvent.BUTTON_TERTIARY) != 0)
+			mods |= VDUInput.MOD_MOUSE_2; // middle
+		if ((metaState & KeyEvent.META_SHIFT_ON) != 0)
+			mods |= VDUInput.MOD_SHIFT;
+		if ((metaState & KeyEvent.META_CTRL_ON) != 0)
+			mods |= VDUInput.MOD_CONTROL;
+		if ((metaState & KeyEvent.META_ALT_ON) != 0)
+			mods |= VDUInput.MOD_ALT;
+		if ((metaState & KeyEvent.META_META_ON) != 0)
+			mods |= VDUInput.MOD_SUPER;
+		return mods;
+	}
+
+	private boolean handleMouseEvent(MotionEvent event) {
+		Configuration config = getResources().getConfiguration();
+		if (/*config.enableMouse || */event.getSource() == InputDevice.SOURCE_MOUSE) {
+			View flip = findCurrentView(R.id.console_flip);
+			if (flip != null) {
+				final TerminalView terminal = (TerminalView)flip;
+				final int x = (int)(event.getX() / terminal.bridge.charWidth);
+				final int y = (int)(event.getY() / terminal.bridge.charHeight);
+				final int buttons = event.getButtonState();
+				final int pressedButtons  = buttons & ~oldMouseButtons;
+				final int releasedButtons = oldMouseButtons & ~buttons;
+				final int meta = event.getMetaState();
+				boolean handled = false;
+
+				//Log.d(TAG, String.format("handleMouseEvent: x=%d y=%d buttons=%d pressed=%d released=%d meta=%d",
+				//	x, y, buttons, pressedButtons, releasedButtons, meta));
+
+				if (releasedButtons != 0) {
+					int modifiers = translateModifiers(meta, releasedButtons);
+					((vt320)terminal.bridge.buffer).mouseReleased(x, y, modifiers);
+					handled = true;
+				}
+				if (pressedButtons != 0) {
+					int modifiers = translateModifiers(meta, pressedButtons);
+					((vt320)terminal.bridge.buffer).mousePressed(x, y, modifiers);
+					handled = true;
+				}
+				if (!handled && (oldMouseX != x || oldMouseY != y)) {
+					int modifiers = translateModifiers(meta, buttons);
+					((vt320)terminal.bridge.buffer).mouseMoved(x, y, modifiers);
+					handled = true;
+				}
+				oldMouseButtons = buttons;
+				oldMouseX = x;
+				oldMouseY = y;
+				if (handled)
+					return true;
+			}
+		}
+		return false;
 	}
 
 	/**

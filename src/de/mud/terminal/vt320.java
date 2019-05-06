@@ -27,6 +27,7 @@ package de.mud.terminal;
 
 import android.text.AndroidCharacter;
 
+import java.util.Arrays;
 import java.util.Properties;
 
 /**
@@ -185,6 +186,23 @@ public void setScreenSize(int c, int r, boolean broadcast) {
     }
   }
 
+  /**
+   * Populate a key's modifier array with the codes as indicated by the given patterns.
+   */
+  private void fillKeys(String[] keys, String unshifted, String shiftedPattern) {
+    keys[0] = unshifted;
+    for (int i = 1; i < VDUInput.MOD_MAX; i++) {
+      int n = 0;
+      if ((i & VDUInput.MOD_SHIFT) != 0)
+        n |= 1;
+      if ((i & VDUInput.MOD_ALT) != 0)
+        n |= 2;
+      if ((i & VDUInput.MOD_CONTROL) != 0)
+        n |= 4;
+      n++;
+      keys[i] = shiftedPattern.replace("*", Integer.toString(n));
+    }
+  }
 
   /**
    * Create a new vt320 terminal and intialize it with useful settings.
@@ -210,33 +228,29 @@ public void setScreenSize(int c, int r, boolean broadcast) {
     PF4 = "\u001bOS";
 
     /* the 3x2 keyblock on PC keyboards */
-    Insert = new String[4];
-    Remove = new String[4];
-    KeyHome = new String[4];
-    KeyEnd = new String[4];
-    NextScn = new String[4];
-    PrevScn = new String[4];
-    Escape = new String[4];
-    BackSpace = new String[4];
-    TabKey = new String[4];
-    Insert[0] = Insert[1] = Insert[2] = Insert[3] = "\u001b[2~";
-    Remove[0] = Remove[1] = Remove[2] = Remove[3] = "\u001b[3~";
-    PrevScn[0] = PrevScn[1] = PrevScn[2] = PrevScn[3] = "\u001b[5~";
-    NextScn[0] = NextScn[1] = NextScn[2] = NextScn[3] = "\u001b[6~";
-    KeyHome[0] = KeyHome[1] = KeyHome[2] = KeyHome[3] = "\u001b[H";
-    KeyEnd[0] = KeyEnd[1] = KeyEnd[2] = KeyEnd[3] = "\u001b[F";
-    Escape[0] = Escape[1] = Escape[2] = Escape[3] = "\u001b";
+    Insert = new String[VDUInput.MOD_MAX];
+    Remove = new String[VDUInput.MOD_MAX];
+    NextScn = new String[VDUInput.MOD_MAX];
+    PrevScn = new String[VDUInput.MOD_MAX];
+    Escape = new String[VDUInput.MOD_MAX];
+    BackSpace = new String[VDUInput.MOD_MAX];
+    TabKey = new String[VDUInput.MOD_MAX];
+    fillKeys(Insert, "\u001b[2~", "\u001b[2;*~");
+    fillKeys(Remove, "\u001b[3~", "\u001b[3;*~");
+    fillKeys(PrevScn, "\u001b[5~", "\u001b[5;*~");
+    fillKeys(NextScn, "\u001b[6~", "\u001b[6;*~");
+    Arrays.fill(Escape, "\u001b");
     if (vms) {
-      BackSpace[1] = "" + (char) 10;	//  VMS shift deletes word back
-      BackSpace[2] = "\u0018";	//  VMS control deletes line back
-      BackSpace[0] = BackSpace[3] = "\u007f";	//  VMS other is delete
+      Arrays.fill(BackSpace, "\u007f");	//  VMS other is delete
+      BackSpace[VDUInput.MOD_SHIFT  ] = "" + (char) 10;	//  VMS shift deletes word back
+      BackSpace[VDUInput.MOD_CONTROL] = "\u0018";	//  VMS control deletes line back
     } else {
-      //BackSpace[0] = BackSpace[1] = BackSpace[2] = BackSpace[3] = "\b";
+      Arrays.fill(BackSpace, "\b");
       // ConnectBot modifications.
-      BackSpace[0] = "\b";
-      BackSpace[1] = "\u007f";
-      BackSpace[2] = "\u001b[3~";
-      BackSpace[3] = "\u001b[2~";
+      BackSpace[VDUInput.MOD_NONE   ] = "\b";
+      BackSpace[VDUInput.MOD_SHIFT  ] = "\u007f";
+      BackSpace[VDUInput.MOD_CONTROL] = "\u001b[3~";
+      BackSpace[VDUInput.MOD_ALT    ] = "\u001b[2~";
     }
 
     /* some more VT100 keys */
@@ -245,55 +259,46 @@ public void setScreenSize(int c, int r, boolean broadcast) {
     Help = "\u001b[28~";
     Do = "\u001b[29~";
 
-    FunctionKey = new String[21];
-    FunctionKey[0] = "";
-    FunctionKey[1] = PF1;
-    FunctionKey[2] = PF2;
-    FunctionKey[3] = PF3;
-    FunctionKey[4] = PF4;
+    FunctionKey = new String[21][VDUInput.MOD_MAX];
+    Arrays.fill(FunctionKey[0], "");
+    fillKeys(FunctionKey[1], PF1, "\u001bO*P");
+    fillKeys(FunctionKey[2], PF2, "\u001bO*Q");
+    fillKeys(FunctionKey[3], PF3, "\u001bO*R");
+    fillKeys(FunctionKey[4], PF4, "\u001bO*S");
     /* following are defined differently for vt220 / vt132 ... */
-    FunctionKey[5] = "\u001b[15~";
-    FunctionKey[6] = "\u001b[17~";
-    FunctionKey[7] = "\u001b[18~";
-    FunctionKey[8] = "\u001b[19~";
-    FunctionKey[9] = "\u001b[20~";
-    FunctionKey[10] = "\u001b[21~";
-    FunctionKey[11] = "\u001b[23~";
-    FunctionKey[12] = "\u001b[24~";
-    FunctionKey[13] = "\u001b[25~";
-    FunctionKey[14] = "\u001b[26~";
-    FunctionKey[15] = Help;
-    FunctionKey[16] = Do;
-    FunctionKey[17] = "\u001b[31~";
-    FunctionKey[18] = "\u001b[32~";
-    FunctionKey[19] = "\u001b[33~";
-    FunctionKey[20] = "\u001b[34~";
+    fillKeys(FunctionKey[5], "\u001b[15~", "\u001b[15;*~");
+    fillKeys(FunctionKey[6], "\u001b[17~", "\u001b[17;*~");
+    fillKeys(FunctionKey[7], "\u001b[18~", "\u001b[18;*~");
+    fillKeys(FunctionKey[8], "\u001b[19~", "\u001b[19;*~");
+    fillKeys(FunctionKey[9], "\u001b[20~", "\u001b[20;*~");
+    fillKeys(FunctionKey[10], "\u001b[21~", "\u001b[21;*~");
+    fillKeys(FunctionKey[11], "\u001b[23~", "\u001b[23;*~");
+    fillKeys(FunctionKey[12], "\u001b[24~", "\u001b[24;*~");
+    fillKeys(FunctionKey[13], "\u001b[25~", "\u001b[25;*~");
+    fillKeys(FunctionKey[14], "\u001b[26~", "\u001b[26;*~");
+    fillKeys(FunctionKey[15], "\u001b[28~", "\u001b[28;*~");
+    fillKeys(FunctionKey[16], "\u001b[29~", "\u001b[29;*~");
+    fillKeys(FunctionKey[17], "\u001b[31~", "\u001b[31;*~");
+    fillKeys(FunctionKey[18], "\u001b[32~", "\u001b[32;*~");
+    fillKeys(FunctionKey[19], "\u001b[33~", "\u001b[33;*~");
+    fillKeys(FunctionKey[20], "\u001b[34~", "\u001b[34;*~");
 
-    FunctionKeyShift = new String[21];
-    FunctionKeyAlt = new String[21];
-    FunctionKeyCtrl = new String[21];
+    //for (int i = 0; i < 20; i++)
+    //  FunctionKey[i][VDUInput.MOD_SHIFT] = FunctionKey[i % 10 + 10][VDUInput.MOD_NONE];
+    FunctionKey[15][VDUInput.MOD_SHIFT] = Find;
+    FunctionKey[16][VDUInput.MOD_SHIFT] = Select;
 
-    for (int i = 0; i < 20; i++) {
-      FunctionKeyShift[i] = "";
-      FunctionKeyAlt[i] = "";
-      FunctionKeyCtrl[i] = "";
-    }
-    FunctionKeyShift[15] = Find;
-    FunctionKeyShift[16] = Select;
+    Arrays.fill(TabKey, "");
+    TabKey[VDUInput.MOD_NONE ] = "\u0009";
+    TabKey[VDUInput.MOD_SHIFT] = "\u001bOP\u0009";
 
+    KeyUp    = new String[2][VDUInput.MOD_MAX]; fillKeys(KeyUp   [0], "\u001b[A", "\u001b[1;*A"); fillKeys(KeyUp   [1], "\u001bOA", "\u001bO*A");
+    KeyDown  = new String[2][VDUInput.MOD_MAX]; fillKeys(KeyDown [0], "\u001b[B", "\u001b[1;*B"); fillKeys(KeyDown [1], "\u001bOB", "\u001bO*B");
+    KeyRight = new String[2][VDUInput.MOD_MAX]; fillKeys(KeyRight[0], "\u001b[C", "\u001b[1;*C"); fillKeys(KeyRight[1], "\u001bOC", "\u001bO*C");
+    KeyLeft  = new String[2][VDUInput.MOD_MAX]; fillKeys(KeyLeft [0], "\u001b[D", "\u001b[1;*D"); fillKeys(KeyLeft [1], "\u001bOD", "\u001bO*D");
+    KeyEnd   = new String[2][VDUInput.MOD_MAX]; fillKeys(KeyEnd  [0], "\u001b[F", "\u001b[1;*F"); fillKeys(KeyEnd  [1], "\u001bOF", "\u001bO*F");
+    KeyHome  = new String[2][VDUInput.MOD_MAX]; fillKeys(KeyHome [0], "\u001b[H", "\u001b[1;*H"); fillKeys(KeyHome [1], "\u001bOH", "\u001bO*H");
 
-    TabKey[0] = "\u0009";
-    TabKey[1] = "\u001bOP\u0009";
-    TabKey[2] = TabKey[3] = "";
-
-    KeyUp = new String[4];
-    KeyUp[0] = "\u001b[A";
-    KeyDown = new String[4];
-    KeyDown[0] = "\u001b[B";
-    KeyRight = new String[4];
-    KeyRight[0] = "\u001b[C";
-    KeyLeft = new String[4];
-    KeyLeft[0] = "\u001b[D";
     Numpad = new String[10];
     Numpad[0] = "\u001bOp";
     Numpad[1] = "\u001bOq";
@@ -310,21 +315,21 @@ public void setScreenSize(int c, int r, boolean broadcast) {
     KPPeriod = "\u001bOn";
     KPEnter = "\u001bOM";
 
-    NUMPlus = new String[4];
-    NUMPlus[0] = "+";
-    NUMDot = new String[4];
-    NUMDot[0] = ".";
+    NUMPlus = new String[VDUInput.MOD_MAX];
+    NUMPlus[VDUInput.MOD_NONE] = "+";
+    NUMDot = new String[VDUInput.MOD_MAX];
+    NUMDot[VDUInput.MOD_NONE] = ".";
   }
 
   public void setBackspace(int type) {
     switch (type) {
     case DELETE_IS_DEL:
-      BackSpace[0] = "\u007f";
-      BackSpace[1] = "\b";
+      BackSpace[VDUInput.MOD_NONE] = "\u007f";
+      BackSpace[VDUInput.MOD_SHIFT] = "\b";
       break;
     case DELETE_IS_BACKSPACE:
-      BackSpace[0] = "\b";
-      BackSpace[1] = "\u007f";
+      BackSpace[VDUInput.MOD_NONE] = "\b";
+      BackSpace[VDUInput.MOD_SHIFT] = "\u007f";
       break;
     }
   }
@@ -349,15 +354,15 @@ public void setScreenSize(int c, int r, boolean broadcast) {
 
     int mods = modifiers;
     mousebut = 3;
-    if ((mods & 16) == 16) mousebut = 0;
-    if ((mods & 8) == 8) mousebut = 1;
-    if ((mods & 4) == 4) mousebut = 2;
+    if ((mods & VDUInput.MOD_MOUSE_1) == VDUInput.MOD_MOUSE_1) mousebut = 0;
+    if ((mods & VDUInput.MOD_MOUSE_2) == VDUInput.MOD_MOUSE_2) mousebut = 1;
+    if ((mods & VDUInput.MOD_MOUSE_3) == VDUInput.MOD_MOUSE_3) mousebut = 2;
 
     int mousecode;
     if (mouserpt == 9)	/* X10 Mouse */
-      mousecode = 0x20 | mousebut;
+      mousecode = 0x20 + mousebut;
     else			/* normal xterm mouse reporting */
-      mousecode = mousebut | 0x20 | ((mods & 7) << 2);
+      mousecode = 0x20 + mousebut + ((mods & 7) << 2); // SHIFT|META|CONTROL
 
     byte b[] = new byte[6];
 
@@ -367,7 +372,7 @@ public void setScreenSize(int c, int r, boolean broadcast) {
     b[3] = (byte) mousecode;
     b[4] = (byte) (0x20 + x + 1);
     b[5] = (byte) (0x20 + y + 1);
-
+    //debug(String.format("vt320: Sending mouse down event with code %d", mousecode));
     write(b); // FIXME: writeSpecial here
   }
 
@@ -394,7 +399,7 @@ public void setScreenSize(int c, int r, boolean broadcast) {
     if (mouserpt == 9)
       mousecode = 0x20 + mousebut;	/* same as press? appears so. */
     else
-      mousecode = '#';
+      mousecode = 0x20 + 3;
 
     byte b[] = new byte[6];
     b[0] = 27;
@@ -403,8 +408,38 @@ public void setScreenSize(int c, int r, boolean broadcast) {
     b[3] = (byte) mousecode;
     b[4] = (byte) (0x20 + x + 1);
     b[5] = (byte) (0x20 + y + 1);
+    //debug(String.format("vt320: Sending mouse up event with code %d", mousecode));
     write(b); // FIXME: writeSpecial here
     mousebut = 0;
+  }
+
+
+  /**
+   * As above, for mouse movement events.
+   * @param x
+   * @param y
+   * @param modifiers
+   */
+  public void mouseMoved(int x, int y, int modifiers) {
+    if (mouserpt < 1002)
+      return;
+
+    // 1002 is button-event tracking - only track while a button is down.
+    // 1003 is any-event tracking - send move events always.
+    if (mouserpt == 1002 && (modifiers & VDUInput.MOD_MOUSE_MASK) == 0)
+      return;
+
+    int mousecode = 0x40 + mousebut;	/* same as press? appears so. */
+
+    byte b[] = new byte[6];
+    b[0] = 27;
+    b[1] = (byte) '[';
+    b[2] = (byte) 'M';
+    b[3] = (byte) mousecode;
+    b[4] = (byte) (0x20 + x + 1);
+    b[5] = (byte) (0x20 + y + 1);
+    //debug(String.format("vt320: Sending mouse move event with code %d", mousecode));
+    write(b); // FIXME: writeSpecial here
   }
 
 
@@ -442,44 +477,34 @@ public void setScreenSize(int c, int r, boolean broadcast) {
    * @param codes a properties object containing key code definitions
    */
   public void setKeyCodes(Properties codes) {
-    String res, prefixes[] = {"", "S", "C", "A"};
-    int i;
+    String res, prefixes[] = {"", "S", "C", "CS", "A", "AS", "AC", "ACS"};
+    int i, f;
 
     for (i = 0; i < 10; i++) {
       res = codes.getProperty("NUMPAD" + i);
       if (res != null) Numpad[i] = unEscape(res);
     }
-    for (i = 1; i < 20; i++) {
-      res = codes.getProperty("F" + i);
-      if (res != null) FunctionKey[i] = unEscape(res);
-      res = codes.getProperty("SF" + i);
-      if (res != null) FunctionKeyShift[i] = unEscape(res);
-      res = codes.getProperty("CF" + i);
-      if (res != null) FunctionKeyCtrl[i] = unEscape(res);
-      res = codes.getProperty("AF" + i);
-      if (res != null) FunctionKeyAlt[i] = unEscape(res);
-    }
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < VDUInput.MOD_MAX; i++) {
       res = codes.getProperty(prefixes[i] + "PGUP");
       if (res != null) PrevScn[i] = unEscape(res);
       res = codes.getProperty(prefixes[i] + "PGDOWN");
       if (res != null) NextScn[i] = unEscape(res);
       res = codes.getProperty(prefixes[i] + "END");
-      if (res != null) KeyEnd[i] = unEscape(res);
+      if (res != null) KeyEnd[0][i] = unEscape(res);
       res = codes.getProperty(prefixes[i] + "HOME");
-      if (res != null) KeyHome[i] = unEscape(res);
+      if (res != null) KeyHome[0][i] = unEscape(res);
       res = codes.getProperty(prefixes[i] + "INSERT");
       if (res != null) Insert[i] = unEscape(res);
       res = codes.getProperty(prefixes[i] + "REMOVE");
       if (res != null) Remove[i] = unEscape(res);
       res = codes.getProperty(prefixes[i] + "UP");
-      if (res != null) KeyUp[i] = unEscape(res);
+      if (res != null) KeyUp[0][i] = unEscape(res);
       res = codes.getProperty(prefixes[i] + "DOWN");
-      if (res != null) KeyDown[i] = unEscape(res);
+      if (res != null) KeyDown[0][i] = unEscape(res);
       res = codes.getProperty(prefixes[i] + "LEFT");
-      if (res != null) KeyLeft[i] = unEscape(res);
+      if (res != null) KeyLeft[0][i] = unEscape(res);
       res = codes.getProperty(prefixes[i] + "RIGHT");
-      if (res != null) KeyRight[i] = unEscape(res);
+      if (res != null) KeyRight[0][i] = unEscape(res);
       res = codes.getProperty(prefixes[i] + "ESCAPE");
       if (res != null) Escape[i] = unEscape(res);
       res = codes.getProperty(prefixes[i] + "BACKSPACE");
@@ -490,6 +515,11 @@ public void setScreenSize(int c, int r, boolean broadcast) {
       if (res != null) NUMPlus[i] = unEscape(res);
       res = codes.getProperty(prefixes[i] + "NUMDECIMAL");
       if (res != null) NUMDot[i] = unEscape(res);
+
+      for (f = 1; f <= 20; f++) {
+        res = codes.getProperty(prefixes[i] + "F" + f);
+        if (res != null) FunctionKey[f][i] = unEscape(res);
+      }
     }
   }
 
@@ -501,18 +531,18 @@ public void setScreenSize(int c, int r, boolean broadcast) {
     this.terminalID = terminalID;
 
     if (terminalID.equals("scoansi")) {
-      FunctionKey[1] = "\u001b[M";  FunctionKey[2] = "\u001b[N";
-      FunctionKey[3] = "\u001b[O";  FunctionKey[4] = "\u001b[P";
-      FunctionKey[5] = "\u001b[Q";  FunctionKey[6] = "\u001b[R";
-      FunctionKey[7] = "\u001b[S";  FunctionKey[8] = "\u001b[T";
-      FunctionKey[9] = "\u001b[U";  FunctionKey[10] = "\u001b[V";
-      FunctionKey[11] = "\u001b[W"; FunctionKey[12] = "\u001b[X";
-      FunctionKey[13] = "\u001b[Y"; FunctionKey[14] = "?";
-      FunctionKey[15] = "\u001b[a"; FunctionKey[16] = "\u001b[b";
-      FunctionKey[17] = "\u001b[c"; FunctionKey[18] = "\u001b[d";
-      FunctionKey[19] = "\u001b[e"; FunctionKey[20] = "\u001b[f";
-      PrevScn[0] = PrevScn[1] = PrevScn[2] = PrevScn[3] = "\u001b[I";
-      NextScn[0] = NextScn[1] = NextScn[2] = NextScn[3] = "\u001b[G";
+      FunctionKey[1][VDUInput.MOD_NONE] = "\u001b[M";  FunctionKey[2][VDUInput.MOD_NONE] = "\u001b[N";
+      FunctionKey[3][VDUInput.MOD_NONE] = "\u001b[O";  FunctionKey[4][VDUInput.MOD_NONE] = "\u001b[P";
+      FunctionKey[5][VDUInput.MOD_NONE] = "\u001b[Q";  FunctionKey[6][VDUInput.MOD_NONE] = "\u001b[R";
+      FunctionKey[7][VDUInput.MOD_NONE] = "\u001b[S";  FunctionKey[8][VDUInput.MOD_NONE] = "\u001b[T";
+      FunctionKey[9][VDUInput.MOD_NONE] = "\u001b[U";  FunctionKey[10][VDUInput.MOD_NONE] = "\u001b[V";
+      FunctionKey[11][VDUInput.MOD_NONE] = "\u001b[W"; FunctionKey[12][VDUInput.MOD_NONE] = "\u001b[X";
+      FunctionKey[13][VDUInput.MOD_NONE] = "\u001b[Y"; FunctionKey[14][VDUInput.MOD_NONE] = "?";
+      FunctionKey[15][VDUInput.MOD_NONE] = "\u001b[a"; FunctionKey[16][VDUInput.MOD_NONE] = "\u001b[b";
+      FunctionKey[17][VDUInput.MOD_NONE] = "\u001b[c"; FunctionKey[18][VDUInput.MOD_NONE] = "\u001b[d";
+      FunctionKey[19][VDUInput.MOD_NONE] = "\u001b[e"; FunctionKey[20][VDUInput.MOD_NONE] = "\u001b[f";
+      Arrays.fill(PrevScn, "\u001b[I");
+      Arrays.fill(NextScn, "\u001b[G");
       // more theoretically.
     }
   }
@@ -601,6 +631,7 @@ public void setScreenSize(int c, int r, boolean broadcast) {
   int insertmode = 0;
   int statusmode = 0;
   boolean vt52mode = false;
+  int cursormode = 0; /* 0 - normal , 1 - application */
   boolean keypadmode = false; /* false - numeric, true - application */
   boolean output8bit = false;
   int normalcursor = 0;
@@ -749,17 +780,14 @@ public void setScreenSize(int c, int r, boolean broadcast) {
 
   /** Strings to send on function key pressing */
   private String Numpad[];
-  private String FunctionKey[];
-  private String FunctionKeyShift[];
-  private String FunctionKeyCtrl[];
-  private String FunctionKeyAlt[];
+  private String FunctionKey[][];
   private String TabKey[];
-  private String KeyUp[],KeyDown[],KeyLeft[],KeyRight[];
+  private String KeyUp[][], KeyDown[][], KeyLeft[][], KeyRight[][], KeyHome[][], KeyEnd[][];
   private String KPMinus, KPComma, KPPeriod, KPEnter;
   private String PF1, PF2, PF3, PF4;
   private String Help, Do, Find, Select;
 
-  private String KeyHome[], KeyEnd[], Insert[], Remove[], PrevScn[], NextScn[];
+  private String Insert[], Remove[], PrevScn[], NextScn[];
   private String Escape[], BackSpace[], NUMDot[], NUMPlus[];
 
   private String osc,dcs;  /* to memorize OSC & DCS control sequence */
@@ -863,9 +891,9 @@ public void setScreenSize(int c, int r, boolean broadcast) {
    * main keytyping event handler...
    */
   public void keyPressed(int keyCode, char keyChar, int modifiers) {
-    boolean control = (modifiers & VDUInput.KEY_CONTROL) != 0;
-    boolean shift = (modifiers & VDUInput.KEY_SHIFT) != 0;
-    boolean alt = (modifiers & VDUInput.KEY_ALT) != 0;
+    boolean control = (modifiers & VDUInput.MOD_CONTROL) != 0;
+    boolean shift = (modifiers & VDUInput.MOD_SHIFT) != 0;
+    boolean alt = (modifiers & VDUInput.MOD_ALT) != 0;
 
     if (debug > 1) {
       debugStr.append("keyPressed(")
@@ -879,22 +907,7 @@ public void setScreenSize(int c, int r, boolean broadcast) {
       debugStr.setLength(0);
     }
 
-    int xind;
-    String fmap[];
-    xind = 0;
-    fmap = FunctionKey;
-    if (shift) {
-      fmap = FunctionKeyShift;
-      xind = 1;
-    }
-    if (control) {
-      fmap = FunctionKeyCtrl;
-      xind = 2;
-    }
-    if (alt) {
-      fmap = FunctionKeyAlt;
-      xind = 3;
-    }
+    int xind = modifiers & VDUInput.MOD_MASK;
 
     switch (keyCode) {
       case KEY_PAUSE:
@@ -902,52 +915,52 @@ public void setScreenSize(int c, int r, boolean broadcast) {
           sendTelnetCommand((byte) 243); // BREAK
         break;
       case KEY_F1:
-        writeSpecial(fmap[1]);
+        writeSpecial(FunctionKey[1][xind]);
         break;
       case KEY_F2:
-        writeSpecial(fmap[2]);
+        writeSpecial(FunctionKey[2][xind]);
         break;
       case KEY_F3:
-        writeSpecial(fmap[3]);
+        writeSpecial(FunctionKey[3][xind]);
         break;
       case KEY_F4:
-        writeSpecial(fmap[4]);
+        writeSpecial(FunctionKey[4][xind]);
         break;
       case KEY_F5:
-        writeSpecial(fmap[5]);
+        writeSpecial(FunctionKey[5][xind]);
         break;
       case KEY_F6:
-        writeSpecial(fmap[6]);
+        writeSpecial(FunctionKey[6][xind]);
         break;
       case KEY_F7:
-        writeSpecial(fmap[7]);
+        writeSpecial(FunctionKey[7][xind]);
         break;
       case KEY_F8:
-        writeSpecial(fmap[8]);
+        writeSpecial(FunctionKey[8][xind]);
         break;
       case KEY_F9:
-        writeSpecial(fmap[9]);
+        writeSpecial(FunctionKey[9][xind]);
         break;
       case KEY_F10:
-        writeSpecial(fmap[10]);
+        writeSpecial(FunctionKey[10][xind]);
         break;
       case KEY_F11:
-        writeSpecial(fmap[11]);
+        writeSpecial(FunctionKey[11][xind]);
         break;
       case KEY_F12:
-        writeSpecial(fmap[12]);
+        writeSpecial(FunctionKey[12][xind]);
         break;
       case KEY_UP:
-        writeSpecial(KeyUp[xind]);
+        writeSpecial(KeyUp[cursormode][xind]);
         break;
       case KEY_DOWN:
-        writeSpecial(KeyDown[xind]);
+        writeSpecial(KeyDown[cursormode][xind]);
         break;
       case KEY_LEFT:
-        writeSpecial(KeyLeft[xind]);
+        writeSpecial(KeyLeft[cursormode][xind]);
         break;
       case KEY_RIGHT:
-        writeSpecial(KeyRight[xind]);
+        writeSpecial(KeyRight[cursormode][xind]);
         break;
       case KEY_PAGE_DOWN:
         writeSpecial(NextScn[xind]);
@@ -972,10 +985,10 @@ public void setScreenSize(int c, int r, boolean broadcast) {
 	}
         break;
       case KEY_HOME:
-        writeSpecial(KeyHome[xind]);
+        writeSpecial(KeyHome[cursormode][xind]);
         break;
       case KEY_END:
-        writeSpecial(KeyEnd[xind]);
+        writeSpecial(KeyEnd[cursormode][xind]);
         break;
       case KEY_NUM_LOCK:
         if (vms && control) {
@@ -1006,26 +1019,14 @@ public void setScreenSize(int c, int r, boolean broadcast) {
    * all normal key types, but no shift/alt/control/numlock.
    */
   public void keyTyped(int keyCode, char keyChar, int modifiers) {
-    boolean control = (modifiers & VDUInput.KEY_CONTROL) != 0;
-    boolean shift = (modifiers & VDUInput.KEY_SHIFT) != 0;
-    boolean alt = (modifiers & VDUInput.KEY_ALT) != 0;
+    boolean control = (modifiers & VDUInput.MOD_CONTROL) != 0;
+    boolean shift = (modifiers & VDUInput.MOD_SHIFT) != 0;
+    boolean alt = (modifiers & VDUInput.MOD_ALT) != 0;
 
     if (debug > 1) debug("keyTyped("+keyCode+", "+(int)keyChar+", "+modifiers+")");
 
     if (keyChar == '\t') {
-      if (shift) {
-        write(TabKey[1], false);
-      } else {
-        if (control) {
-          write(TabKey[2], false);
-        } else {
-          if (alt) {
-            write(TabKey[3], false);
-          } else {
-            write(TabKey[0], false);
-          }
-        }
-      }
+      write(TabKey[modifiers & 7]);
       return;
     }
     if (alt) {
@@ -1057,9 +1058,9 @@ public void setScreenSize(int c, int r, boolean broadcast) {
     if (vms) {
       if (keyChar == 127 && !control) {
         if (shift)
-          writeSpecial(Insert[0]);        //  VMS shift delete = insert
+          writeSpecial(Insert[VDUInput.MOD_NONE]);        //  VMS shift delete = insert
         else
-          writeSpecial(Remove[0]);        //  VMS delete = remove
+          writeSpecial(Remove[VDUInput.MOD_NONE]);        //  VMS delete = remove
         return;
       } else if (control)
         switch (keyChar) {
@@ -1124,30 +1125,14 @@ public void setScreenSize(int c, int r, boolean broadcast) {
       */
     }
 
-    // FIXME: not used?
-    //String fmap[];
-    int xind;
-    xind = 0;
-    //fmap = FunctionKey;
-    if (shift) {
-      //fmap = FunctionKeyShift;
-      xind = 1;
-    }
-    if (control) {
-      //fmap = FunctionKeyCtrl;
-      xind = 2;
-    }
-    if (alt) {
-      //fmap = FunctionKeyAlt;
-      xind = 3;
-    }
+    int xind = modifiers & VDUInput.MOD_MASK;
 
     if (keyCode == KEY_ESCAPE) {
       writeSpecial(Escape[xind]);
       return;
     }
 
-    if ((modifiers & VDUInput.KEY_ACTION) != 0)
+    if ((modifiers & VDUInput.MOD_ACTION) != 0)
       switch (keyCode) {
         case KEY_NUMPAD0:
           writeSpecial(Numpad[0]);
@@ -2179,10 +2164,7 @@ public void setScreenSize(int c, int r, boolean broadcast) {
             for (int i = 0; i <= DCEvar; i++) {
               switch (DCEvars[i]) {
                 case 1:  /* Application cursor keys */
-                  KeyUp[0] = "\u001bOA";
-                  KeyDown[0] = "\u001bOB";
-                  KeyRight[0] = "\u001bOC";
-                  KeyLeft[0] = "\u001bOD";
+                  cursormode = 1;
                   break;
                 case 2: /* DECANM */
                   vt52mode = false;
@@ -2246,10 +2228,7 @@ public void setScreenSize(int c, int r, boolean broadcast) {
             for (int i = 0; i <= DCEvar; i++) {
               switch (DCEvars[i]) {
                 case 1:  /* Application cursor keys */
-                  KeyUp[0] = "\u001b[A";
-                  KeyDown[0] = "\u001b[B";
-                  KeyRight[0] = "\u001b[C";
-                  KeyLeft[0] = "\u001b[D";
+                  cursormode = 0;
                   break;
                 case 2: /* DECANM */
                   vt52mode = true;

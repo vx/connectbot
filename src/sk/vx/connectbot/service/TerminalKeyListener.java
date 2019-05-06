@@ -35,6 +35,7 @@ import android.preference.PreferenceManager;
 import android.text.ClipboardManager;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.InputDevice;
 import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
 import android.view.View;
@@ -46,6 +47,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import de.mud.terminal.VDUBuffer;
+import de.mud.terminal.VDUInput;
 import de.mud.terminal.vt320;
 
 /**
@@ -64,6 +66,7 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 	public final static int META_SHIFT_LOCK = 0x20;
 	public final static int META_SLASH = 0x40;
 	public final static int META_TAB = 0x80;
+	public final static int META_WIN = 0x100;
 
 	// The bit mask of momentary and lock states for each
 	public final static int META_CTRL_MASK = META_CTRL_ON | META_CTRL_LOCK;
@@ -169,6 +172,10 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 					case KeyEvent.KEYCODE_SHIFT_LEFT:
 					case KeyEvent.KEYCODE_SHIFT_RIGHT:
 						metaKeyUp(META_SHIFT_ON);
+						return true;
+					case KeyEvent.KEYCODE_META_LEFT:
+					case KeyEvent.KEYCODE_META_RIGHT:
+						metaKeyUp(META_WIN);
 						return true;
 					default:
 					}
@@ -414,22 +421,26 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 				return true;
 			case KEYCODE_PAGE_DOWN:
 				((vt320)buffer).keyPressed(vt320.KEY_PAGE_DOWN, ' ', getStateForBuffer());
-				metaState &= ~META_TRANSIENT;
+				if (!fullKeyboard())
+					metaState &= ~META_TRANSIENT;
 				bridge.tryKeyVibrate();
 				return true;
 			case KEYCODE_PAGE_UP:
 				((vt320)buffer).keyPressed(vt320.KEY_PAGE_UP, ' ', getStateForBuffer());
-				metaState &= ~META_TRANSIENT;
+				if (!fullKeyboard())
+					metaState &= ~META_TRANSIENT;
 				bridge.tryKeyVibrate();
 				return true;
 			case KeyEvent.KEYCODE_MOVE_HOME:
 				((vt320) buffer).keyPressed(vt320.KEY_HOME, ' ', getStateForBuffer());
-				metaState &= ~META_TRANSIENT;
+				if (!fullKeyboard())
+					metaState &= ~META_TRANSIENT;
 				bridge.tryKeyVibrate();
 				return true;
 			case KeyEvent.KEYCODE_MOVE_END:
 				((vt320) buffer).keyPressed(vt320.KEY_END, ' ', getStateForBuffer());
-				metaState &= ~META_TRANSIENT;
+				if (!fullKeyboard())
+					metaState &= ~META_TRANSIENT;
 				bridge.tryKeyVibrate();
 				return true;
 			case KeyEvent.KEYCODE_CAMERA:
@@ -464,11 +475,13 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 					((vt320) buffer).keyPressed(vt320.KEY_BACK_SPACE, ' ',
 						getStateForBuffer());
 				}
-				metaState &= ~META_TRANSIENT;
+				if (!fullKeyboard())
+					metaState &= ~META_TRANSIENT;
 				return true;
 			case KeyEvent.KEYCODE_ENTER:
 				((vt320)buffer).keyTyped(vt320.KEY_ENTER, ' ', 0);
-				metaState &= ~META_TRANSIENT;
+				if (!fullKeyboard())
+					metaState &= ~META_TRANSIENT;
 				return true;
 
 			case KeyEvent.KEYCODE_DPAD_LEFT:
@@ -483,7 +496,8 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 						((vt320) buffer).keyPressed(vt320.KEY_LEFT, ' ',
 								getStateForBuffer());
 					}
-					metaState &= ~META_TRANSIENT;
+					if (!fullKeyboard())
+						metaState &= ~META_TRANSIENT;
 					bridge.tryKeyVibrate();
 				}
 				return true;
@@ -500,7 +514,8 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 						((vt320) buffer).keyPressed(vt320.KEY_UP, ' ',
 								getStateForBuffer());
 					}
-					metaState &= ~META_TRANSIENT;
+					if (!fullKeyboard())
+						metaState &= ~META_TRANSIENT;
 					bridge.tryKeyVibrate();
 				}
 				return true;
@@ -517,7 +532,8 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 						((vt320) buffer).keyPressed(vt320.KEY_DOWN, ' ',
 								getStateForBuffer());
 					}
-					metaState &= ~META_TRANSIENT;
+					if (!fullKeyboard())
+						metaState &= ~META_TRANSIENT;
 					bridge.tryKeyVibrate();
 				}
 				return true;
@@ -534,7 +550,8 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 						((vt320) buffer).keyPressed(vt320.KEY_RIGHT, ' ',
 								getStateForBuffer());
 					}
-					metaState &= ~META_TRANSIENT;
+					if (!fullKeyboard())
+						metaState &= ~META_TRANSIENT;
 					bridge.tryKeyVibrate();
 				}
 				return true;
@@ -668,53 +685,54 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 	private boolean sendFullSpecialKey(int keyCode) {
 		switch (keyCode) {
 		case KeyEvent.KEYCODE_F1:
-			((vt320) buffer).keyPressed(vt320.KEY_F1, ' ', 0);
+			((vt320) buffer).keyPressed(vt320.KEY_F1, ' ', getStateForBuffer());
 			return true;
 		case KeyEvent.KEYCODE_F2:
-			((vt320) buffer).keyPressed(vt320.KEY_F2, ' ', 0);
+			((vt320) buffer).keyPressed(vt320.KEY_F2, ' ', getStateForBuffer());
 			return true;
 		case KeyEvent.KEYCODE_F3:
-			((vt320) buffer).keyPressed(vt320.KEY_F3, ' ', 0);
+			((vt320) buffer).keyPressed(vt320.KEY_F3, ' ', getStateForBuffer());
 			return true;
 		case KeyEvent.KEYCODE_F4:
-			((vt320) buffer).keyPressed(vt320.KEY_F4, ' ', 0);
+			((vt320) buffer).keyPressed(vt320.KEY_F4, ' ', getStateForBuffer());
+			Log.d(TAG, "/sendFullSpecialKey F4");
 			return true;
 		case KeyEvent.KEYCODE_F5:
-			((vt320) buffer).keyPressed(vt320.KEY_F5, ' ', 0);
+			((vt320) buffer).keyPressed(vt320.KEY_F5, ' ', getStateForBuffer());
 			return true;
 		case KeyEvent.KEYCODE_F6:
-			((vt320) buffer).keyPressed(vt320.KEY_F6, ' ', 0);
+			((vt320) buffer).keyPressed(vt320.KEY_F6, ' ', getStateForBuffer());
 			return true;
 		case KeyEvent.KEYCODE_F7:
-			((vt320) buffer).keyPressed(vt320.KEY_F7, ' ', 0);
+			((vt320) buffer).keyPressed(vt320.KEY_F7, ' ', getStateForBuffer());
 			return true;
 		case KeyEvent.KEYCODE_F8:
-			((vt320) buffer).keyPressed(vt320.KEY_F8, ' ', 0);
+			((vt320) buffer).keyPressed(vt320.KEY_F8, ' ', getStateForBuffer());
 			return true;
 		case KeyEvent.KEYCODE_F9:
-			((vt320) buffer).keyPressed(vt320.KEY_F9, ' ', 0);
+			((vt320) buffer).keyPressed(vt320.KEY_F9, ' ', getStateForBuffer());
 			return true;
 		case KeyEvent.KEYCODE_F10:
-			((vt320) buffer).keyPressed(vt320.KEY_F10, ' ', 0);
+			((vt320) buffer).keyPressed(vt320.KEY_F10, ' ', getStateForBuffer());
 			return true;
 		case KeyEvent.KEYCODE_F11:
-			((vt320) buffer).keyPressed(vt320.KEY_F10, ' ', 0);
+			((vt320) buffer).keyPressed(vt320.KEY_F11, ' ', getStateForBuffer());
 			return true;
 		case KeyEvent.KEYCODE_F12:
-			((vt320) buffer).keyPressed(vt320.KEY_F10, ' ', 0);
+			((vt320) buffer).keyPressed(vt320.KEY_F12, ' ', getStateForBuffer());
 			return true;
 		case KeyEvent.KEYCODE_INSERT:
-			((vt320) buffer).keyPressed(vt320.KEY_INSERT, ' ', 0);
+			((vt320) buffer).keyPressed(vt320.KEY_INSERT, ' ', getStateForBuffer());
 			return true;
 		case KeyEvent.KEYCODE_FORWARD_DEL:
-			((vt320) buffer).keyPressed(vt320.KEY_DELETE, ' ', 0);
+			((vt320) buffer).keyPressed(vt320.KEY_DELETE, ' ', getStateForBuffer());
 			return true;
 /*
 		case KeyEvent.KEYCODE_PAGE_UP:
-			((vt320) buffer).keyPressed(vt320.KEY_PAGE_UP, ' ', 0);
+			((vt320) buffer).keyPressed(vt320.KEY_PAGE_UP, ' ', getStateForBuffer());
 			return true;
 		case KeyEvent.KEYCODE_PAGE_DOWN:
-			((vt320) buffer).keyPressed(vt320.KEY_PAGE_DOWN, ' ', 0);
+			((vt320) buffer).keyPressed(vt320.KEY_PAGE_DOWN, ' ', getStateForBuffer());
 			return true;
 		case KeyEvent.KEYCODE_MOVE_HOME:
 			((vt320) buffer).keyPressed(vt320.KEY_HOME, ' ', getStateForBuffer());
@@ -774,11 +792,13 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 		int bufferState = 0;
 
 		if ((metaState & META_CTRL_MASK) != 0)
-			bufferState |= vt320.KEY_CONTROL;
+			bufferState |= VDUInput.MOD_CONTROL;
 		if ((metaState & META_SHIFT_MASK) != 0)
-			bufferState |= vt320.KEY_SHIFT;
+			bufferState |= VDUInput.MOD_SHIFT;
 		if ((metaState & META_ALT_MASK) != 0)
-			bufferState |= vt320.KEY_ALT;
+			bufferState |= VDUInput.MOD_ALT;
+		if ((metaState & META_WIN) != 0)
+			bufferState |= VDUInput.MOD_SUPER;
 
 		return bufferState;
 	}
@@ -871,12 +891,21 @@ public class TerminalKeyListener implements OnKeyListener, OnSharedPreferenceCha
 			case KeyEvent.KEYCODE_SHIFT_RIGHT:
 				metaKeyDown(META_SHIFT_ON);
 				return true;
+			case KeyEvent.KEYCODE_META_LEFT:
+			case KeyEvent.KEYCODE_META_RIGHT:
+				metaKeyDown(META_WIN);
+				return true;
 			case KeyEvent.KEYCODE_BACK:
-				if (customKeyboard.equals(PreferenceConstants.CUSTOM_KEYMAP_ASUS_TF)) {
-					// Check to see whether this is the back button on the
-					// screen (-1) or the Asus Transformer Keyboard Dock.
-					// Treat the HW button as ESC.
-					if (event.getDeviceId() > 0) {
+				if (event.getDeviceId() > 0) {
+					// Handle right clicks (Android sends right clicks as Esc buttons)
+					if (event.getSource() == InputDevice.SOURCE_MOUSE) {
+						return true;
+					}
+					if (customKeyboard.equals(PreferenceConstants.CUSTOM_KEYMAP_ASUS_TF)
+					 || customKeyboard.equals(PreferenceConstants.CUSTOM_KEYMAP_FULL)) {
+						// Check to see whether this is the back button on the
+						// screen (-1) or the Asus Transformer Keyboard Dock.
+						// Treat the HW button as ESC.
 						sendEscape();
 						return true;
 					}
