@@ -11,6 +11,8 @@ import java.net.UnknownHostException;
 import java.security.SecureRandom;
 import java.util.Vector;
 
+import net.sourceforge.jsocks.SocksSocket;
+
 import com.trilead.ssh2.ConnectionInfo;
 import com.trilead.ssh2.ConnectionMonitor;
 import com.trilead.ssh2.DHGexParameters;
@@ -18,6 +20,7 @@ import com.trilead.ssh2.HTTPProxyData;
 import com.trilead.ssh2.HTTPProxyException;
 import com.trilead.ssh2.ProxyData;
 import com.trilead.ssh2.ServerHostKeyVerifier;
+import com.trilead.ssh2.SocksProxyData;
 import com.trilead.ssh2.compression.ICompressor;
 import com.trilead.ssh2.crypto.Base64;
 import com.trilead.ssh2.crypto.CryptoWishList;
@@ -41,14 +44,14 @@ import com.trilead.ssh2.util.Tokenizer;
  * other than KEX, they become horribly irritated and kill the connection. Since
  * we are very likely going to communicate with OpenSSH servers, we have to play
  * the same game - even though we could do better.
- * 
+ *
  * btw: having stdout and stderr on the same channel, with a shared window, is
  * also a VERY good idea... =(
  */
 
 /**
  * TransportManager.
- * 
+ *
  * @author Christian Plattner, plattner@trilead.com
  * @version $Id: TransportManager.java,v 1.2 2008/04/01 12:38:09 cplattne Exp $
  */
@@ -68,6 +71,7 @@ public class TransportManager
 
 	class AsynchronousWorker extends Thread
 	{
+		@Override
 		public void run()
 		{
 			while (true)
@@ -125,7 +129,7 @@ public class TransportManager
 
 	String hostname;
 	int port;
-	final Socket sock = new Socket();
+	Socket sock = new Socket();
 
 	Object connectionSemaphore = new Object();
 
@@ -149,7 +153,7 @@ public class TransportManager
 	 * the resolver even though one supplies a dotted IP
 	 * address in the Socket constructor. That is why we
 	 * try to generate the InetAdress "by hand".
-	 * 
+	 *
 	 * @param host
 	 * @return the InetAddress
 	 * @throws UnknownHostException
@@ -439,6 +443,14 @@ public class TransportManager
 			return;
 		}
 
+		if (proxyData instanceof SocksProxyData)
+		{
+			SocksProxyData pd = (SocksProxyData) proxyData;
+			sock = new SocksSocket(pd.proxy, hostname, port);
+			sock.setSoTimeout(0);
+			return;
+		}
+
 		throw new IOException("Unsupported ProxyData");
 	}
 
@@ -602,7 +614,7 @@ public class TransportManager
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public void startCompression() {
 		tc.startCompression();
@@ -780,7 +792,7 @@ public class TransportManager
 			if (type == Packets.SSH_MSG_USERAUTH_SUCCESS) {
 				tc.startCompression();
 			}
-			
+
 			MessageHandler mh = null;
 
 			for (int i = 0; i < messageHandlers.size(); i++)

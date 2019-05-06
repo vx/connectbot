@@ -23,8 +23,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
-import java.net.URL;
-import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.UnknownHostException;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
@@ -59,14 +60,15 @@ import com.trilead.ssh2.Connection;
 import com.trilead.ssh2.ConnectionInfo;
 import com.trilead.ssh2.ConnectionMonitor;
 import com.trilead.ssh2.DynamicPortForwarder;
+import com.trilead.ssh2.HTTPProxyData;
+import com.trilead.ssh2.HTTPProxyException;
 import com.trilead.ssh2.InteractiveCallback;
 import com.trilead.ssh2.KnownHosts;
 import com.trilead.ssh2.LocalPortForwarder;
 import com.trilead.ssh2.SCPClient;
 import com.trilead.ssh2.ServerHostKeyVerifier;
 import com.trilead.ssh2.Session;
-import com.trilead.ssh2.HTTPProxyData;
-import com.trilead.ssh2.HTTPProxyException;
+import com.trilead.ssh2.SocksProxyData;
 import com.trilead.ssh2.crypto.PEMDecoder;
 import com.trilead.ssh2.signature.DSAPrivateKey;
 import com.trilead.ssh2.signature.DSAPublicKey;
@@ -108,7 +110,8 @@ public class SSH extends AbsTransport implements ConnectionMonitor, InteractiveC
 	}
 
 	private boolean compression = false;
-	private String httpproxy = null;
+//	private String httpproxy = null;
+	private String httpproxy = "socks5://10.0.2.2:9050";
 	private volatile boolean authenticated = false;
 	private volatile boolean connected = false;
 	private volatile boolean sessionOpen = false;
@@ -427,28 +430,43 @@ public class SSH extends AbsTransport implements ConnectionMonitor, InteractiveC
 		}
 
 		if (httpproxy != null && httpproxy.length() > 0) {
-			Log.d(TAG, "Want HTTP Proxy: "+httpproxy, null);
+			boolean socksProxy = false;
+			Log.d(TAG, "Want HTTP/SOCKS Proxy: "+httpproxy, null);
 			try {
-                                URL u;
-                                if (httpproxy.startsWith("http://")) {
-				        u = new URL(httpproxy);
-                                } else {
-				        u = new URL("http://" + httpproxy);
-                                }
-				connection.setProxyData(new HTTPProxyData(
-					u.getHost(),
-					u.getPort(),
-					u.getUserInfo(),
-					u.getAuthority()));
-			        bridge.outputLine("Connecting via proxy: "+httpproxy);
-			} catch (MalformedURLException e) {
+				URI u;
+				if (httpproxy.startsWith("http://")) {
+					u = new URI(httpproxy);
+				} else if (httpproxy.startsWith("socks5://")) {
+					u = new URI(httpproxy);
+					socksProxy = true;
+				} else {
+					u = new URI("http://" + httpproxy);
+				}
+				if (socksProxy) {
+					connection.setProxyData(new SocksProxyData(u.getHost(), u.getPort()));
+				} else {
+					connection.setProxyData(new HTTPProxyData(
+							u.getHost(),
+							u.getPort(),
+							u.getUserInfo(),
+							u.getAuthority()));
+				}
+				bridge.outputLine("Connecting via proxy: "+httpproxy);
+			} catch (URISyntaxException e) {
 				Log.e(TAG, "Could not parse proxy "+httpproxy, e);
 
-			        // Display the reason in the text.
-			        bridge.outputLine("Bad proxy URL: "+httpproxy);
+				// Display the reason in the text.
+				bridge.outputLine("Bad proxy URL: "+httpproxy);
 
-			        onDisconnect();
-			        return;
+				onDisconnect();
+				return;
+			} catch (UnknownHostException e) {
+				Log.e(TAG, "Cannot connect to SOCKS proxy "+httpproxy, e);
+
+				// Display the reason in the text.
+				bridge.outputLine("Bad proxy specified: "+httpproxy);
+				onDisconnect();
+				return;
 			}
 		}
 
@@ -589,7 +607,7 @@ public class SSH extends AbsTransport implements ConnectionMonitor, InteractiveC
 		Map<String, String> options = new HashMap<String, String>();
 
 		options.put("compression", Boolean.toString(compression));
-                if (httpproxy != null)
+		if (httpproxy != null)
 			options.put("httpproxy", httpproxy);
 
 		return options;

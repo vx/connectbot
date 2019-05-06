@@ -1,4 +1,5 @@
 package net.sourceforge.jsocks;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InterruptedIOException;
@@ -16,7 +17,7 @@ import java.net.UnknownHostException;
 public abstract class Proxy{
 
 //Data members
-   //protected InetRange directHosts = new InetRange();
+   protected InetRange directHosts = new InetRange();
 
    protected InetAddress proxyIP = null;
    protected String proxyHost = null;
@@ -29,6 +30,8 @@ public abstract class Proxy{
    protected int version;
 
    protected Proxy chainProxy = null;
+   protected int localSocketPort = 0;
+   protected int localSocketPortAssigned;
 
 
 //Protected static/class variables
@@ -36,11 +39,21 @@ public abstract class Proxy{
 
 //Constructors
 //====================
-	Proxy(String proxyHost, int proxyPort) throws UnknownHostException {
-		this.proxyHost = proxyHost;
-		this.proxyIP = InetAddress.getByName(proxyHost);
-		this.proxyPort = proxyPort;
-	}
+   Proxy(Proxy chainProxy,
+         String proxyHost,int proxyPort)throws UnknownHostException{
+      this.chainProxy = chainProxy;
+      this.proxyHost = proxyHost;
+
+      if(chainProxy == null)
+         this.proxyIP   = InetAddress.getByName(proxyHost);
+
+      this.proxyPort = proxyPort;
+   }
+
+
+   Proxy(String proxyHost,int proxyPort)throws UnknownHostException{
+      this(null,proxyHost,proxyPort);
+   }
 
    Proxy(Proxy chainProxy,InetAddress proxyIP,int proxyPort){
       this.chainProxy = chainProxy;
@@ -49,14 +62,14 @@ public abstract class Proxy{
    }
 
    Proxy(InetAddress proxyIP,int proxyPort){
-      this.proxyIP = proxyIP;
-      this.proxyPort = proxyPort;
+      this(null,proxyIP,proxyPort);
    }
 
    Proxy(Proxy p){
       this.proxyIP = p.proxyIP;
       this.proxyPort = p.proxyPort;
       this.version = p.version;
+      this.directHosts = p.directHosts;
    }
 
 //Public instance methods
@@ -76,12 +89,86 @@ public abstract class Proxy{
    public InetAddress getInetAddress(){
      return proxyIP;
    }
+   /**
+    * Adds given ip to the list of direct addresses.
+    * This machine will be accessed without using proxy.
+    */
+   public void addDirect(InetAddress ip){
+      directHosts.add(ip);
+   }
+   /**
+    * Adds host to the list of direct addresses.
+    * This machine will be accessed without using proxy.
+    */
+   public boolean addDirect(String host){
+      return directHosts.add(host);
+   }
+   /**
+    * Adds given range of addresses to the lsit of direct addresses,
+    * machines within this range will be accessed without using proxy.
+    */
+   public void addDirect(InetAddress from,InetAddress to){
+      directHosts.add(from,to);
+   }
+   /**
+    * Sets given InetRange as the list of direct address, previous
+    * list will be discarded, any changes done previously with
+    * addDirect(Inetaddress) will be lost.
+    * The machines in this range will be accessed without using proxy.
+    * @param ir InetRange which should be used to look up direct addresses.
+    * @see InetRange
+    */
+   public void setDirect(InetRange ir){
+     directHosts = ir;
+   }
+
+   /**
+      Get the list of direct hosts.
+    * @return Current range of direct address as InetRange object.
+    * @see InetRange
+    */
+   public InetRange getDirect(){
+     return directHosts;
+   }
+   /**
+      Check wether the given host is on the list of direct address.
+      @param host Host name to check.
+    * @return true if the given host is specified as the direct addresses.
+    */
+    public boolean isDirect(String host){
+        return directHosts.contains(host);
+    }
+   /**
+      Check wether the given host is on the list of direct addresses.
+      @param host Host address to check.
+    * @return true if the given host is specified as the direct address.
+    */
+    public boolean isDirect(InetAddress host){
+        return directHosts.contains(host);
+    }
+    /**
+      Set the proxy which should be used to connect to given proxy.
+      @param chainProxy Proxy to use to connect to this proxy.
+    */
+    public void setChainProxy(Proxy chainProxy){
+        this.chainProxy = chainProxy;
+    }
+
+    /**
+      Get proxy which is used to connect to this proxy.
+      @return Proxy which is used to connect to this proxy, or null
+              if proxy is to be contacted directly.
+    */
+    public Proxy getChainProxy(){
+       return chainProxy;
+    }
 
     /**
        Get string representation of this proxy.
      * @returns string in the form:proxyHost:proxyPort \t Version versionNumber
      */
-    public String toString(){
+    @Override
+	public String toString(){
        return (""+proxyIP.getHostName()+":"+proxyPort+"\tVersion "+version);
     }
 
@@ -188,12 +275,10 @@ public abstract class Proxy{
            proxy = new Socks4Proxy(proxy_host,proxy_port,proxy_user);
          else{
            proxy = new Socks5Proxy(proxy_host,proxy_port);
-           /*
            UserPasswordAuthentication upa = new UserPasswordAuthentication(
                                             proxy_user, proxy_password);
 
            ((Socks5Proxy)proxy).setAuthenticationMethod(upa.METHOD_ID,upa);
-           */
          }
       }catch(UnknownHostException uhe){
          return null;
@@ -202,13 +287,29 @@ public abstract class Proxy{
       return proxy;
    }
 
+   public int getLocalSocketPort() {
+     return localSocketPortAssigned;
+   }
 
 //Protected Methods
 //=================
 
    protected void startSession()throws SocksException{
        try{
-         proxySocket = new Socket(proxyIP,proxyPort);
+         if(chainProxy == null) {
+           if (localSocketPort > 0) {
+             proxySocket = new Socket(proxyIP, proxyPort, InetAddress.getLocalHost(),
+                 localSocketPort);
+           } else {
+             proxySocket = new Socket(proxyIP, proxyPort);
+           }
+           localSocketPortAssigned = proxySocket.getLocalPort();
+         }
+         else if(proxyIP != null)
+            proxySocket = new SocksSocket(chainProxy,proxyIP,proxyPort);
+         else
+            proxySocket = new SocksSocket(chainProxy,proxyHost,proxyPort);
+
          in = proxySocket.getInputStream();
          out = proxySocket.getOutputStream();
        }catch(SocksException se){
@@ -225,7 +326,7 @@ public abstract class Proxy{
    protected abstract ProxyMessage formMessage(InputStream in)
              throws SocksException,
                     IOException;
-   
+
 
    protected ProxyMessage connect(InetAddress ip,int port)
              throws SocksException{
@@ -343,7 +444,7 @@ public abstract class Proxy{
       msg.write(out);
    }
 
-   /** 
+   /**
     * Reads the reply from the SOCKS server
     */
    protected ProxyMessage readMsg()throws SocksException,
@@ -378,7 +479,7 @@ public abstract class Proxy{
 
    public static final int SOCKS_SUCCESS		=0;
    public static final int SOCKS_FAILURE		=1;
-   public static final int SOCKS_BADCONNECT		=2;
+   public static final int SOCKS_NOT_ALLOWED_BY_RULESET		=2;
    public static final int SOCKS_BADNETWORK		=3;
    public static final int SOCKS_HOST_UNREACHABLE	=4;
    public static final int SOCKS_CONNECTION_REFUSED	=5;
@@ -398,7 +499,7 @@ public abstract class Proxy{
 
 
    public static final int SOCKS_CMD_CONNECT 		=0x1;
-   static final int SOCKS_CMD_BIND		=0x2;
-   static final int SOCKS_CMD_UDP_ASSOCIATE	=0x3;
+   public static final int SOCKS_CMD_BIND		=0x2;
+   public static final int SOCKS_CMD_UDP_ASSOCIATE	=0x3;
 
 }

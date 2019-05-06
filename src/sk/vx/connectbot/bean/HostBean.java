@@ -349,5 +349,4 @@ public class HostBean extends AbstractBean {
 			.append(nickname);
 		return Uri.parse(sb.toString());
 	}
-
 }
