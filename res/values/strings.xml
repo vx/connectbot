@@ -662,4 +662,7 @@
 	<string name="pref_ctrl_string_summary">String of characters for the CTRL+? combination</string>
 
 	<string name="fullscreen">Fullscreen</string>
+
+    <string name="hostpref_quickdisconnect_title">Close on disconnect</string>
+    <string name="hostpref_quickdisconnect_summary">Close immediately after remote disconnect without prompting.</string>
 </resources>

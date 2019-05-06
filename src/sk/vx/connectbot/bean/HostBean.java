@@ -53,8 +53,9 @@ public class HostBean extends AbstractBean {
 	private boolean wantX11Forward = false;
 	private String x11Host = "localhost";
 	private int x11Port = 6000;
+    private boolean quickDisconnect = true;
 
-	public HostBean() {
+    public HostBean() {
 
 	}
 
@@ -207,6 +208,14 @@ public class HostBean extends AbstractBean {
 		this.stayConnected = stayConnected;
 	}
 
+    public void setQuickDisconnect(boolean quickDisconnect) {
+        this.quickDisconnect = quickDisconnect;
+    }
+
+    public boolean getQuickDisconnect() {
+        return quickDisconnect;
+    }
+
 	public boolean getStayConnected() {
 		return stayConnected;
 	}
@@ -271,6 +280,7 @@ public class HostBean extends AbstractBean {
 		values.put(HostDatabase.FIELD_HOST_WANTX11FORWARD, wantX11Forward);
 		values.put(HostDatabase.FIELD_HOST_X11HOST, x11Host);
 		values.put(HostDatabase.FIELD_HOST_X11PORT, x11Port);
+        values.put(HostDatabase.FIELD_HOST_QUICKDISCONNECT, quickDisconnect);
 		return values;
 	}
 
