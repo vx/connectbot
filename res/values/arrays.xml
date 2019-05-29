@@ -49,6 +49,8 @@
 		<item>@string/list_hwbutton_ctrlaspace</item>
 		<item>@string/list_hwbutton_ctrla</item>
 		<item>@string/list_hwbutton_esc_a</item>
+		<item>@string/list_hwbutton_font_inc</item>
+		<item>@string/list_hwbutton_font_dec</item>
 		<item>@string/list_hwbutton_none</item>
 	</string-array>
 
@@ -60,6 +62,8 @@
 		<item>Ctrl+A then Space</item>
 		<item>Ctrl+A</item>
 		<item>Esc+A</item>
+		<item>Increase font size</item>
+		<item>Decrease font size</item>
 		<item>None</item>
 	</string-array>
 

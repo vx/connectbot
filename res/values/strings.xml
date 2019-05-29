@@ -430,6 +430,10 @@
 	<string name="list_hwbutton_ctrla">"Ctrl+A"</string>
 	<!-- Selection to indicate pressing a hardware button should send "Esc+A". -->
 	<string name="list_hwbutton_esc_a">"Esc+A"</string>
+	<!-- Selection to indicate pressing a hardware button should increase font size . -->
+	<string name="list_hwbutton_font_inc">"Increase font size"</string>
+	<!-- Selection to indicate pressing a hardware button should decrease font size . -->
+	<string name="list_hwbutton_font_dec">"Decrease font size"</string>
 	<!-- Selection to indicate pressing a hardware button should send nothing at all. -->
 	<string name="list_hwbutton_none">"None"</string>
 
