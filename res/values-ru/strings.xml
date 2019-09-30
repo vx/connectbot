@@ -111,7 +111,7 @@
   <string name="hostpref_color_title">Цвет для категории</string>
   <string name="hostpref_fontsize_title">Размер шрифта</string>
   <string name="hostpref_pubkeyid_title">Использовать аутентификацию по открытому ключу</string>
-  <string name="hostpref_authagent_title">Использовать протокол SSH для соединения</string>
+  <string name="hostpref_authagent_title">Разрешить использование в качестве SSH-агента</string>
   <string name="hostpref_postlogin_title">Выполнение команд после авторизации</string>
   <string name="hostpref_postlogin_summary">Комманды, выполняемые на удаленной машине после подключения</string>
   <string name="hostpref_compression_title">Сжатие</string>
