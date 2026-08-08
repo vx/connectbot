@@ -249,6 +249,16 @@ public class KexManager
 		}
 	}
 
+	private String getHashTypeForKex(String kexAlgorithm)
+	{
+		if ("diffie-hellman-group14-sha256".equals(kexAlgorithm))
+			return "SHA256";
+		if ("diffie-hellman-group-exchange-sha256".equals(kexAlgorithm))
+			return "SHA256";
+
+		return "SHA1";
+	}
+
 	private boolean establishKeyMaterial()
 	{
 		try
@@ -261,8 +271,8 @@ public class KexManager
 			int enc_sc_key_len = BlockCipherFactory.getKeySize(kxs.np.enc_algo_server_to_client);
 			int enc_sc_block_len = BlockCipherFactory.getBlockSize(kxs.np.enc_algo_server_to_client);
 
-			km = KeyMaterial.create("SHA1", kxs.H, kxs.K, sessionId, enc_cs_key_len, enc_cs_block_len, mac_cs_key_len,
-					enc_sc_key_len, enc_sc_block_len, mac_sc_key_len);
+			km = KeyMaterial.create(getHashTypeForKex(kxs.np.kex_algo), kxs.H, kxs.K, sessionId, enc_cs_key_len,
+					enc_cs_block_len, mac_cs_key_len, enc_sc_key_len, enc_sc_block_len, mac_sc_key_len);
 		}
 		catch (IllegalArgumentException e)
 		{
@@ -309,29 +319,56 @@ public class KexManager
 
 	public static final String[] getDefaultServerHostkeyAlgorithmList()
 	{
-		return new String[] { "ssh-rsa", "ssh-dss" };
+		return new String[] { "rsa-sha2-256", "rsa-sha2-512", "ssh-rsa", "ssh-dss" };
 	}
 
 	public static final void checkServerHostkeyAlgorithmsList(String[] algos)
 	{
 		for (int i = 0; i < algos.length; i++)
 		{
-			if (("ssh-rsa".equals(algos[i]) == false) && ("ssh-dss".equals(algos[i]) == false))
+			if (("rsa-sha2-256".equals(algos[i]) == false) && ("rsa-sha2-512".equals(algos[i]) == false)
+					&& ("ssh-rsa".equals(algos[i]) == false) && ("ssh-dss".equals(algos[i]) == false))
 				throw new IllegalArgumentException("Unknown server host key algorithm '" + algos[i] + "'");
 		}
 	}
 
 	public static final String[] getDefaultKexAlgorithmList()
 	{
-		return new String[] { "diffie-hellman-group-exchange-sha1", "diffie-hellman-group14-sha1",
-				"diffie-hellman-group1-sha1" };
+		return new String[] {
+				"diffie-hellman-group14-sha256",
+				"diffie-hellman-group-exchange-sha256",
+				"diffie-hellman-group14-sha1",
+				"diffie-hellman-group-exchange-sha1",
+				"diffie-hellman-group1-sha1"
+		};
 	}
 
 	public static final void checkKexAlgorithmList(String[] algos)
 	{
 		for (int i = 0; i < algos.length; i++)
 		{
+			if ("curve25519-sha256".equals(algos[i]))
+				continue;
+
+			if ("curve25519-sha256@libssh.org".equals(algos[i]))
+				continue;
+
+			if ("ecdh-sha2-nistp256".equals(algos[i]))
+				continue;
+
+			if ("ecdh-sha2-nistp384".equals(algos[i]))
+				continue;
+
+			if ("ecdh-sha2-nistp521".equals(algos[i]))
+				continue;
+
+			if ("diffie-hellman-group-exchange-sha256".equals(algos[i]))
+				continue;
+
 			if ("diffie-hellman-group-exchange-sha1".equals(algos[i]))
+				continue;
+
+			if ("diffie-hellman-group14-sha256".equals(algos[i]))
 				continue;
 
 			if ("diffie-hellman-group14-sha1".equals(algos[i]))
@@ -346,14 +383,22 @@ public class KexManager
 
 	private boolean verifySignature(byte[] sig, byte[] hostkey) throws IOException
 	{
-		if (kxs.np.server_host_key_algo.equals("ssh-rsa"))
+		if ("ssh-rsa".equals(kxs.np.server_host_key_algo)
+				|| "rsa-sha2-256".equals(kxs.np.server_host_key_algo)
+				|| "rsa-sha2-512".equals(kxs.np.server_host_key_algo))
 		{
+			String sigAlgo = RSASHA1Verify.getSignatureFormat(sig);
 			RSASignature rs = RSASHA1Verify.decodeSSHRSASignature(sig);
 			RSAPublicKey rpk = RSASHA1Verify.decodeSSHRSAPublicKey(hostkey);
 
-			log.log(50, "Verifying ssh-rsa signature");
+			log.log(50, "Verifying RSA hostkey signature with " + sigAlgo + " (negotiated key type "
+				+ kxs.np.server_host_key_algo + ")");
 
-			return RSASHA1Verify.verifySignature(kxs.H, rs, rpk);
+			if ("rsa-sha2-256".equals(sigAlgo))
+				return RSASHA1Verify.verifySignature(kxs.H, rs, rpk, "SHA-256");
+			if ("rsa-sha2-512".equals(sigAlgo))
+				return RSASHA1Verify.verifySignature(kxs.H, rs, rpk, "SHA-512");
+			return RSASHA1Verify.verifySignature(kxs.H, rs, rpk, "SHA-1");
 		}
 
 		if (kxs.np.server_host_key_algo.equals("ssh-dss"))
@@ -427,7 +472,8 @@ public class KexManager
 				ignore_next_kex_packet = true;
 			}
 
-			if (kxs.np.kex_algo.equals("diffie-hellman-group-exchange-sha1"))
+			if (kxs.np.kex_algo.equals("diffie-hellman-group-exchange-sha1")
+					|| kxs.np.kex_algo.equals("diffie-hellman-group-exchange-sha256"))
 			{
 				if (kxs.dhgexParameters.getMin_group_len() == 0 || csh.server_versioncomment.matches("OpenSSH_2\\.([0-4]\\.|5\\.[0-2]).*"))
 				{
@@ -445,7 +491,8 @@ public class KexManager
 			}
 
 			if (kxs.np.kex_algo.equals("diffie-hellman-group1-sha1")
-					|| kxs.np.kex_algo.equals("diffie-hellman-group14-sha1"))
+					|| kxs.np.kex_algo.equals("diffie-hellman-group14-sha1")
+					|| kxs.np.kex_algo.equals("diffie-hellman-group14-sha256"))
 			{
 				kxs.dhx = new DhExchange();
 
@@ -515,7 +562,8 @@ public class KexManager
 		if ((kxs == null) || (kxs.state == 0))
 			throw new IOException("Unexpected Kex submessage!");
 
-		if (kxs.np.kex_algo.equals("diffie-hellman-group-exchange-sha1"))
+		if (kxs.np.kex_algo.equals("diffie-hellman-group-exchange-sha1")
+					|| kxs.np.kex_algo.equals("diffie-hellman-group-exchange-sha256"))
 		{
 			if (kxs.state == 1)
 			{
@@ -530,6 +578,7 @@ public class KexManager
 
 			if (kxs.state == 2)
 			{
+				log.log(20, "KEX group-exchange branch: got SSH_MSG_KEXDH_REPLY, entering hostkey verification");
 				PacketKexDhGexReply dhgexrpl = new PacketKexDhGexReply(msg, 0, msglen);
 
 				kxs.hostkey = dhgexrpl.getHostKey();
@@ -538,12 +587,16 @@ public class KexManager
 				{
 					boolean vres = false;
 
+					log.log(20, "KEX group-exchange branch: invoking verifier callback");
+
 					try
 					{
 						vres = verifier.verifyServerHostKey(hostname, port, kxs.np.server_host_key_algo, kxs.hostkey);
+						log.log(20, "KEX group-exchange branch: verifier callback returned=" + vres);
 					}
 					catch (Exception e)
 					{
+						log.log(20, "KEX group-exchange branch: verifier callback threw exception: " + e.getClass().getName() + ": " + e.getMessage());
 						throw (IOException) new IOException(
 								"The server hostkey was not accepted by the verifier callback.").initCause(e);
 					}
@@ -553,19 +606,22 @@ public class KexManager
 				}
 
 				kxs.dhgx.setF(dhgexrpl.getF());
+				log.log(20, "KEX group-exchange branch: before calculateH");
 
 				try
 				{
 					kxs.H = kxs.dhgx.calculateH(csh.getClientString(), csh.getServerString(),
 							kxs.localKEX.getPayload(), kxs.remoteKEX.getPayload(), dhgexrpl.getHostKey(),
-							kxs.dhgexParameters);
+							kxs.dhgexParameters, getHashTypeForKex(kxs.np.kex_algo));
 				}
 				catch (IllegalArgumentException e)
 				{
 					throw (IOException) new IOException("KEX error.").initCause(e);
 				}
 
+				log.log(20, "KEX group-exchange branch: before verifySignature");
 				boolean res = verifySignature(dhgexrpl.getSignature(), kxs.hostkey);
+				log.log(20, "KEX group-exchange branch: verifySignature result=" + res);
 
 				if (res == false)
 					throw new IOException("Hostkey signature sent by remote is wrong!");
@@ -581,11 +637,12 @@ public class KexManager
 		}
 
 		if (kxs.np.kex_algo.equals("diffie-hellman-group1-sha1")
-				|| kxs.np.kex_algo.equals("diffie-hellman-group14-sha1"))
+					|| kxs.np.kex_algo.equals("diffie-hellman-group14-sha1")
+					|| kxs.np.kex_algo.equals("diffie-hellman-group14-sha256"))
 		{
 			if (kxs.state == 1)
 			{
-
+				log.log(20, "KEX group14 branch: got SSH_MSG_KEXDH_REPLY, entering hostkey verification");
 				PacketKexDHReply dhr = new PacketKexDHReply(msg, 0, msglen);
 
 				kxs.hostkey = dhr.getHostKey();
@@ -594,12 +651,16 @@ public class KexManager
 				{
 					boolean vres = false;
 
+					log.log(20, "KEX group14 branch: invoking verifier callback");
+
 					try
 					{
 						vres = verifier.verifyServerHostKey(hostname, port, kxs.np.server_host_key_algo, kxs.hostkey);
+						log.log(20, "KEX group14 branch: verifier callback returned=" + vres);
 					}
 					catch (Exception e)
 					{
+						log.log(20, "KEX group14 branch: verifier callback threw exception: " + e.getClass().getName() + ": " + e.getMessage());
 						throw (IOException) new IOException(
 								"The server hostkey was not accepted by the verifier callback.").initCause(e);
 					}
@@ -609,18 +670,21 @@ public class KexManager
 				}
 
 				kxs.dhx.setF(dhr.getF());
+				log.log(20, "KEX group14 branch: before calculateH");
 
 				try
 				{
 					kxs.H = kxs.dhx.calculateH(csh.getClientString(), csh.getServerString(), kxs.localKEX.getPayload(),
-							kxs.remoteKEX.getPayload(), dhr.getHostKey());
+							kxs.remoteKEX.getPayload(), dhr.getHostKey(), getHashTypeForKex(kxs.np.kex_algo));
 				}
 				catch (IllegalArgumentException e)
 				{
 					throw (IOException) new IOException("KEX error.").initCause(e);
 				}
 
+				log.log(20, "KEX group14 branch: before verifySignature");
 				boolean res = verifySignature(dhr.getSignature(), kxs.hostkey);
+				log.log(20, "KEX group14 branch: verifySignature result=" + res);
 
 				if (res == false)
 					throw new IOException("Hostkey signature sent by remote is wrong!");

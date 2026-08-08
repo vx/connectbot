@@ -3,6 +3,8 @@ package com.trilead.ssh2.signature;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import com.trilead.ssh2.crypto.SimpleDERReader;
 import com.trilead.ssh2.crypto.digest.SHA1;
@@ -50,14 +52,23 @@ public class RSASHA1Verify
 		return tw.getBytes();
 	}
 
-	public static RSASignature decodeSSHRSASignature(byte[] sig) throws IOException
+	public static String getSignatureFormat(byte[] sig) throws IOException
 	{
 		TypesReader tr = new TypesReader(sig);
-
 		String sig_format = tr.readString();
 
-		if (sig_format.equals("ssh-rsa") == false)
+		if ((sig_format.equals("ssh-rsa") == false) && (sig_format.equals("rsa-sha2-256") == false)
+				&& (sig_format.equals("rsa-sha2-512") == false))
 			throw new IOException("Peer sent wrong signature format");
+
+		return sig_format;
+	}
+
+	public static RSASignature decodeSSHRSASignature(byte[] sig) throws IOException
+	{
+		String sig_format = getSignatureFormat(sig);
+		TypesReader tr = new TypesReader(sig);
+		tr.readString();
 
 		/* S is NOT an MPINT. "The value for 'rsa_signature_blob' is encoded as a string
 		 * containing s (which is an integer, without lengths or padding, unsigned and in
@@ -82,9 +93,14 @@ public class RSASHA1Verify
 
 	public static byte[] encodeSSHRSASignature(RSASignature sig) throws IOException
 	{
+		return encodeSSHRSASignature(sig, "ssh-rsa");
+	}
+
+	public static byte[] encodeSSHRSASignature(RSASignature sig, String sigFormat) throws IOException
+	{
 		TypesWriter tw = new TypesWriter();
 
-		tw.writeString("ssh-rsa");
+		tw.writeString(sigFormat);
 
 		/* S is NOT an MPINT. "The value for 'rsa_signature_blob' is encoded as a string
 		 * containing s (which is an integer, without lengths or padding, unsigned and in
@@ -103,24 +119,51 @@ public class RSASHA1Verify
 		return tw.getBytes();
 	}
 
+	private static final byte[] SHA1_DER_HEADER = new byte[] {
+		0x30, 0x21, 0x30, 0x09, 0x06, 0x05, 0x2b, 0x0e, 0x03, 0x02, 0x1a, 0x05, 0x00,
+		0x04, 0x14 };
+	private static final byte[] SHA256_DER_HEADER = new byte[] {
+		0x30, 0x31, 0x30, 0x0d, 0x06, 0x09, 0x60, (byte) 0x86, 0x48, 0x01, 0x65, 0x03,
+		0x04, 0x02, 0x01, 0x05, 0x00, 0x04, 0x20 };
+	private static final byte[] SHA512_DER_HEADER = new byte[] {
+		0x30, 0x51, 0x30, 0x0d, 0x06, 0x09, 0x60, (byte) 0x86, 0x48, 0x01, 0x65, 0x03,
+		0x04, 0x02, 0x03, 0x05, 0x00, 0x04, 0x40 };
+
 	public static RSASignature generateSignature(byte[] message, RSAPrivateKey pk) throws IOException
 	{
-		SHA1 md = new SHA1();
-		md.update(message);
-		byte[] sha_message = new byte[md.getDigestLength()];
-		md.digest(sha_message);
+		return generateSignature(message, pk, "SHA-1");
+	}
 
-		byte[] der_header = new byte[] { 0x30, 0x21, 0x30, 0x09, 0x06, 0x05, 0x2b, 0x0e, 0x03, 0x02, 0x1a, 0x05, 0x00,
-				0x04, 0x14 };
+	public static RSASignature generateSignature(byte[] message, RSAPrivateKey pk, String digestType)
+			throws IOException
+	{
+		byte[] digest;
+		byte[] der_header;
+
+		try {
+			MessageDigest md = MessageDigest.getInstance(digestType);
+			md.update(message);
+			digest = md.digest();
+		} catch (NoSuchAlgorithmException e) {
+			throw new IOException("Unable to calculate RSA signature hash using " + digestType, e);
+		}
+
+		if ("SHA-256".equals(digestType) || "SHA256".equals(digestType)) {
+			der_header = SHA256_DER_HEADER;
+		} else if ("SHA-512".equals(digestType) || "SHA512".equals(digestType)) {
+			der_header = SHA512_DER_HEADER;
+		} else {
+			der_header = SHA1_DER_HEADER;
+		}
 
 		int rsa_block_len = (pk.getN().bitLength() + 7) / 8;
 
-		int num_pad = rsa_block_len - (2 + der_header.length + sha_message.length) - 1;
+		int num_pad = rsa_block_len - (2 + der_header.length + digest.length) - 1;
 
 		if (num_pad < 8)
 			throw new IOException("Cannot sign with RSA, message too long");
 
-		byte[] sig = new byte[der_header.length + sha_message.length + 2 + num_pad];
+		byte[] sig = new byte[der_header.length + digest.length + 2 + num_pad];
 
 		sig[0] = 0x01;
 
@@ -132,7 +175,7 @@ public class RSASHA1Verify
 		sig[num_pad + 1] = 0x00;
 
 		System.arraycopy(der_header, 0, sig, 2 + num_pad, der_header.length);
-		System.arraycopy(sha_message, 0, sig, 2 + num_pad + der_header.length, sha_message.length);
+		System.arraycopy(digest, 0, sig, 2 + num_pad + der_header.length, digest.length);
 
 		BigInteger m = new BigInteger(1, sig);
 
@@ -143,143 +186,61 @@ public class RSASHA1Verify
 
 	public static boolean verifySignature(byte[] message, RSASignature ds, RSAPublicKey dpk) throws IOException
 	{
-		SHA1 md = new SHA1();
-		md.update(message);
-		byte[] sha_message = new byte[md.getDigestLength()];
-		md.digest(sha_message);
+		return verifySignature(message, ds, dpk, "SHA-1");
+	}
 
-		BigInteger n = dpk.getN();
-		BigInteger e = dpk.getE();
-		BigInteger s = ds.getS();
+	public static boolean verifySignature(byte[] message, RSASignature ds, RSAPublicKey dpk, String digestType)
+			throws IOException
+	{
+		String jcaSignatureName;
 
-		if (n.compareTo(s) <= 0)
+		if ("SHA-256".equals(digestType) || "SHA256".equals(digestType))
+			jcaSignatureName = "SHA256withRSA";
+		else if ("SHA-512".equals(digestType) || "SHA512".equals(digestType))
+			jcaSignatureName = "SHA512withRSA";
+		else
+			jcaSignatureName = "SHA1withRSA";
+
+		try
 		{
-			log.log(20, "ssh-rsa signature: n.compareTo(s) <= 0");
-			return false;
-		}
+			BigInteger n = dpk.getN();
+			BigInteger e = dpk.getE();
+			BigInteger s = ds.getS();
 
-		int rsa_block_len = (n.bitLength() + 7) / 8;
-
-		/* And now the show begins */
-
-		if (rsa_block_len < 1)
-		{
-			log.log(20, "ssh-rsa signature: rsa_block_len < 1");
-			return false;
-		}
-
-		byte[] v = s.modPow(e, n).toByteArray();
-
-		int startpos = 0;
-
-		if ((v.length > 0) && (v[0] == 0x00))
-			startpos++;
-
-		if ((v.length - startpos) != (rsa_block_len - 1))
-		{
-			log.log(20, "ssh-rsa signature: (v.length - startpos) != (rsa_block_len - 1)");
-			return false;
-		}
-
-		if (v[startpos] != 0x01)
-		{
-			log.log(20, "ssh-rsa signature: v[startpos] != 0x01");
-			return false;
-		}
-
-		int pos = startpos + 1;
-
-		while (true)
-		{
-			if (pos >= v.length)
+			if (n.compareTo(s) <= 0)
 			{
-				log.log(20, "ssh-rsa signature: pos >= v.length");
+				log.log(20, "ssh-rsa signature: n.compareTo(s) <= 0");
 				return false;
 			}
-			if (v[pos] == 0x00)
-				break;
-			if (v[pos] != (byte) 0xff)
+
+			int rsa_block_len = (n.bitLength() + 7) / 8;
+			if (rsa_block_len < 1)
 			{
-				log.log(20, "ssh-rsa signature: v[pos] != (byte) 0xff");
+				log.log(20, "ssh-rsa signature: rsa_block_len < 1");
 				return false;
 			}
-			pos++;
+
+			byte[] sBytes = s.toByteArray();
+			byte[] signatureBytes = new byte[rsa_block_len];
+			int offset = 0;
+
+			if ((sBytes.length > 0) && (sBytes[0] == 0x00))
+				offset++;
+
+			int copyLen = Math.min(sBytes.length - offset, rsa_block_len);
+			System.arraycopy(sBytes, offset, signatureBytes, rsa_block_len - copyLen, copyLen);
+
+			java.security.interfaces.RSAPublicKey jcaPublicKey = (java.security.interfaces.RSAPublicKey) java.security.KeyFactory
+					.getInstance("RSA").generatePublic(new java.security.spec.RSAPublicKeySpec(n, e));
+			java.security.Signature signature = java.security.Signature.getInstance(jcaSignatureName);
+			signature.initVerify(jcaPublicKey);
+			signature.update(message);
+
+			return signature.verify(signatureBytes);
 		}
-
-		int num_pad = pos - (startpos + 1);
-
-		if (num_pad < 8)
+		catch (Exception e)
 		{
-			log.log(20, "ssh-rsa signature: num_pad < 8");
-			return false;
+			throw new IOException("Unable to verify RSA signature using " + digestType, e);
 		}
-
-		pos++;
-
-		if (pos >= v.length)
-		{
-			log.log(20, "ssh-rsa signature: pos >= v.length");
-			return false;
-		}
-
-		SimpleDERReader dr = new SimpleDERReader(v, pos, v.length - pos);
-
-		byte[] seq = dr.readSequenceAsByteArray();
-
-		if (dr.available() != 0)
-		{
-			log.log(20, "ssh-rsa signature: dr.available() != 0");
-			return false;
-		}
-
-		dr.resetInput(seq);
-
-		/* Read digestAlgorithm */
-
-		byte digestAlgorithm[] = dr.readSequenceAsByteArray();
-
-		/* Inspired by RFC 3347, however, ignoring the comment regarding old BER based implementations */
-
-		if ((digestAlgorithm.length < 8) || (digestAlgorithm.length > 9))
-		{
-			log.log(20, "ssh-rsa signature: (digestAlgorithm.length < 8) || (digestAlgorithm.length > 9)");
-			return false;
-		}
-
-		byte[] digestAlgorithm_sha1 = new byte[] { 0x06, 0x05, 0x2b, 0x0e, 0x03, 0x02, 0x1a, 0x05, 0x00 };
-
-		for (int i = 0; i < digestAlgorithm.length; i++)
-		{
-			if (digestAlgorithm[i] != digestAlgorithm_sha1[i])
-			{
-				log.log(20, "ssh-rsa signature: digestAlgorithm[i] != digestAlgorithm_sha1[i]");
-				return false;
-			}
-		}
-
-		byte[] digest = dr.readOctetString();
-
-		if (dr.available() != 0)
-		{
-			log.log(20, "ssh-rsa signature: dr.available() != 0 (II)");
-			return false;
-		}
-			
-		if (digest.length != sha_message.length)
-		{
-			log.log(20, "ssh-rsa signature: digest.length != sha_message.length");
-			return false;
-		}
-
-		for (int i = 0; i < sha_message.length; i++)
-		{
-			if (sha_message[i] != digest[i])
-			{
-				log.log(20, "ssh-rsa signature: sha_message[i] != digest[i]");
-				return false;
-			}
-		}
-
-		return true;
 	}
 }

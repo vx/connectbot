@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="msg_version" translatable="false">ConnectBot (working copy)</string>
+	<string name="msg_version" translatable="false">VX ConnectBot 1.8.0-30 (2026.08.08)</string>
 </resources>

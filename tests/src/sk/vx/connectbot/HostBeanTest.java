@@ -93,4 +93,21 @@ public class HostBeanTest extends AndroidTestCase {
 	public void testBeanMeetsHashCodeContract() {
 		BeanTestCase.assertMeetsHashCodeContract(HostBean.class, FIELDS);
 	}
+
+	public void testEquivalentHostsMatch() {
+		HostBean hostA = new HostBean();
+		hostA.setNickname("Home");
+		hostA.setUsername("bob");
+		hostA.setHostname("server.example.com");
+		hostA.setPort(22);
+
+		HostBean hostB = new HostBean();
+		hostB.setNickname("Home");
+		hostB.setUsername("bob");
+		hostB.setHostname("server.example.com");
+		hostB.setPort(22);
+
+		assertTrue(hostA.equals(hostB));
+		assertTrue(hostA.hashCode() == hostB.hashCode());
+	}
 }

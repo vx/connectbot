@@ -88,9 +88,9 @@ public class DhGroupExchange
 	}
 
 	public byte[] calculateH(byte[] clientversion, byte[] serverversion, byte[] clientKexPayload,
-			byte[] serverKexPayload, byte[] hostKey, DHGexParameters para)
+			byte[] serverKexPayload, byte[] hostKey, DHGexParameters para, String hashType)
 	{
-		HashForSSH2Types hash = new HashForSSH2Types("SHA1");
+		HashForSSH2Types hash = new HashForSSH2Types(hashType);
 
 		hash.updateByteString(clientversion);
 		hash.updateByteString(serverversion);
