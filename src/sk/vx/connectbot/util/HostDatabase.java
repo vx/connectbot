@@ -530,15 +530,22 @@ public class HostDatabase extends RobustSQLiteOpenHelper {
 	 */
 	public void saveKnownHost(String hostname, int port, String hostkeyalgo, byte[] hostkey) {
 		ContentValues values = new ContentValues();
+		values.put(FIELD_HOST_HOSTNAME, hostname);
+		values.put(FIELD_HOST_PORT, port);
 		values.put(FIELD_HOST_HOSTKEYALGO, hostkeyalgo);
 		values.put(FIELD_HOST_HOSTKEY, hostkey);
 
 		synchronized (dbLock) {
-			SQLiteDatabase db = getReadableDatabase();
+			SQLiteDatabase db = getWritableDatabase();
 
-			db.update(TABLE_HOSTS, values,
+			int updated = db.update(TABLE_HOSTS, values,
 					FIELD_HOST_HOSTNAME + " = ? AND " + FIELD_HOST_PORT + " = ?",
 					new String[] { hostname, String.valueOf(port) });
+
+			if (updated == 0) {
+				db.insert(TABLE_HOSTS, null, values);
+			}
+
 			Log.d(TAG, String.format("Finished saving hostkey information for '%s'", hostname));
 		}
 	}

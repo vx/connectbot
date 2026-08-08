@@ -52,7 +52,6 @@ import android.text.ClipboardManager;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
 import android.text.method.SingleLineTransformationMethod;
-import android.util.FloatMath;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.InputDevice;
@@ -172,15 +171,20 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 			final String requestedNickname = (requested != null) ? requested.getFragment() : null;
 			int requestedIndex = -1;
 
-			TerminalBridge requestedBridge = bound.getConnectedBridge(requestedNickname);
+			TerminalBridge requestedBridge = null;
+			if (requested != null) {
+				if (requestedNickname != null) {
+					requestedBridge = bound.getConnectedBridge(requestedNickname);
+				}
 
-			// If we didn't find the requested connection, try opening it
-			if (requestedNickname != null && requestedBridge == null) {
-				try {
-					Log.d(TAG, String.format("We couldnt find an existing bridge with URI=%s (nickname=%s), so creating one now", requested.toString(), requestedNickname));
-					requestedBridge = bound.openConnection(requested);
-				} catch(Exception e) {
-					Log.e(TAG, "Problem while trying to create new requested bridge from URI", e);
+				// If we didn't find the requested connection, try opening it
+				if (requestedBridge == null) {
+					try {
+						Log.d(TAG, String.format("We couldnt find an existing bridge with URI=%s (nickname=%s), so creating one now", requested.toString(), requestedNickname));
+						requestedBridge = bound.openConnection(requested);
+					} catch(Exception e) {
+						Log.e(TAG, "Problem while trying to create new requested bridge from URI", e);
+					}
 				}
 			}
 
@@ -679,8 +683,8 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 
 				// when copying, highlight the area
 				if (copySource != null && copySource.isSelectingForCopy()) {
-					int row = (int)FloatMath.floor(event.getY() / copySource.charHeight);
-					int col = (int)FloatMath.floor(event.getX() / copySource.charWidth);
+int row = (int)Math.floor(event.getY() / copySource.charHeight);
+						int col = (int)Math.floor(event.getX() / copySource.charWidth);
 
 					SelectionArea area = copySource.getSelectionArea();
 
@@ -1310,23 +1314,26 @@ public class ConsoleActivity extends Activity implements FileChooserCallback {
 			return;
 		}
 
-		TerminalBridge requestedBridge = bound.getConnectedBridge(requested.getFragment());
+		TerminalBridge requestedBridge = null;
+		String requestedNickname = requested.getFragment();
+		if (requestedNickname != null) {
+			requestedBridge = bound.getConnectedBridge(requestedNickname);
+		}
+		if (requestedBridge == null) {
+			try {
+				requestedBridge = bound.openConnection(requested);
+			} catch(Exception e) {
+				Log.e(TAG, "Problem while trying to create new requested bridge from URI", e);
+				return;
+			}
+		}
 		int requestedIndex = 0;
 
 		synchronized (flip) {
 			if (requestedBridge == null) {
-				// If we didn't find the requested connection, try opening it
-
-				try {
-					Log.d(TAG, String.format("We couldnt find an existing bridge with URI=%s (nickname=%s),"+
-							"so creating one now", requested.toString(), requested.getFragment()));
-					requestedBridge = bound.openConnection(requested);
-				} catch(Exception e) {
-					Log.e(TAG, "Problem while trying to create new requested bridge from URI", e);
-					// TODO: We should display an error dialog here.
-					return;
-				}
-
+				Log.e(TAG, "Could not find or create a bridge for the requested URI");
+				return;
+			} else if (getFlipIndex(requestedBridge) < 0) {
 				requestedIndex = addNewTerminalView(requestedBridge);
 			} else {
 				final int flipIndex = getFlipIndex(requestedBridge);

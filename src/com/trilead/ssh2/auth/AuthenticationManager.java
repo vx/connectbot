@@ -211,31 +211,68 @@ public class AuthenticationManager implements MessageHandler
 
 				byte[] pk_enc = RSASHA1Verify.encodeSSHRSAPublicKey(pk.getPublicKey());
 
-				TypesWriter tw = new TypesWriter();
-				{
-					byte[] H = tm.getSessionIdentifier();
+				String[] sigAlgos = new String[] { "rsa-sha2-512", "rsa-sha2-256", "ssh-rsa" };
 
-					tw.writeString(H, 0, H.length);
-					tw.writeByte(Packets.SSH_MSG_USERAUTH_REQUEST);
-					tw.writeString(user);
-					tw.writeString("ssh-connection");
-					tw.writeString("publickey");
-					tw.writeBoolean(true);
-					tw.writeString("ssh-rsa");
-					tw.writeString(pk_enc, 0, pk_enc.length);
+				for (int i = 0; i < sigAlgos.length; i++) {
+					String sigAlgo = sigAlgos[i];
+					String digestType;
+
+					if ("rsa-sha2-512".equals(sigAlgo)) {
+						digestType = "SHA-512";
+					} else if ("rsa-sha2-256".equals(sigAlgo)) {
+						digestType = "SHA-256";
+					} else {
+						digestType = "SHA-1";
+					}
+
+					TypesWriter tw = new TypesWriter();
+					{
+						byte[] H = tm.getSessionIdentifier();
+
+						tw.writeString(H, 0, H.length);
+						tw.writeByte(Packets.SSH_MSG_USERAUTH_REQUEST);
+						tw.writeString(user);
+						tw.writeString("ssh-connection");
+						tw.writeString("publickey");
+						tw.writeBoolean(true);
+						tw.writeString(sigAlgo);
+						tw.writeString(pk_enc, 0, pk_enc.length);
+					}
+
+					byte[] msg = tw.getBytes();
+
+					RSASignature ds = RSASHA1Verify.generateSignature(msg, pk, digestType);
+
+					byte[] rsa_sig_enc = RSASHA1Verify.encodeSSHRSASignature(ds, sigAlgo);
+
+					PacketUserauthRequestPublicKey ua = new PacketUserauthRequestPublicKey("ssh-connection", user,
+							sigAlgo, pk_enc, rsa_sig_enc);
+
+					tm.sendMessage(ua.getPayload());
+
+					byte[] ar = getNextMessage();
+					if (ar[0] == Packets.SSH_MSG_USERAUTH_SUCCESS)
+					{
+						authenticated = true;
+						tm.removeMessageHandler(this, 0, 255);
+						return true;
+					}
+
+					if (ar[0] == Packets.SSH_MSG_USERAUTH_FAILURE)
+					{
+						PacketUserauthFailure puf = new PacketUserauthFailure(ar, 0, ar.length);
+
+						remainingMethods = puf.getAuthThatCanContinue();
+						isPartialSuccess = puf.isPartialSuccess();
+
+						if (methodPossible("publickey") == false || i == sigAlgos.length - 1)
+							return false;
+
+						continue;
+					}
+
+					throw new IOException("Unexpected SSH message (type " + ar[0] + ")");
 				}
-
-				byte[] msg = tw.getBytes();
-
-				RSASignature ds = RSASHA1Verify.generateSignature(msg, pk);
-
-				byte[] rsa_sig_enc = RSASHA1Verify.encodeSSHRSASignature(ds);
-
-				PacketUserauthRequestPublicKey ua = new PacketUserauthRequestPublicKey("ssh-connection", user,
-						"ssh-rsa", pk_enc, rsa_sig_enc);
-
-				tm.sendMessage(ua.getPayload());
-
 			}
 			else
 			{

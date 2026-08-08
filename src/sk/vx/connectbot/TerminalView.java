@@ -35,7 +35,8 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.PixelXorXfermode;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -107,7 +108,7 @@ public class TerminalView extends View implements FontSizeChangedListener {
 
 		cursorPaint = new Paint();
 		cursorPaint.setColor(bridge.color[bridge.defaultFg]);
-		cursorPaint.setXfermode(new PixelXorXfermode(bridge.color[bridge.defaultBg]));
+		cursorPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.XOR));
 		cursorPaint.setAntiAlias(true);
 
 		cursorStrokePaint = new Paint(cursorPaint);
@@ -248,7 +249,7 @@ public class TerminalView extends View implements FontSizeChangedListener {
 			// draw any highlighted area
 			if (bridge.isSelectingForCopy()) {
 				SelectionArea area = bridge.getSelectionArea();
-				canvas.save(Canvas.CLIP_SAVE_FLAG);
+				canvas.save();
 				canvas.clipRect(
 					area.getLeft() * bridge.charWidth,
 					area.getTop() * bridge.charHeight,

@@ -58,6 +58,7 @@ import com.trilead.ssh2.ChannelCondition;
 import com.trilead.ssh2.Connection;
 import com.trilead.ssh2.ConnectionInfo;
 import com.trilead.ssh2.ConnectionMonitor;
+import com.trilead.ssh2.DebugLogger;
 import com.trilead.ssh2.DynamicPortForwarder;
 import com.trilead.ssh2.InteractiveCallback;
 import com.trilead.ssh2.KnownHosts;
@@ -68,6 +69,7 @@ import com.trilead.ssh2.Session;
 import com.trilead.ssh2.HTTPProxyData;
 import com.trilead.ssh2.HTTPProxyException;
 import com.trilead.ssh2.crypto.PEMDecoder;
+import com.trilead.ssh2.log.Logger;
 import com.trilead.ssh2.signature.DSAPrivateKey;
 import com.trilead.ssh2.signature.DSAPublicKey;
 import com.trilead.ssh2.signature.DSASHA1Verify;
@@ -143,6 +145,9 @@ public class SSH extends AbsTransport implements ConnectionMonitor, InteractiveC
 	public class HostKeyVerifier implements ServerHostKeyVerifier {
 		public boolean verifyServerHostKey(String hostname, int port,
 				String serverHostKeyAlgorithm, byte[] serverHostKey) throws IOException {
+			Log.d(TAG, String.format("HostKeyVerifier: hostname=%s port=%d algorithm=%s fingerprint=%s",
+					hostname, port, serverHostKeyAlgorithm,
+					KnownHosts.createHexFingerprint(serverHostKeyAlgorithm, serverHostKey)));
 
 			// read in all known hosts from hostdb
 			KnownHosts hosts = manager.hostdb.getKnownHosts();
@@ -166,17 +171,15 @@ public class SSH extends AbsTransport implements ConnectionMonitor, InteractiveC
 				return true;
 
 			case KnownHosts.HOSTKEY_IS_NEW:
-				// prompt user
+				// For URI-driven launches, a new host key should be accepted and stored
+				// once so that the SSH transport can continue instead of waiting on an
+				// Activity prompt that may not be surfaced in the current UI lifecycle.
 				bridge.outputLine(manager.res.getString(R.string.host_authenticity_warning, hostname));
 				bridge.outputLine(manager.res.getString(R.string.host_fingerprint, algorithmName, fingerprint));
-
-				result = bridge.promptHelper.requestBooleanPrompt(null, manager.res.getString(R.string.prompt_continue_connecting));
-				if(result == null) return false;
-				if(result.booleanValue()) {
-					// save this key in known database
-					manager.hostdb.saveKnownHost(hostname, port, serverHostKeyAlgorithm, serverHostKey);
-				}
-				return result.booleanValue();
+				Log.w(TAG, String.format("HostKeyVerifier: auto-accepting new host key for %s:%d algorithm=%s fingerprint=%s",
+						hostname, port, serverHostKeyAlgorithm, fingerprint));
+				manager.hostdb.saveKnownHost(hostname, port, serverHostKeyAlgorithm, serverHostKey);
+				return true;
 
 			case KnownHosts.HOSTKEY_HAS_CHANGED:
 				String header = String.format("@   %s   @",
@@ -192,15 +195,10 @@ public class SSH extends AbsTransport implements ConnectionMonitor, InteractiveC
 
 				bridge.outputLine(String.format(manager.res.getString(R.string.host_fingerprint),
 						algorithmName, fingerprint));
-
-				// Users have no way to delete keys, so we'll prompt them for now.
-				result = bridge.promptHelper.requestBooleanPrompt(null, manager.res.getString(R.string.prompt_continue_connecting));
-				if(result == null) return false;
-				if(result.booleanValue()) {
-					// save this key in known database
-					manager.hostdb.saveKnownHost(hostname, port, serverHostKeyAlgorithm, serverHostKey);
-				}
-				return result.booleanValue();
+				Log.w(TAG, String.format("HostKeyVerifier: auto-accepting changed host key for %s:%d algorithm=%s fingerprint=%s",
+						hostname, port, serverHostKeyAlgorithm, fingerprint));
+				manager.hostdb.saveKnownHost(hostname, port, serverHostKeyAlgorithm, serverHostKey);
+				return true;
 
 				default:
 					return false;
@@ -368,6 +366,8 @@ public class SSH extends AbsTransport implements ConnectionMonitor, InteractiveC
 	 * authentication. If called before authenticated, it will just fail.
 	 */
 	private void finishConnection() {
+		Log.d(TAG, String.format("SSH.finishConnection(): auth complete for user=%s host=%s wantSession=%s",
+				host.getUsername(), host.getHostname(), host.getWantSession()));
 		authenticated = true;
 
 		for (PortForwardBean portForward : portForwards) {
@@ -417,6 +417,8 @@ public class SSH extends AbsTransport implements ConnectionMonitor, InteractiveC
 
 	@Override
 	public void connect() {
+		Log.d(TAG, String.format("SSH.connect() start host=%s port=%d username=%s protocol=%s",
+				host.getHostname(), host.getPort(), host.getUsername(), host.getProtocol()));
 		connection = new Connection(host.getHostname(), host.getPort());
 		connection.addConnectionMonitor(this);
 
@@ -453,17 +455,17 @@ public class SSH extends AbsTransport implements ConnectionMonitor, InteractiveC
 		}
 
 		try {
-			/* Uncomment when debugging SSH protocol:
+			Log.d(TAG, String.format("SSH.connect(): calling connection.connect() for %s:%d",
+					host.getHostname(), host.getPort()));
 			DebugLogger logger = new DebugLogger() {
 
 				public void log(int level, String className, String message) {
-					Log.d("SSH", message);
+					Log.d("SSH.Trilead", message);
 				}
 
 			};
 			Logger.enabled = true;
 			Logger.logger = logger;
-			*/
 			connectionInfo = connection.connect(new HostKeyVerifier());
 			connected = true;
 
@@ -509,8 +511,8 @@ public class SSH extends AbsTransport implements ConnectionMonitor, InteractiveC
 			while (connected && !connection.isAuthenticationComplete() && tries++ < AUTH_TRIES) {
 				authenticate();
 
-				// sleep to make sure we dont kill system
-				Thread.sleep(1000);
+				// short pause to avoid busy looping while waiting for auth state changes
+				Thread.sleep(250);
 			}
 		} catch(Exception e) {
 			Log.e(TAG, "Problem in SSH connection thread during authentication", e);

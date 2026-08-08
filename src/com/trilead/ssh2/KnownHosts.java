@@ -93,7 +93,9 @@ public class KnownHosts
 		if (hostnames == null)
 			throw new IllegalArgumentException("hostnames may not be null");
 
-		if ("ssh-rsa".equals(serverHostKeyAlgorithm))
+		if ("ssh-rsa".equals(serverHostKeyAlgorithm)
+				|| "rsa-sha2-256".equals(serverHostKeyAlgorithm)
+				|| "rsa-sha2-512".equals(serverHostKeyAlgorithm))
 		{
 			RSAPublicKey rpk = RSASHA1Verify.decodeSSHRSAPublicKey(serverHostKey);
 
@@ -405,7 +407,10 @@ public class KnownHosts
 
 			if (arr.length >= 3)
 			{
-				if ((arr[1].compareTo("ssh-rsa") == 0) || (arr[1].compareTo("ssh-dss") == 0))
+				if ((arr[1].compareTo("ssh-rsa") == 0)
+						|| (arr[1].compareTo("ssh-dss") == 0)
+						|| (arr[1].compareTo("rsa-sha2-256") == 0)
+						|| (arr[1].compareTo("rsa-sha2-512") == 0))
 				{
 					String[] hostnames = arr[0].split(",");
 
@@ -603,7 +608,9 @@ public class KnownHosts
 	{
 		Object remoteKey = null;
 
-		if ("ssh-rsa".equals(serverHostKeyAlgorithm))
+		if ("ssh-rsa".equals(serverHostKeyAlgorithm)
+				|| "rsa-sha2-256".equals(serverHostKeyAlgorithm)
+				|| "rsa-sha2-512".equals(serverHostKeyAlgorithm))
 		{
 			remoteKey = RSASHA1Verify.decodeSSHRSAPublicKey(serverHostKey);
 		}
@@ -720,7 +727,9 @@ public class KnownHosts
 		else
 			throw new IllegalArgumentException("Unknown hash type " + type);
 
-		if ("ssh-rsa".equals(keyType))
+		if ("ssh-rsa".equals(keyType)
+				|| "rsa-sha2-256".equals(keyType)
+				|| "rsa-sha2-512".equals(keyType))
 		{
 		}
 		else if ("ssh-dss".equals(keyType))

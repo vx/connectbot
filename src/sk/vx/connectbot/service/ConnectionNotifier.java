@@ -44,15 +44,14 @@ public class ConnectionNotifier {
 	}
 
 	protected Notification newNotification(Context context) {
-		Notification notification = new Notification();
-		notification.icon = R.drawable.notification_icon;
-		notification.when = System.currentTimeMillis();
-
-		return notification;
+		Notification.Builder builder = new Notification.Builder(context);
+		builder.setSmallIcon(R.drawable.notification_icon);
+		builder.setWhen(System.currentTimeMillis());
+		return builder.getNotification();
 	}
 
 	protected Notification newActivityNotification(Context context, HostBean host) {
-		Notification notification = newNotification(context);
+		Notification baseNotification = newNotification(context);
 
 		Resources res = context.getResources();
 
@@ -66,7 +65,14 @@ public class ConnectionNotifier {
 		PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
 				notificationIntent, 0);
 
-		notification.setLatestEventInfo(context, res.getString(R.string.app_name), contentText, contentIntent);
+		Notification.Builder builder = new Notification.Builder(context);
+		builder.setSmallIcon(R.drawable.notification_icon);
+		builder.setWhen(System.currentTimeMillis());
+		builder.setContentTitle(res.getString(R.string.app_name));
+		builder.setContentText(contentText);
+		builder.setContentIntent(contentIntent);
+		builder.setAutoCancel(true);
+		Notification notification = builder.getNotification();
 
 		notification.flags = Notification.FLAG_AUTO_CANCEL;
 
@@ -87,22 +93,25 @@ public class ConnectionNotifier {
 	}
 
 	protected Notification newRunningNotification(Context context) {
-		Notification notification = newNotification(context);
+		Notification baseNotification = newNotification(context);
 
-		notification.flags = Notification.FLAG_ONGOING_EVENT
+		baseNotification.flags = Notification.FLAG_ONGOING_EVENT
 				| Notification.FLAG_NO_CLEAR;
-		notification.when = 0;
+		baseNotification.when = 0;
 
-		notification.contentIntent = PendingIntent.getActivity(context,
+		baseNotification.contentIntent = PendingIntent.getActivity(context,
 				ONLINE_NOTIFICATION,
 				new Intent(context, ConsoleActivity.class), 0);
 
 		Resources res = context.getResources();
 
-		notification.setLatestEventInfo(context,
-				res.getString(R.string.app_name),
-				res.getString(R.string.app_is_running),
-				notification.contentIntent);
+		Notification.Builder builder = new Notification.Builder(context);
+		builder.setSmallIcon(R.drawable.notification_icon);
+		builder.setWhen(System.currentTimeMillis());
+		builder.setContentTitle(res.getString(R.string.app_name));
+		builder.setContentText(res.getString(R.string.app_is_running));
+		builder.setContentIntent(baseNotification.contentIntent);
+		Notification notification = builder.getNotification();
 
 		return notification;
 	}

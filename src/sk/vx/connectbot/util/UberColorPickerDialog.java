@@ -52,7 +52,6 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.GradientDrawable.Orientation;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.FloatMath;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -523,8 +522,8 @@ public class UberColorPickerDialog extends Dialog {
 
 			float angle = 2*PI - mHSV[0] / (180 / 3.1415927f);
 			float radius = mHSV[1] * PALETTE_RADIUS;
-			mCoord[0] = (int)(FloatMath.cos(angle) * radius);
-			mCoord[1] = (int)(FloatMath.sin(angle) * radius);
+mCoord[0] = (int)(Math.cos(angle) * radius);
+					mCoord[1] = (int)(Math.sin(angle) * radius);
 
 			mCoord[2] = PALETTE_DIM - (int)(mHSV[2] * PALETTE_DIM);
 		}
@@ -754,7 +753,7 @@ public class UberColorPickerDialog extends Dialog {
 		 	else if (mCoord[1] > PALETTE_RADIUS)
 		 		mCoord[1] = PALETTE_RADIUS;
 
-			float radius = FloatMath.sqrt(mCoord[0] * mCoord[0] + mCoord[1] * mCoord[1]);
+			float radius = (float)Math.sqrt(mCoord[0] * mCoord[0] + mCoord[1] * mCoord[1]);
 			if (radius > PALETTE_RADIUS)
 				radius = PALETTE_RADIUS;
 
@@ -765,8 +764,8 @@ public class UberColorPickerDialog extends Dialog {
 				unit += 1;
 			}
 
-			mCoord[0] = round(FloatMath.cos(angle) * radius);
-			mCoord[1] = round(FloatMath.sin(angle) * radius);
+			mCoord[0] = round(Math.cos(angle) * radius);
+			mCoord[1] = round(Math.sin(angle) * radius);
 
 			int c = interpColor(mSpectrumColorsRev, unit);
 			float[] hsv = new float[3];
@@ -884,7 +883,7 @@ public class UberColorPickerDialog extends Dialog {
 			boolean inSwatchNew = ptInRect(round(x), round(y), mNewSwatchRect);
 
 			//Get the event's distance from the center of the main 2D palette
-			float radius = FloatMath.sqrt(circlePinnedX * circlePinnedX + circlePinnedY * circlePinnedY);
+			float radius = (float)Math.sqrt(circlePinnedX * circlePinnedX + circlePinnedY * circlePinnedY);
 
 			//Is the event in a circle-pinned 2D palette?
 			boolean inOvalPalette = radius <= PALETTE_RADIUS;
@@ -929,8 +928,8 @@ public class UberColorPickerDialog extends Dialog {
 							unit += 1;
 						}
 
-						mCoord[0] = round(FloatMath.cos(angle) * radius);
-						mCoord[1] = round(FloatMath.sin(angle) * radius);
+mCoord[0] = round(Math.cos(angle) * radius);
+					mCoord[1] = round(Math.sin(angle) * radius);
 
 						int c = interpColor(mSpectrumColorsRev, unit);
 						float[] hsv = new float[3];

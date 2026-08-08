@@ -16,12 +16,11 @@
  limitations under the License.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="sk.vx.connectbot"
-	android:versionName="1.7.1-29"
-	android:versionCode="29"
+	android:versionName="1.8.0-30"
+	android:versionCode="30"
 	android:installLocation="auto">
 
-	<uses-sdk android:targetSdkVersion="11" android:minSdkVersion="8" />
+	<uses-sdk android:minSdkVersion="15" android:targetSdkVersion="25" />
 
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.VIBRATE" />
@@ -50,7 +49,7 @@
 		android:backupAgent=".service.BackupAgent"
 		android:killAfterRestore="true">
 
-		<activity android:name=".HostListActivity" >
+		<activity android:name=".HostListActivity" android:exported="true">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />
@@ -68,7 +67,7 @@
 			</intent-filter>
 		</activity>
 
-		<activity android:name=".PubkeyListActivity" android:configChanges="keyboardHidden|orientation" >
+		<activity android:name=".PubkeyListActivity" android:configChanges="keyboardHidden|orientation" android:exported="true">
 			<intent-filter>
 				<action android:name="org.openintents.ssh.agent.IDENTITY_ADMIN" />
 				<category android:name="android.intent.category.DEFAULT" />
@@ -86,11 +85,13 @@
 
 		<service android:name="sk.vx.connectbot.service.TerminalManager"
 			android:configChanges="keyboardHidden|orientation"
-			android:description="@string/service_desc" />
+			android:description="@string/service_desc"
+			android:exported="false" />
 			
 		<service android:name="sk.vx.connectbot.service.AuthAgentService"
 			android:description="@string/auth_agent_service_desc"
-			android:permission="org.openintents.ssh.permission.ACCESS_SSH_AGENT">
+			android:permission="org.openintents.ssh.permission.ACCESS_SSH_AGENT"
+			android:exported="true">
 			<intent-filter>
 				<action android:name="org.openintents.ssh.BIND_SSH_AGENT_SERVICE" />
 			</intent-filter>
@@ -98,7 +99,8 @@
 
 		<activity android:name=".ConsoleActivity" android:configChanges="keyboardHidden|orientation"
 			android:theme="@style/NoTitle" android:windowSoftInputMode="stateAlwaysVisible|adjustResize"
-			android:launchMode="singleTop">
+			android:launchMode="singleTop"
+			android:exported="true">
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW" />
 				<category android:name="android.intent.category.DEFAULT" />

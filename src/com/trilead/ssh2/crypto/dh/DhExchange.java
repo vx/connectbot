@@ -123,9 +123,9 @@ public class DhExchange
 	}
 
 	public byte[] calculateH(byte[] clientversion, byte[] serverversion, byte[] clientKexPayload,
-			byte[] serverKexPayload, byte[] hostKey) throws UnsupportedEncodingException
+			byte[] serverKexPayload, byte[] hostKey, String hashType) throws UnsupportedEncodingException
 	{
-		HashForSSH2Types hash = new HashForSSH2Types("SHA1");
+		HashForSSH2Types hash = new HashForSSH2Types(hashType);
 
 		if (log.isEnabled())
 		{

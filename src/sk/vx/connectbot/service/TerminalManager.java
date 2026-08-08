@@ -229,9 +229,9 @@ public class TerminalManager extends Service implements BridgeDisconnectedListen
 	 * Open a new SSH session using the given parameters.
 	 */
 	private TerminalBridge openConnection(HostBean host) throws IllegalArgumentException, IOException {
-		// throw exception if terminal already open
-		if (getConnectedBridge(host) != null) {
-			throw new IllegalArgumentException("Connection already open for that nickname");
+		TerminalBridge existingBridge = getConnectedBridge(host);
+		if (existingBridge != null) {
+			return existingBridge;
 		}
 
 		TerminalBridge bridge = new TerminalBridge(this, host);

@@ -59,6 +59,17 @@ public class PromptHelper {
 	 */
 	public void setHandler(Handler handler) {
 		this.handler = handler;
+
+		// If a prompt was already requested before the UI handler was attached,
+		// notify the new handler immediately so the current visible terminal can
+		// surface the pending prompt instead of leaving the SSH thread blocked.
+		if (handler != null && promptRequested != null) {
+			Message.obtain(handler, -1, tag).sendToTarget();
+		}
+	}
+
+	public boolean hasHandler() {
+		return handler != null;
 	}
 
 	/**

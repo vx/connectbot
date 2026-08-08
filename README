@@ -1,9 +1,23 @@
 Compiling
 ---------
 
-To compile ConnectBot using Ant, you must specify where your Android SDK is via the local.properties file. Insert a line similar to the following with the full path to your SDK:
+The project uses Gradle and includes the Gradle Wrapper. Install a JDK 17 (or newer) and configure the Android SDK path in `local.properties` if it is not already available through the environment:
 
 sdk.dir=/usr/local/android
+
+To generate a debug APK, run from the project root:
+
+./gradlew assembleDebug
+
+The APK will be generated at:
+
+build/outputs/apk/debug/VX ConnectBot-debug.apk
+
+To generate a release APK, run:
+
+./gradlew assembleRelease
+
+Release builds may require signing configuration before they can be installed or distributed.
 
 
 ProGuard Support
